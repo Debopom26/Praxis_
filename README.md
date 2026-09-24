@@ -36,3 +36,5 @@ npm run preview
 Demo and scenario simulations on the site are clearly marked and do not represent real model inference.
 
 © 2026 Praxis_
+
+
