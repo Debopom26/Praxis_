@@ -1,0 +1,223 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * PRAXIS_ design system — dark technical / deep-tech.
+ * All colors are oklch semantic tokens. Never hardcode colors in components.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 3px);
+  --radius-md: calc(var(--radius) - 1px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-signal: var(--signal);
+  --color-signal-foreground: var(--signal-foreground);
+  --color-info: var(--info);
+  --color-warn: var(--warn);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-grid: var(--grid);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --background: oklch(0.155 0.006 265);
+  --foreground: oklch(0.965 0.003 265);
+  --surface: oklch(0.185 0.006 265);
+  --surface-2: oklch(0.215 0.007 265);
+
+  --card: oklch(0.192 0.006 265);
+  --card-foreground: oklch(0.965 0.003 265);
+  --popover: oklch(0.2 0.006 265);
+  --popover-foreground: oklch(0.965 0.003 265);
+
+  /* Praxis orange */
+  --primary: oklch(0.72 0.175 52);
+  --primary-foreground: oklch(0.16 0.02 52);
+
+  --secondary: oklch(0.24 0.007 265);
+  --secondary-foreground: oklch(0.93 0.003 265);
+
+  --muted: oklch(0.24 0.007 265);
+  --muted-foreground: oklch(0.66 0.012 265);
+
+  --accent: oklch(0.26 0.008 265);
+  --accent-foreground: oklch(0.95 0.003 265);
+
+  /* Praxis green */
+  --signal: oklch(0.78 0.16 155);
+  --signal-foreground: oklch(0.17 0.03 155);
+
+  --info: oklch(0.68 0.1 245);
+  --warn: oklch(0.8 0.14 85);
+  --destructive: oklch(0.63 0.2 25);
+  --destructive-foreground: oklch(0.98 0.003 265);
+
+  --border: oklch(0.28 0.007 265);
+  --border-strong: oklch(0.36 0.009 265);
+  --input: oklch(0.28 0.007 265);
+  --ring: oklch(0.72 0.175 52);
+  --grid: oklch(0.24 0.006 265);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv01";
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-strong);
+    border-radius: 999px;
+  }
+}
+
+/* ---- utilities ---- */
+
+@utility label-xs {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+@utility panel {
+  background: color-mix(in oklch, var(--color-card) 82%, transparent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(6px);
+}
+
+@utility panel-hover {
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+  &:hover {
+    border-color: var(--color-border-strong);
+    background: color-mix(in oklch, var(--color-surface-2) 70%, transparent);
+  }
+}
+
+@utility grid-bg {
+  background-image:
+    linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 10%, transparent 75%);
+}
+
+@utility hairline-t {
+  border-top: 1px solid var(--color-border);
+}
+
+@utility text-gradient-warm {
+  background: linear-gradient(
+    100deg,
+    var(--color-foreground) 30%,
+    color-mix(in oklch, var(--color-primary) 85%, white) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes praxis-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@utility flow-line {
+  stroke-dasharray: 3 7;
+  animation: praxis-dash 1.4s linear infinite;
+}
+
+@keyframes praxis-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@utility soft-pulse {
+  animation: praxis-pulse 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
