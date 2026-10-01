@@ -28,7 +28,7 @@ fun ConnectionDialog(app: CallerApplication, onDismiss: () -> Unit, onConnected:
         title = { Text("Sign in to Praxis") },
         text = { Column(Modifier.width(280.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Use your Praxis server and organization account.")
+            Text("Use the HTTPS address printed when Praxis starts, plus your organization account.")
             OutlinedTextField(server, { server = it.take(2048) }, enabled = !busy,
                 label = { Text("HTTPS server address") }, singleLine = true)
             OutlinedTextField(tenant, { tenant = it.take(128) }, enabled = !busy,

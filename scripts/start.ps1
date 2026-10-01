@@ -1,5 +1,7 @@
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
+$dockerBin = Join-Path $env:LOCALAPPDATA 'Programs\DockerDesktop\resources\bin'
+if (Test-Path -LiteralPath (Join-Path $dockerBin 'docker.exe')) { $env:Path = "$dockerBin;$env:Path" }
 if (-not (Get-Command docker -ErrorAction SilentlyContinue)) { throw 'Docker Desktop is required. Install/start it, then rerun this script.' }
 $envPath = Join-Path $projectRoot '.env'
 if (-not (Test-Path -LiteralPath $envPath)) { & (Join-Path $PSScriptRoot 'init-env.ps1') }
@@ -41,5 +43,18 @@ if ($values['PRAXIS_SUPPLIED_MODELS_ENABLED'] -eq 'true') {
     }
     if (-not $ready) { throw 'Supplied model worker did not become ready.' }
 }
-& docker compose --env-file $envPath -f (Join-Path $projectRoot 'deployment\compose.yaml') up --no-build -d
-if ($LASTEXITCODE -ne 0) { throw 'Deployment did not start successfully.' }
+$lanAddresses = @(& (Join-Path $PSScriptRoot 'network-address.ps1'))
+$previousHost = [Environment]::GetEnvironmentVariable('PRAXIS_HOST', 'Process')
+$previousSni = [Environment]::GetEnvironmentVariable('PRAXIS_DEFAULT_SNI', 'Process')
+try {
+    $env:PRAXIS_HOST = (@('localhost') + $lanAddresses) -join ', '
+    $env:PRAXIS_DEFAULT_SNI = if ($lanAddresses.Count) { $lanAddresses[0] } else { 'localhost' }
+    & docker compose --env-file $envPath -f (Join-Path $projectRoot 'deployment\compose.yaml') up --no-build -d
+    if ($LASTEXITCODE -ne 0) { throw 'Deployment did not start successfully.' }
+} finally {
+    [Environment]::SetEnvironmentVariable('PRAXIS_HOST', $previousHost, 'Process')
+    [Environment]::SetEnvironmentVariable('PRAXIS_DEFAULT_SNI', $previousSni, 'Process')
+}
+Write-Host 'Praxis dashboard/backend: https://localhost/'
+foreach ($address in $lanAddresses) { Write-Host "Phone on the same network: https://$address/" }
+if (-not $lanAddresses.Count) { Write-Warning 'No private LAN address found. Phone access is unavailable until a LAN connection is active and Praxis is restarted.' }

@@ -15,13 +15,17 @@
 5. Use an existing Praxis organization administrator/host account. If none exists, run
    `./integrations/android/Create-Praxis-Account.ps1` from PowerShell on this computer.
    It prompts for organization ID, name, username and a hidden password; no default login exists.
-6. During an active call, tap Connect to Praxis. The server address is prefilled as
-   https://10.20.51.112/. Enter your organization ID, username and password, then Sign in and connect.
+6. During an active call, tap Connect to Praxis. Enter the **Phone on the same network**
+   HTTPS address printed by `scripts/start.ps1`, then your organization ID, username and
+   password. Sign in and connect.
    The token is encrypted with Android Keystore. The password is not saved. Approve the explicit
    microphone consent prompt for the controlled demo. Keep the other phone muted to avoid mixed audio.
 
-The address is editable if this computer's Wi-Fi IP changes; Caddy must also be configured for
-that new address. This is a local development endpoint, not a public internet deployment.
+If the computer changes Wi-Fi/network, rerun `scripts/start.ps1`; it discovers the new private
+LAN address, updates Caddy's configured HTTPS names, and prints the current phone URL. Enter
+that new URL on the phone. A previously saved phone address cannot update itself. The installed
+Praxis local CA remains the trust anchor; TLS certificate and hostname validation stay enabled.
+This is a local development endpoint, not a public internet deployment.
 The phone's actual connection still requires manual verification. The workstation test passed
 real PostgreSQL-backed login, session creation, authenticated WSS hello, and session end with
 normal TLS checks. Its temporary account was removed. No microphone recording was started.
@@ -35,4 +39,4 @@ The same HTTPS /api/v1/auth/login and session APIs can serve Android and browser
 The webapp interface is in integrations/webapp; its actual origin/CORS/deployment must be verified
 when connected. No OAuth service, default credentials, TLS bypass, or app-specific backend fork added.
 
-2026-10-01 update: Latest connected-phone debug APK is Praxis-Caller-Connected.apk (SHA-256 F7EF92A7D2E4FF2AA8586C11E7369CB4EC3A5DE64E771B3346FC30A553BE97CC). The old debug build had a different signing key and was uninstalled before installing this one, so sign in again at the current HTTPS LAN address. Show/Hide password is available. Silent microphone windows now display unavailable and retry; call-time recovery still needs phone testing.
+2026-10-01 update: The Android source no longer prepopulates a fixed server IP. Existing installations may retain their previously saved address until edited. Show/Hide password is available. Silent microphone windows display unavailable and retry; call-time recovery still needs phone testing.

@@ -4,6 +4,8 @@ React, TypeScript and Vite dashboard for the **live Praxis backend** in the pare
 
 Double-click `start.cmd` to build the current dashboard, start the existing Praxis services, and open their HTTPS dashboard. Docker Desktop must be running. For a launcher check without opening a browser, run `start.cmd -NoOpen`.
 
+The launcher opens `https://localhost/` on this computer. On every backend start, the terminal also prints the current HTTPS LAN address for a phone on the same network. After switching networks, restart Praxis and update the phone's saved server address; no LAN IP is baked into the dashboard or Android app.
+
 ## Local development
 
 Start Praxis using its own `scripts/start.ps1`. Then run `npm ci` and `npm run dev` here. The Vite proxy sends `/api` to `PRAXIS_DEV_BACKEND` from `.env.local`; the default is `http://127.0.0.1:8000`. Use the real organization ID, username and password created in Praxis. Do not commit `.env.local`.

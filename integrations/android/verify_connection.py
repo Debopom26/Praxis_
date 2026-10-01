@@ -1,6 +1,6 @@
 """Real LAN HTTPS/WSS compatibility check; disposable account, no microphone."""
 from pathlib import Path
-import sys,ssl,secrets,json
+import sys,ssl,secrets,json,ipaddress,subprocess
 from uuid import uuid4
 from datetime import datetime,timezone
 import httpx
@@ -9,7 +9,12 @@ ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'scripts'))
 import verify_deployment as deployment
 trust=ssl.create_default_context(cafile=str(ROOT/'integrations/android/Praxis-Local-CA.crt'))
-host='10.20.51.112'
+addresses=subprocess.check_output(
+ ['powershell.exe','-NoProfile','-File',str(ROOT/'scripts/network-address.ps1')],
+ text=True,timeout=10).splitlines()
+if not addresses:
+ raise RuntimeError('No active private LAN address; connect to the phone network and restart Praxis.')
+host=str(ipaddress.ip_address(addresses[0].strip()))
 tenant='p10-verify-phone-'+uuid4().hex[:12]
 username='phone-check-'+uuid4().hex[:12]
 password=secrets.token_urlsafe(32)
