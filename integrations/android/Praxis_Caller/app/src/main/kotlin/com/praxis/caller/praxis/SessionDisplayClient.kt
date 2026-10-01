@@ -27,6 +27,6 @@ internal class SessionDisplayClient {
         http.newCall(Request.Builder()
             .url(settings.baseUrl + "api/v1/sessions/$sessionId/display")
             .header("Authorization", "Bearer $token")
-            .put(body).build()).execute().use { check(it.isSuccessful) }
+            .put(body).build()).execute().use { if (!it.isSuccessful) throw java.io.IOException("HTTP_${it.code}") }
     }
 }

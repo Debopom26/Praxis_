@@ -2,6 +2,7 @@ package com.praxis.caller
 
 import android.app.Application
 import android.telecom.Call
+import android.util.Log
 import com.praxis.caller.telecom.CallManager
 import com.praxis.caller.praxis.*
 import com.praxis.caller.auth.*
@@ -39,9 +40,27 @@ class CallerApplication : Application() {
         applicationScope.launch {
             val connection = settings ?: return@launch
             praxis.connect(callId, connection, auth::token)
+            if (praxis.state.value.sessionId != null) refreshSessionDisplay(callId)
+        }
+    }
+    fun refreshSessionDisplay(callId: String) {
+        applicationScope.launch {
+            val call = calls.calls.value.firstOrNull { it.id == callId && !it.ended } ?: return@launch
             val sessionId = praxis.state.value.sessionId ?: return@launch
+            val connection = settings ?: return@launch
             val contact = PhoneDataRepository(this@CallerApplication).lookup(call.number)
-            runCatching { SessionDisplayClient().update(connection, auth.token(), sessionId, call, contact) }
+            Log.i("PraxisDisplay", "Sending call details: savedName=${contact != null} number=${call.number.isNotBlank()} time=${call.connectTimeMillis > 0}")
+            repeat(3) { attempt ->
+                try {
+                    SessionDisplayClient().update(connection, auth.token(), sessionId, call, contact)
+                    Log.i("PraxisDisplay", "Call details updated")
+                    return@launch
+                } catch (error: Exception) {
+                    val code = error.message?.takeIf { it.matches(Regex("HTTP_[0-9]{3}")) }
+                    Log.w("PraxisDisplay", "Call details update failed: ${code ?: error.javaClass.simpleName}")
+                    if (attempt < 2) delay(1000)
+                }
+            }
         }
     }
 }

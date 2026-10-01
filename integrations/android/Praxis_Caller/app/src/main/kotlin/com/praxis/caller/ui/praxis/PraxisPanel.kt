@@ -48,6 +48,12 @@ fun PraxisPanel(callId: String?, active: Boolean) {
     var loginDialog by remember { mutableStateOf(false) }
     var consent by remember { mutableStateOf(false) }
     var feedback by remember { mutableStateOf<String?>(null) }
+    var contactsAllowed by remember { mutableStateOf(context.checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) }
+    val contactsPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        contactsAllowed = granted
+        if (granted) callId?.let(app::refreshSessionDisplay)
+        else feedback = "Saved contact names need Contacts permission. A phone number may still appear."
+    }
     fun startCapture() {
         if (callId == null) return
         val speaker = app.calls.audio.value.routes.firstOrNull { it.speaker }
@@ -90,6 +96,9 @@ fun PraxisPanel(callId: String?, active: Boolean) {
         }
         if (connected) {
             Text(if (state.status == PraxisStatus.RECONNECTING) "Praxis reconnecting" else "Praxis connected")
+            if (!contactsAllowed) TextButton(onClick = { contactsPermission.launch(Manifest.permission.READ_CONTACTS) }) {
+                Text("Show saved contact names")
+            }
             if (capture.running && capture.callId == callId && state.framesSent > 0) {
                 VoiceOrb(capture.energy)
                 Text(when {
