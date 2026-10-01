@@ -1,5 +1,8 @@
 # Current known issues - 2026-09-29
 
+## Physical-call finding - 2026-10-02
+On the connected Samsung test phone, Android's audio service reported `src:MIC silenced pack:com.praxis.caller` throughout an active cellular call, despite the app holding the default dialer role, the speaker route being selected, and a separate speaker playing test audio beside the phone. Praxis received all-zero microphone windows and cannot produce a valid live score from them. Restarting `AudioRecord` every few seconds did not restore audio. The app now keeps the microphone-unavailable explanation visible instead of alternating it with generic audio-event text. A different permitted audio source/device or a controlled non-cellular capture path is required for a live-audio demonstration; no score should be fabricated.
+
 ## External blockers
 - KI-004: production origin/tenant/hostAppId/auth contract/client registration/credentials absent. Generic PKCE adapter is disabled until actual backend agreement/configuration; no auth success claimed.
 - KI-005: SDK remote-only input intent versus V1 acoustic mixed input remains unresolved with backend/model owner. Capture is implemented but disabled by acousticInputApproved=false. No claim of model quality or remote isolation.

@@ -113,8 +113,12 @@ fun PraxisPanel(callId: String?, active: Boolean) {
                     }
                 }
                 if (state.decision == null) {
-                    Text(if (state.lastEvent == "Analysis unavailable") "Analysis unavailable" else "Waiting for Praxis analysis")
-                    if (state.lastEvent == "Analysis unavailable") state.detail?.let { Text(it) }
+                    Text(when {
+                        state.inputSilent -> "Microphone audio unavailable; analysis paused"
+                        state.lastEvent == "Analysis unavailable" -> "Analysis unavailable"
+                        else -> "Waiting for Praxis analysis"
+                    })
+                    if (state.inputSilent || state.lastEvent == "Analysis unavailable") state.detail?.let { Text(it) }
                 }
             }
             TextButton(onClick = {

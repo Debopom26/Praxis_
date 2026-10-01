@@ -137,7 +137,7 @@ class PraxisManager internal constructor(
                         detail = value.triggeringThresholdOrRule.take(2000), lastEvent = "Policy decision")
                 }
                 is PraxisEvent.Unavailable -> if (event.value.callId == callId) {
-                    mutable.value = if (current.experimentalScore != null) current else current.copy(
+                    mutable.value = if (current.experimentalScore != null || current.inputSilent) current else current.copy(
                         risk = null, decision = null, decisionId = null,
                         lastEvent = "Analysis unavailable",
                         detail = "Analysis unavailable: " + event.value.module.take(100))
@@ -149,7 +149,8 @@ class PraxisManager internal constructor(
                         is PraxisEvent.Transcript -> event.value.callId; is PraxisEvent.Context -> event.value.callId
                         is PraxisEvent.Audio -> event.value.callId; else -> null
                     }
-                    if (eventCall == callId) mutable.value = current.copy(lastEvent = event.javaClass.simpleName)
+                    if (eventCall == callId && !(current.inputSilent && event is PraxisEvent.Audio))
+                        mutable.value = current.copy(lastEvent = event.javaClass.simpleName)
                 }
             }
         }
