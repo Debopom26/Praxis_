@@ -1,0 +1,91 @@
+{
+  "$defs": {
+    "ModuleStatus": {
+      "enum": [
+        "AVAILABLE",
+        "LOW_QUALITY",
+        "UNAVAILABLE",
+        "ERROR"
+      ],
+      "title": "ModuleStatus",
+      "type": "string"
+    },
+    "RuleFlag": {
+      "enum": [
+        "TRUE",
+        "FALSE",
+        "UNKNOWN"
+      ],
+      "title": "RuleFlag",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "context",
+      "default": "context",
+      "title": "Type",
+      "type": "string"
+    },
+    "call_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "config_version": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Config Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/ModuleStatus"
+    },
+    "flags": {
+      "additionalProperties": {
+        "$ref": "#/$defs/RuleFlag"
+      },
+      "title": "Flags",
+      "type": "object"
+    },
+    "context_score": {
+      "anyOf": [
+        {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Context Score"
+    },
+    "reason_codes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reason Codes",
+      "type": "array"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    }
+  },
+  "required": [
+    "call_id",
+    "config_version",
+    "status",
+    "flags",
+    "context_score",
+    "reason_codes",
+    "timestamp"
+  ],
+  "title": "ContextEvidence",
+  "type": "object"
+}

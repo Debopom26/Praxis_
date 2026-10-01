@@ -1,0 +1,182 @@
+/* Evidence surfaces: risk headline, timeline, family groups, technical view.
+ * Layout follows docs/design.md Sec.5.3 exactly. */
+
+/* --- Overall risk + action -------------------------------------------------------- */
+.risk-panel { display: flex; gap: 28px; align-items: stretch; flex-wrap: wrap; padding: 22px; }
+
+.risk-figure { display: flex; flex-direction: column; gap: 6px; min-width: 220px; }
+.risk-figure .label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.risk-value { display: flex; align-items: baseline; gap: 8px; }
+.risk-value .number { font-size: 56px; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+.risk-value .scale { font-size: 16px; font-weight: 600; color: var(--ink-3); }
+
+/* When no risk model exists the figure is a dash, and it is styled as absence -
+ * never as a zero risk score (SRS Sec.2.2). */
+.risk-empty .number { color: var(--ink-4); }
+.risk-empty .caption { color: var(--ink-3); }
+
+.risk-caption { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
+
+.risk-actions { flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 14px; }
+
+.action-block { display: flex; flex-direction: column; gap: 8px; }
+.action-block .label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.action-pill { padding: 8px 16px; font-size: 13px; font-weight: 700; border-radius: 999px; }
+.action-pill svg { width: 15px; height: 15px; }
+.action-none { background: var(--status-unavailable-bg); color: var(--status-neutral-text); border: 1px dashed #d6cbc3; }
+
+.meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+.meta-item { display: flex; flex-direction: column; gap: 2px; }
+.meta-item .k { font-size: 10.5px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: var(--ink-4); }
+.meta-item .v { font-size: 12.5px; font-weight: 600; color: var(--ink-2); word-break: break-word; }
+
+/* --- Risk timeline ---------------------------------------------------------------- */
+.timeline { display: flex; flex-direction: column; gap: 8px; }
+.timeline-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.timeline > svg { display: block; width: 100%; height: 56px; }
+.timeline-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11px; color: var(--ink-3); }
+.timeline-legend .swatch { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+
+/* --- Evidence family cards -------------------------------------------------------- */
+.evidence-list { display: flex; flex-direction: column; gap: 12px; }
+
+.family { overflow: hidden; }
+.family-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px; width: 100%; text-align: left;
+}
+@media (hover: hover) and (pointer: fine) { .family-head:hover { background: var(--bg-alt); } }
+.family-head .icon {
+  width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-alt); color: var(--ink-2);
+}
+.family-head .icon svg { width: 17px; height: 17px; }
+.family-head .titles { flex: 1; min-width: 0; }
+.family-head .t1 { font-size: 14px; font-weight: 700; }
+.family-head .t2 { font-size: 11.5px; color: var(--ink-3); }
+.family-head .chev { color: var(--ink-4); transition: transform 0.2s ease; }
+.family-head .chev svg { width: 16px; height: 16px; }
+.family-head .chev.open { transform: rotate(180deg); }
+
+.family-body { padding: 0 18px 18px; border-top: 1px solid var(--border-soft); padding-top: 16px; }
+
+.family-note { font-size: 12px; color: var(--ink-3); margin-bottom: 12px; line-height: 1.55; }
+
+/* Sub-rows inside Acoustic / Prosody / etc. */
+.detector-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border-soft);
+}
+.detector-row:last-child { border-bottom: none; }
+.detector-row .name { font-size: 12.5px; font-weight: 600; min-width: 150px; }
+.detector-row .value { font-size: 13px; font-weight: 700; }
+.detector-row .value.empty { color: var(--ink-4); font-weight: 600; }
+
+/* --- Speaker ---------------------------------------------------------------------- */
+.speaker-verdict { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.verdict {
+  padding: 7px 16px; border-radius: 999px;
+  font-size: 12.5px; font-weight: 700; letter-spacing: 0.3px;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.verdict svg { width: 15px; height: 15px; }
+.verdict-match { background: var(--health-ok-bg); color: var(--health-ok-text); }
+.verdict-uncertain { background: var(--risk-med-bg); color: var(--risk-med-text); }
+.verdict-mismatch { background: var(--risk-crit-bg); color: var(--risk-crit-text); }
+.verdict-unavailable {
+  background: var(--status-unavailable-bg); color: var(--status-neutral-text);
+  border: 1px dashed #d6cbc3;
+}
+
+/* --- Linguistic ------------------------------------------------------------------- */
+.label-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.label-chip {
+  padding: 5px 11px; border-radius: 8px; font-size: 11.5px; font-weight: 600;
+  background: var(--risk-high-bg); color: var(--risk-high-text);
+}
+.label-chip.none { background: var(--bg-alt); color: var(--ink-3); }
+
+.sub-block { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-soft); }
+.sub-block-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.sub-block-head .h { font-size: 12.5px; font-weight: 700; }
+.sub-block-head .badge { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--ink-3); background: var(--bg-alt); padding: 3px 7px; border-radius: 6px; }
+.sub-block .desc { font-size: 12px; color: var(--ink-3); line-height: 1.55; }
+
+/* --- Context ---------------------------------------------------------------------- */
+.context-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.context-field {
+  padding: 10px 12px; border-radius: var(--radius-sm);
+  background: var(--bg-alt); border: 1px solid var(--border-soft);
+}
+.context-field .k { font-size: 10.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--ink-4); margin-bottom: 3px; }
+.context-field .v { font-size: 12.5px; font-weight: 600; }
+.context-field.unknown { background: transparent; border-style: dashed; border-color: #d6cbc3; }
+.context-field.unknown .v { color: var(--ink-4); font-weight: 600; }
+
+.rule-list { display: flex; flex-direction: column; gap: 7px; }
+.rule-item { display: flex; align-items: center; gap: 9px; font-size: 12.5px; }
+.rule-item svg { width: 14px; height: 14px; flex-shrink: 0; }
+.rule-on { color: var(--risk-high-text); font-weight: 600; }
+.rule-off { color: var(--ink-4); }
+
+/* --- Technical / audit view ------------------------------------------------------- */
+.tech { margin-top: 4px; }
+.tech summary {
+  cursor: pointer; list-style: none;
+  display: flex; align-items: center; gap: 9px;
+  padding: 14px 18px; font-size: 13px; font-weight: 700;
+}
+.tech summary::-webkit-details-marker { display: none; }
+@media (hover: hover) and (pointer: fine) { .tech summary:hover { background: var(--bg-alt); } }
+.tech summary svg { width: 15px; height: 15px; color: var(--ink-3); }
+.tech summary .chev { margin-left: auto; transition: transform 0.2s ease; color: var(--ink-4); }
+.tech[open] summary .chev { transform: rotate(180deg); }
+.tech-body { padding: 0 18px 18px; }
+
+.kv-table { width: 100%; border-collapse: collapse; }
+.kv-table th, .kv-table td {
+  text-align: left; padding: 8px 10px; font-size: 12px;
+  border-bottom: 1px solid var(--border-soft); vertical-align: top;
+}
+.kv-table th {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase; color: var(--ink-4); background: var(--bg-alt);
+}
+.kv-table td.n { font-variant-numeric: tabular-nums; }
+.kv-table tr:last-child td { border-bottom: none; }
+
+/* --- Empty state ------------------------------------------------------------------ */
+.empty {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 40px 24px; text-align: center;
+}
+.empty .ic {
+  width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+  background: var(--bg-alt); color: var(--ink-4);
+}
+.empty .ic svg { width: 22px; height: 22px; }
+.empty .h { font-size: 14px; font-weight: 700; }
+.empty .p { font-size: 12.5px; color: var(--ink-3); max-width: 440px; line-height: 1.55; }
+
+/* Native <details> disclosure keeps the evidence tree keyboard-operable without JS. */
+.family summary { list-style: none; cursor: pointer; }
+.family summary::-webkit-details-marker { display: none; }
+.family[open] .family-head .chev { transform: rotate(180deg); }
+
+/* --- Layout corrections ----------------------------------------------------------- */
+
+/* Flex items default to min-width:auto, so long notes inside the risk panel refused to
+ * shrink and pushed text outside the card. */
+.risk-panel > * { min-width: 0; }
+.risk-value { white-space: nowrap; }
+
+/* Family header title and subtitle are two lines, not one run of inline text. */
+.family-head .titles { display: flex; flex-direction: column; min-width: 0; }
+.family-head .t2 { overflow-wrap: anywhere; }

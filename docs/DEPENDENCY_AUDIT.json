@@ -1,0 +1,695 @@
+{
+  "dependencies": [
+    {
+      "name": "alembic",
+      "version": "1.20.0",
+      "vulns": []
+    },
+    {
+      "name": "annotated-doc",
+      "version": "0.0.5",
+      "vulns": []
+    },
+    {
+      "name": "annotated-types",
+      "version": "0.8.0",
+      "vulns": []
+    },
+    {
+      "name": "anyio",
+      "version": "4.15.1",
+      "vulns": []
+    },
+    {
+      "name": "argon2-cffi",
+      "version": "25.1.0",
+      "vulns": []
+    },
+    {
+      "name": "argon2-cffi-bindings",
+      "version": "26.1.0",
+      "vulns": []
+    },
+    {
+      "name": "ast-serialize",
+      "version": "0.11.2",
+      "vulns": []
+    },
+    {
+      "name": "asttokens",
+      "version": "3.0.2",
+      "vulns": []
+    },
+    {
+      "name": "attrs",
+      "version": "26.1.0",
+      "vulns": []
+    },
+    {
+      "name": "audeer",
+      "version": "2.6.0",
+      "vulns": []
+    },
+    {
+      "name": "audformat",
+      "version": "1.4.2",
+      "vulns": []
+    },
+    {
+      "name": "audinterface",
+      "version": "1.4.0",
+      "vulns": []
+    },
+    {
+      "name": "audiofile",
+      "version": "1.6.1",
+      "vulns": []
+    },
+    {
+      "name": "audmath",
+      "version": "1.4.4",
+      "vulns": []
+    },
+    {
+      "name": "audobject",
+      "version": "0.7.13",
+      "vulns": []
+    },
+    {
+      "name": "audresample",
+      "version": "1.3.6",
+      "vulns": []
+    },
+    {
+      "name": "bandit",
+      "version": "1.9.4",
+      "vulns": []
+    },
+    {
+      "name": "boolean-py",
+      "version": "5.0",
+      "vulns": []
+    },
+    {
+      "name": "cachecontrol",
+      "version": "0.14.4",
+      "vulns": []
+    },
+    {
+      "name": "certifi",
+      "version": "2026.7.22",
+      "vulns": []
+    },
+    {
+      "name": "cffi",
+      "version": "2.1.1",
+      "vulns": []
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.5.1",
+      "vulns": []
+    },
+    {
+      "name": "click",
+      "version": "8.5.0",
+      "vulns": []
+    },
+    {
+      "name": "cloudpickle",
+      "version": "3.1.2",
+      "vulns": []
+    },
+    {
+      "name": "colorama",
+      "version": "0.4.6",
+      "vulns": []
+    },
+    {
+      "name": "cryptography",
+      "version": "50.0.1",
+      "vulns": []
+    },
+    {
+      "name": "cyclonedx-python-lib",
+      "version": "11.12.0",
+      "vulns": []
+    },
+    {
+      "name": "defusedxml",
+      "version": "0.7.1",
+      "vulns": []
+    },
+    {
+      "name": "fastapi",
+      "version": "0.141.1",
+      "vulns": []
+    },
+    {
+      "name": "filelock",
+      "version": "4.0.1",
+      "vulns": []
+    },
+    {
+      "name": "fsspec",
+      "version": "2026.9.0",
+      "vulns": []
+    },
+    {
+      "name": "greenlet",
+      "version": "3.5.6",
+      "vulns": []
+    },
+    {
+      "name": "h11",
+      "version": "0.16.0",
+      "vulns": []
+    },
+    {
+      "name": "hf-xet",
+      "version": "1.6.0",
+      "vulns": []
+    },
+    {
+      "name": "httpcore",
+      "version": "1.0.9",
+      "vulns": []
+    },
+    {
+      "name": "httpcore2",
+      "version": "2.13.0",
+      "vulns": []
+    },
+    {
+      "name": "httptools",
+      "version": "0.8.0",
+      "vulns": []
+    },
+    {
+      "name": "httpx",
+      "version": "0.28.1",
+      "vulns": []
+    },
+    {
+      "name": "httpx2",
+      "version": "2.13.0",
+      "vulns": []
+    },
+    {
+      "name": "huggingface-hub",
+      "version": "1.32.0",
+      "vulns": []
+    },
+    {
+      "name": "hyperpyyaml",
+      "version": "1.2.3",
+      "vulns": []
+    },
+    {
+      "name": "idna",
+      "version": "3.20",
+      "vulns": []
+    },
+    {
+      "name": "iniconfig",
+      "version": "2.3.0",
+      "vulns": []
+    },
+    {
+      "name": "iso3166",
+      "version": "3.0.0",
+      "vulns": []
+    },
+    {
+      "name": "iso639-lang",
+      "version": "2.6.3",
+      "vulns": []
+    },
+    {
+      "name": "jinja2",
+      "version": "3.1.6",
+      "vulns": []
+    },
+    {
+      "name": "joblib",
+      "version": "1.6.0",
+      "vulns": []
+    },
+    {
+      "name": "jsonschema",
+      "version": "4.26.0",
+      "vulns": []
+    },
+    {
+      "name": "jsonschema-specifications",
+      "version": "2025.9.1",
+      "vulns": []
+    },
+    {
+      "name": "librt",
+      "version": "0.15.0",
+      "vulns": []
+    },
+    {
+      "name": "license-expression",
+      "version": "30.4.4",
+      "vulns": []
+    },
+    {
+      "name": "llvmlite",
+      "version": "0.49.0",
+      "vulns": []
+    },
+    {
+      "name": "mako",
+      "version": "1.4.1",
+      "vulns": []
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "4.2.0",
+      "vulns": []
+    },
+    {
+      "name": "markupsafe",
+      "version": "3.0.3",
+      "vulns": []
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2",
+      "vulns": []
+    },
+    {
+      "name": "more-itertools",
+      "version": "11.1.0",
+      "vulns": []
+    },
+    {
+      "name": "mpmath",
+      "version": "1.3.0",
+      "vulns": []
+    },
+    {
+      "name": "msgpack",
+      "version": "1.2.2",
+      "vulns": []
+    },
+    {
+      "name": "mypy",
+      "version": "2.3.1",
+      "vulns": []
+    },
+    {
+      "name": "mypy-extensions",
+      "version": "1.1.0",
+      "vulns": []
+    },
+    {
+      "name": "narwhals",
+      "version": "2.26.0",
+      "vulns": []
+    },
+    {
+      "name": "networkx",
+      "version": "3.6.1",
+      "vulns": []
+    },
+    {
+      "name": "numba",
+      "version": "0.67.0",
+      "vulns": []
+    },
+    {
+      "name": "numpy",
+      "version": "2.4.6",
+      "vulns": []
+    },
+    {
+      "name": "openai-whisper",
+      "version": "20250625",
+      "vulns": []
+    },
+    {
+      "name": "opensmile",
+      "version": "2.6.0",
+      "vulns": []
+    },
+    {
+      "name": "oyaml",
+      "version": "1.0",
+      "vulns": []
+    },
+    {
+      "name": "packageurl-python",
+      "version": "0.17.6",
+      "vulns": []
+    },
+    {
+      "name": "packaging",
+      "version": "26.3",
+      "vulns": []
+    },
+    {
+      "name": "pandas",
+      "version": "3.0.6",
+      "vulns": []
+    },
+    {
+      "name": "pathspec",
+      "version": "1.1.1",
+      "vulns": []
+    },
+    {
+      "name": "pip-requirements-parser",
+      "version": "32.0.1",
+      "vulns": []
+    },
+    {
+      "name": "pip-api",
+      "version": "0.0.35",
+      "vulns": []
+    },
+    {
+      "name": "pip-audit",
+      "version": "2.10.1",
+      "vulns": []
+    },
+    {
+      "name": "platformdirs",
+      "version": "4.11.11",
+      "vulns": []
+    },
+    {
+      "name": "pluggy",
+      "version": "1.6.0",
+      "vulns": []
+    },
+    {
+      "name": "praat-parselmouth",
+      "version": "0.4.7",
+      "vulns": []
+    },
+    {
+      "name": "psutil",
+      "version": "7.2.2",
+      "vulns": []
+    },
+    {
+      "name": "psycopg",
+      "version": "3.3.6",
+      "vulns": []
+    },
+    {
+      "name": "psycopg-binary",
+      "version": "3.3.6",
+      "vulns": []
+    },
+    {
+      "name": "psycopg-pool",
+      "version": "3.3.2",
+      "vulns": []
+    },
+    {
+      "name": "py-serializable",
+      "version": "2.1.0",
+      "vulns": []
+    },
+    {
+      "name": "pyarrow",
+      "version": "25.0.1",
+      "vulns": []
+    },
+    {
+      "name": "pycparser",
+      "version": "3.0",
+      "vulns": []
+    },
+    {
+      "name": "pydantic",
+      "version": "2.13.5",
+      "vulns": []
+    },
+    {
+      "name": "pydantic-settings",
+      "version": "2.15.0",
+      "vulns": []
+    },
+    {
+      "name": "pydantic-core",
+      "version": "2.46.5",
+      "vulns": []
+    },
+    {
+      "name": "pygments",
+      "version": "2.21.0",
+      "vulns": []
+    },
+    {
+      "name": "pyjwt",
+      "version": "2.14.0",
+      "vulns": []
+    },
+    {
+      "name": "pyparsing",
+      "version": "3.3.2",
+      "vulns": []
+    },
+    {
+      "name": "pytest",
+      "version": "9.1.1",
+      "vulns": []
+    },
+    {
+      "name": "pytest-asyncio",
+      "version": "1.4.0",
+      "vulns": []
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "vulns": []
+    },
+    {
+      "name": "python-dotenv",
+      "version": "1.2.3",
+      "vulns": []
+    },
+    {
+      "name": "python-multipart",
+      "version": "0.0.32",
+      "vulns": []
+    },
+    {
+      "name": "pyyaml",
+      "version": "6.0.3",
+      "vulns": []
+    },
+    {
+      "name": "referencing",
+      "version": "0.37.0",
+      "vulns": []
+    },
+    {
+      "name": "regex",
+      "version": "2026.9.10",
+      "vulns": []
+    },
+    {
+      "name": "requests",
+      "version": "2.34.2",
+      "vulns": []
+    },
+    {
+      "name": "rich",
+      "version": "15.0.0",
+      "vulns": []
+    },
+    {
+      "name": "rpds-py",
+      "version": "2026.6.3",
+      "vulns": []
+    },
+    {
+      "name": "ruamel-yaml",
+      "version": "0.18.17",
+      "vulns": []
+    },
+    {
+      "name": "ruamel-yaml-clib",
+      "version": "0.2.15",
+      "vulns": []
+    },
+    {
+      "name": "ruff",
+      "version": "0.16.8",
+      "vulns": []
+    },
+    {
+      "name": "safetensors",
+      "version": "0.8.0",
+      "vulns": []
+    },
+    {
+      "name": "scikit-learn",
+      "version": "1.9.1",
+      "vulns": []
+    },
+    {
+      "name": "scipy",
+      "version": "1.17.1",
+      "vulns": []
+    },
+    {
+      "name": "sentence-transformers",
+      "version": "6.1.0",
+      "vulns": []
+    },
+    {
+      "name": "sentencepiece",
+      "version": "0.2.2",
+      "vulns": []
+    },
+    {
+      "name": "shellingham",
+      "version": "1.5.4",
+      "vulns": []
+    },
+    {
+      "name": "silero-vad",
+      "version": "6.2.1",
+      "vulns": []
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "vulns": []
+    },
+    {
+      "name": "sortedcontainers",
+      "version": "2.4.0",
+      "vulns": []
+    },
+    {
+      "name": "soundfile",
+      "version": "0.14.0",
+      "vulns": []
+    },
+    {
+      "name": "speechbrain",
+      "version": "1.1.1",
+      "vulns": []
+    },
+    {
+      "name": "sqlalchemy",
+      "version": "2.0.54",
+      "vulns": []
+    },
+    {
+      "name": "starlette",
+      "version": "1.6.0",
+      "vulns": []
+    },
+    {
+      "name": "stevedore",
+      "version": "5.9.1",
+      "vulns": []
+    },
+    {
+      "name": "sympy",
+      "version": "1.14.0",
+      "vulns": []
+    },
+    {
+      "name": "threadpoolctl",
+      "version": "3.7.0",
+      "vulns": []
+    },
+    {
+      "name": "tiktoken",
+      "version": "0.14.0",
+      "vulns": []
+    },
+    {
+      "name": "tokenizers",
+      "version": "0.23.2",
+      "vulns": []
+    },
+    {
+      "name": "tomli",
+      "version": "2.4.1",
+      "vulns": []
+    },
+    {
+      "name": "tomli-w",
+      "version": "1.2.0",
+      "vulns": []
+    },
+    {
+      "name": "torch",
+      "version": "2.14.0",
+      "vulns": []
+    },
+    {
+      "name": "torchaudio",
+      "version": "2.11.0",
+      "vulns": []
+    },
+    {
+      "name": "tqdm",
+      "version": "4.70.1",
+      "vulns": []
+    },
+    {
+      "name": "transformers",
+      "version": "5.17.0",
+      "vulns": []
+    },
+    {
+      "name": "truststore",
+      "version": "0.10.4",
+      "vulns": []
+    },
+    {
+      "name": "typer",
+      "version": "0.27.2",
+      "vulns": []
+    },
+    {
+      "name": "typing-inspection",
+      "version": "0.4.4",
+      "vulns": []
+    },
+    {
+      "name": "typing-extensions",
+      "version": "4.16.0",
+      "vulns": []
+    },
+    {
+      "name": "tzdata",
+      "version": "2026.4",
+      "vulns": []
+    },
+    {
+      "name": "urllib3",
+      "version": "2.8.0",
+      "vulns": []
+    },
+    {
+      "name": "uvicorn",
+      "version": "0.53.0",
+      "vulns": []
+    },
+    {
+      "name": "watchfiles",
+      "version": "1.2.0",
+      "vulns": []
+    },
+    {
+      "name": "websockets",
+      "version": "17.1",
+      "vulns": []
+    }
+  ],
+  "fixes": []
+}

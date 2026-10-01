@@ -1,0 +1,21 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "start_ms": {
+      "minimum": 0,
+      "title": "Start Ms",
+      "type": "number"
+    },
+    "end_ms": {
+      "minimum": 0,
+      "title": "End Ms",
+      "type": "number"
+    }
+  },
+  "required": [
+    "start_ms",
+    "end_ms"
+  ],
+  "title": "SpeechSpan",
+  "type": "object"
+}

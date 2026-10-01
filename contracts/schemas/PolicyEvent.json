@@ -1,0 +1,78 @@
+{
+  "$defs": {
+    "PolicyAction": {
+      "enum": [
+        "ALLOW",
+        "WARN",
+        "SECONDARY_VERIFICATION",
+        "ESCALATE",
+        "HOLD"
+      ],
+      "title": "PolicyAction",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "policy",
+      "default": "policy",
+      "title": "Type",
+      "type": "string"
+    },
+    "call_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "window_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Window Id",
+      "type": "string"
+    },
+    "policy_version": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "action": {
+      "$ref": "#/$defs/PolicyAction"
+    },
+    "triggering_threshold_or_rule": {
+      "title": "Triggering Threshold Or Rule",
+      "type": "string"
+    },
+    "verification_workflow": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Verification Workflow"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    }
+  },
+  "required": [
+    "call_id",
+    "window_id",
+    "policy_version",
+    "action",
+    "triggering_threshold_or_rule",
+    "verification_workflow",
+    "timestamp"
+  ],
+  "title": "PolicyEvent",
+  "type": "object"
+}

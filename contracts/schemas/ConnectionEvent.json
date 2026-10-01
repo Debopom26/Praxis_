@@ -1,0 +1,56 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "connection",
+      "default": "connection",
+      "title": "Type",
+      "type": "string"
+    },
+    "status": {
+      "const": "AVAILABLE",
+      "default": "AVAILABLE",
+      "title": "Status",
+      "type": "string"
+    },
+    "session_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Session Id",
+      "type": "string"
+    },
+    "contract_version": {
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "last_sequence_id": {
+      "maximum": 9007199254740991,
+      "minimum": -1,
+      "title": "Last Sequence Id",
+      "type": "integer"
+    },
+    "last_timestamp_ms": {
+      "maximum": 9007199254740991,
+      "minimum": -1,
+      "title": "Last Timestamp Ms",
+      "type": "integer"
+    },
+    "reason_codes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reason Codes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "session_id",
+    "contract_version",
+    "last_sequence_id",
+    "last_timestamp_ms",
+    "reason_codes"
+  ],
+  "title": "ConnectionEvent",
+  "type": "object"
+}

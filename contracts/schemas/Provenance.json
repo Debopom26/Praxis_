@@ -1,0 +1,77 @@
+{
+  "$defs": {
+    "ArtifactState": {
+      "enum": [
+        "NOT_LOADED",
+        "UNVALIDATED",
+        "VALIDATED"
+      ],
+      "title": "ArtifactState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "model_version": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Version"
+    },
+    "artifact_version": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Artifact Version"
+    },
+    "calibration_version": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Calibration Version"
+    },
+    "artifact_state": {
+      "$ref": "#/$defs/ArtifactState",
+      "default": "NOT_LOADED"
+    },
+    "checksum_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Checksum Sha256"
+    }
+  },
+  "title": "Provenance",
+  "type": "object"
+}

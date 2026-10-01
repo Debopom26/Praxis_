@@ -1,0 +1,39 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "tenant_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Tenant Id",
+      "type": "string"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    },
+    "retain_transcript": {
+      "default": false,
+      "title": "Retain Transcript",
+      "type": "boolean"
+    },
+    "retain_enrollment_audio": {
+      "default": false,
+      "title": "Retain Enrollment Audio",
+      "type": "boolean"
+    },
+    "metadata_days": {
+      "default": 30,
+      "maximum": 3650,
+      "minimum": 1,
+      "title": "Metadata Days",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "tenant_id",
+    "version"
+  ],
+  "title": "RetentionConfig",
+  "type": "object"
+}

@@ -1,0 +1,27 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "start_ms": {
+      "minimum": 0,
+      "title": "Start Ms",
+      "type": "number"
+    },
+    "end_ms": {
+      "minimum": 0,
+      "title": "End Ms",
+      "type": "number"
+    },
+    "text": {
+      "maxLength": 8000,
+      "title": "Text",
+      "type": "string"
+    }
+  },
+  "required": [
+    "start_ms",
+    "end_ms",
+    "text"
+  ],
+  "title": "TranscriptSegment",
+  "type": "object"
+}

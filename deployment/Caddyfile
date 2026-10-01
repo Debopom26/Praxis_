@@ -1,0 +1,25 @@
+{
+    default_sni {$PRAXIS_DEFAULT_SNI:localhost}
+}
+
+{$PRAXIS_HOST:localhost} {
+    header {
+        Strict-Transport-Security "max-age=31536000"
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+        -Server
+    }
+    request_body {
+        max_size 32MB
+    }
+    handle /api/* {
+        reverse_proxy backend:8000 {
+            flush_interval -1
+        }
+    }
+    handle {
+        root * /srv/dashboard
+        try_files {path} /index.html
+        file_server
+    }
+}

@@ -1,0 +1,12 @@
+# Preserve PostgreSQL 17 and its official entrypoint. Refresh only the bundled
+# gosu privilege-drop helper's Go toolchain/dependency security fixes.
+FROM golang:1.26.8-alpine AS builder
+ENV CGO_ENABLED=0 GOTOOLCHAIN=local
+WORKDIR /build
+RUN go mod init praxis.local/gosu-security-build \
+    && go get github.com/tianon/gosu@1.19 \
+    && go get golang.org/x/sys@v0.44.0 \
+    && go mod verify \
+    && go build -trimpath -o /out/gosu github.com/tianon/gosu
+FROM postgres:17@sha256:f4c66b820c6f974249089d3d16d86a3698eae11e8746eb6644b2271031e91232
+COPY --from=builder /out/gosu /usr/local/bin/gosu

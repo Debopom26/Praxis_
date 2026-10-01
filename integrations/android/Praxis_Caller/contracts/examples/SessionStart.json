@@ -1,0 +1,23 @@
+{
+  "tenant_id": "test-tenant",
+  "call_id": "test-call",
+  "host_app_id": "test-host",
+  "claimed_identity": null,
+  "permitted_context": {
+    "known_contact": null,
+    "claimed_role": null,
+    "expected_role": null,
+    "department": null,
+    "transaction_type": null,
+    "amount": null,
+    "allowed_amount": null,
+    "beneficiary": null,
+    "beneficiary_known": null,
+    "workflow_state": null,
+    "workflow_permitted": null,
+    "time": null,
+    "historical_risk": null
+  },
+  "created_at": "2026-09-20T00:00:00Z",
+  "supports_hold": false
+}

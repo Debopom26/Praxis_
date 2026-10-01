@@ -1,0 +1,272 @@
+{
+  "$defs": {
+    "ArtifactState": {
+      "enum": [
+        "NOT_LOADED",
+        "UNVALIDATED",
+        "VALIDATED"
+      ],
+      "title": "ArtifactState",
+      "type": "string"
+    },
+    "LinguisticLabel": {
+      "enum": [
+        "urgency",
+        "secrecy",
+        "authority_pressure",
+        "financial_request",
+        "credential_request",
+        "verification_bypass",
+        "coercion",
+        "emotional_pressure"
+      ],
+      "title": "LinguisticLabel",
+      "type": "string"
+    },
+    "ModuleStatus": {
+      "enum": [
+        "AVAILABLE",
+        "LOW_QUALITY",
+        "UNAVAILABLE",
+        "ERROR"
+      ],
+      "title": "ModuleStatus",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "model_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Version"
+        },
+        "artifact_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Artifact Version"
+        },
+        "calibration_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Calibration Version"
+        },
+        "artifact_state": {
+          "$ref": "#/$defs/ArtifactState",
+          "default": "NOT_LOADED"
+        },
+        "checksum_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checksum Sha256"
+        }
+      },
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "default": "evidence",
+      "title": "Type",
+      "type": "string"
+    },
+    "call_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "window_id": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_.:@-]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Window Id"
+    },
+    "module": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Module",
+      "type": "string"
+    },
+    "model_version": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Model Version"
+    },
+    "status": {
+      "$ref": "#/$defs/ModuleStatus"
+    },
+    "raw_score": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Raw Score"
+    },
+    "features": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Features",
+      "type": "object"
+    },
+    "calibrated_score": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Calibrated Score"
+    },
+    "quality": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Quality",
+      "type": "object"
+    },
+    "latency_ms": {
+      "minimum": 0,
+      "title": "Latency Ms",
+      "type": "number"
+    },
+    "reason_codes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reason Codes",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "rule_labels": {
+      "items": {
+        "$ref": "#/$defs/LinguisticLabel"
+      },
+      "title": "Rule Labels",
+      "type": "array"
+    },
+    "classifier_scores": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/LinguisticLabel"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Classifier Scores"
+    },
+    "classifier_state": {
+      "$ref": "#/$defs/ArtifactState",
+      "default": "NOT_LOADED"
+    }
+  },
+  "required": [
+    "call_id",
+    "module",
+    "model_version",
+    "status",
+    "latency_ms",
+    "reason_codes",
+    "timestamp"
+  ],
+  "title": "LinguisticEvidence",
+  "type": "object"
+}

@@ -1,0 +1,1 @@
+PraxisManager adapts the actual SDK, owns lifecycle epochs, connection state, event filtering/dedup, bounded frame submission and cleanup. See docs/SDK_RUNTIME_PATCHES.md for explicit runtime modifications.

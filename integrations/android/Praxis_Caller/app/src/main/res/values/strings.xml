@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Praxis Caller</string>
+    <string name="phone">Phone</string>
+    <string name="call">Call</string>
+    <string name="praxis">Praxis</string>
+    <string name="recents">Recents</string>
+    <string name="contacts">Contacts</string>
+    <string name="keypad">Keypad</string>
+    <string name="recents_title">Recent calls</string>
+    <string name="recents_description">Call history is not available yet.</string>
+    <string name="contacts_title">Your contacts</string>
+    <string name="contacts_description">Contact access is not available yet.</string>
+    <string name="number_hint">Phone number</string>
+    <string name="delete_digit">Delete digit</string>
+    <string name="clear_number">Clear number</string>
+    <string name="praxis_title">Not connected to Praxis</string>
+    <string name="praxis_description">Praxis is optional. Connection and analysis are not available yet.</string>
+    <string name="connect_praxis">Connect to Praxis</string>
+</resources>
+

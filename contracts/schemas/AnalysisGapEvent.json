@@ -1,0 +1,23 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "analysis_gap",
+      "default": "analysis_gap",
+      "title": "Type",
+      "type": "string"
+    },
+    "reason_codes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reason Codes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reason_codes"
+  ],
+  "title": "AnalysisGapEvent",
+  "type": "object"
+}

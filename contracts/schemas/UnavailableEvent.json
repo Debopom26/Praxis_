@@ -1,0 +1,70 @@
+{
+  "$defs": {
+    "ArtifactState": {
+      "enum": [
+        "NOT_LOADED",
+        "UNVALIDATED",
+        "VALIDATED"
+      ],
+      "title": "ArtifactState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "unavailable",
+      "default": "unavailable",
+      "title": "Type",
+      "type": "string"
+    },
+    "call_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "module": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Module",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "UNAVAILABLE",
+        "ERROR"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "artifact_state": {
+      "$ref": "#/$defs/ArtifactState"
+    },
+    "reason_codes": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Reason Codes",
+      "type": "array"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    }
+  },
+  "required": [
+    "call_id",
+    "module",
+    "status",
+    "artifact_state",
+    "reason_codes",
+    "timestamp"
+  ],
+  "title": "UnavailableEvent",
+  "type": "object"
+}

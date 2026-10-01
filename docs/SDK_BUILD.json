@@ -1,0 +1,8 @@
+{
+  "artifact": "android-sdk/praxis/build/outputs/aar/praxis-release.aar",
+  "sha256": "6a7190904c0c6b7716ac543902108561853851ace0193c0331f9a6b8740f9870",
+  "bytes": 300927,
+  "jvm_tests_passed": 5,
+  "android_lint": "passed",
+  "device_integration": "not performed"
+}

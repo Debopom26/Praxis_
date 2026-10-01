@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-21",
+  "command": "./scripts/test.ps1",
+  "backend_tests": 72,
+  "pytest_duration_seconds": 38.86,
+  "mypy_source_files": 40,
+  "ruff": "PASSED",
+  "bandit": "PASSED",
+  "pip_check_host": "PASSED",
+  "new_verification_scripts_ruff_compile": "PASSED",
+  "windows_pip_audit": "Historical unchanged 138-package result in DEPENDENCY_AUDIT.json; not a container scan",
+  "android": "No SDK source or contract changes during P10; prior 5 JVM tests/lint/release build retained, AAR hash rechecked",
+  "aar_sha256": "6a7190904c0c6b7716ac543902108561853851ace0193c0331f9a6b8740f9870",
+  "deployed_linux_python_packages": 104,
+  "container_pip_check": "Passed in final image build before removing unused pip installer"
+}

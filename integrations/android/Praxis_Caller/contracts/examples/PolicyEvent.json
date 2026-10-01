@@ -1,0 +1,10 @@
+{
+  "type": "policy",
+  "call_id": "test-call",
+  "window_id": "test-0",
+  "policy_version": "test-only",
+  "action": "SECONDARY_VERIFICATION",
+  "triggering_threshold_or_rule": ">=60",
+  "verification_workflow": "MFA",
+  "timestamp": "2026-09-20T00:00:00Z"
+}

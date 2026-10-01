@@ -1,0 +1,20 @@
+{
+  "type": "transcript",
+  "call_id": "test-call",
+  "text": "Explicit test fixture",
+  "language": "en",
+  "segments": [
+    {
+      "start_ms": 0.0,
+      "end_ms": 1000.0,
+      "text": "Explicit test fixture"
+    }
+  ],
+  "quality": 1.0,
+  "status": "AVAILABLE",
+  "model_version": "test-only",
+  "latency_ms": 1.0,
+  "timestamp": "2026-09-20T00:00:00Z",
+  "analysis_english": null,
+  "reason_codes": []
+}

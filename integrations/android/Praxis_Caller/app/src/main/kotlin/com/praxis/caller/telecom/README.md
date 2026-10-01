@@ -1,0 +1,2 @@
+# Telecom boundary
+Phase2: DialerRoleManager gates explicit placeCall requests; PraxisInCallService owns AndroidCallPort callback subscriptions; CallManager publishes actual snapshots to Compose and routes guarded commands. Service destruction/removal drops references. Call notifications use immutable private receiver PendingIntents with live opaque IDs. No Praxis/network dependency exists in this domain. SIM, OEM routing and lock-screen behavior require physical tests.

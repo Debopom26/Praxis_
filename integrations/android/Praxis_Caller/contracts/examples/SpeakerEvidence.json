@@ -1,0 +1,29 @@
+{
+  "type": "evidence",
+  "call_id": "test-call",
+  "window_id": null,
+  "module": "speaker",
+  "model_version": null,
+  "status": "UNAVAILABLE",
+  "raw_score": null,
+  "features": {},
+  "calibrated_score": null,
+  "quality": {},
+  "latency_ms": 0.0,
+  "reason_codes": [
+    "NOT_ENROLLED"
+  ],
+  "provenance": {
+    "model_version": null,
+    "artifact_version": null,
+    "calibration_version": null,
+    "artifact_state": "NOT_LOADED",
+    "checksum_sha256": null
+  },
+  "timestamp": "2026-09-20T00:00:00Z",
+  "speaker_state": "UNAVAILABLE",
+  "cosine_similarity": null,
+  "profile_version": null,
+  "threshold_version": null,
+  "threshold_state": "NOT_LOADED"
+}

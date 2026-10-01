@@ -1,0 +1,77 @@
+{
+  "$defs": {
+    "AudioFormat": {
+      "additionalProperties": false,
+      "properties": {
+        "encoding": {
+          "const": "pcm_s16le",
+          "default": "pcm_s16le",
+          "title": "Encoding",
+          "type": "string"
+        },
+        "sample_rate": {
+          "enum": [
+            8000,
+            16000,
+            24000,
+            32000,
+            44100,
+            48000
+          ],
+          "title": "Sample Rate",
+          "type": "integer"
+        },
+        "channels": {
+          "maximum": 2,
+          "minimum": 1,
+          "title": "Channels",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "sample_rate",
+        "channels"
+      ],
+      "title": "AudioFormat",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "audio",
+      "default": "audio",
+      "title": "Type",
+      "type": "string"
+    },
+    "sequence_id": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "title": "Sequence Id",
+      "type": "integer"
+    },
+    "timestamp_ms": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "title": "Timestamp Ms",
+      "type": "integer"
+    },
+    "format": {
+      "$ref": "#/$defs/AudioFormat"
+    },
+    "audio_base64": {
+      "maxLength": 256000,
+      "minLength": 4,
+      "title": "Audio Base64",
+      "type": "string"
+    }
+  },
+  "required": [
+    "sequence_id",
+    "timestamp_ms",
+    "format",
+    "audio_base64"
+  ],
+  "title": "AudioFrame",
+  "type": "object"
+}

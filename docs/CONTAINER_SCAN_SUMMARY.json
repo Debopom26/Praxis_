@@ -1,0 +1,119 @@
+{
+  "timestamp": "2026-09-21T14:58:08.237235+00:00",
+  "scanner": "Trivy 0.74.0",
+  "database": {
+    "Version": 2,
+    "NextUpdate": "2026-09-21T19:19:55.870895986Z",
+    "UpdatedAt": "2026-09-20T19:19:55.870896177Z",
+    "DownloadedAt": "2026-09-21T05:38:23.7272453Z"
+  },
+  "scans": {
+    "backend": {
+      "report": "docs/backend-patched-image-scan.json",
+      "sha256": "9354a088574b68fcd511a49cb9a251c7e0fa9f4a35fbccc90328516bdcf1235b",
+      "image_id": "sha256:374766946e885da19bc1de8c900f080ab9895d7f031a86fd41d006f74713a028",
+      "results": [
+        {
+          "target": "praxis-backend:latest (debian 12.15)",
+          "class": "os-pkgs",
+          "counts": {
+            "LOW": 226,
+            "HIGH": 241,
+            "MEDIUM": 364,
+            "UNKNOWN": 35,
+            "CRITICAL": 11
+          },
+          "entries": 877,
+          "entries_with_fixed_version": 0
+        },
+        {
+          "target": "Python",
+          "class": "lang-pkgs",
+          "counts": {},
+          "entries": 0,
+          "entries_with_fixed_version": 0
+        }
+      ]
+    },
+    "migrate": {
+      "report": "docs/migrate-patched-image-scan.json",
+      "sha256": "95d62eac587f3dfdc1aa1d7174bd77aa9e4f51fec0b1a5e1071676b4bb807ab4",
+      "image_id": "sha256:1db1125cb8d49300064193cd66cb30edf0550c63b5259514407b063e6e625576",
+      "results": [
+        {
+          "target": "praxis-migrate:latest (debian 12.15)",
+          "class": "os-pkgs",
+          "counts": {
+            "LOW": 226,
+            "HIGH": 241,
+            "MEDIUM": 364,
+            "UNKNOWN": 35,
+            "CRITICAL": 11
+          },
+          "entries": 877,
+          "entries_with_fixed_version": 0
+        },
+        {
+          "target": "Python",
+          "class": "lang-pkgs",
+          "counts": {},
+          "entries": 0,
+          "entries_with_fixed_version": 0
+        }
+      ]
+    },
+    "postgres": {
+      "report": "docs/postgres-patched-image-scan.json",
+      "sha256": "6b8f9346a669e1da10d7979093c5564f043252572d603723fa582f4e35c3a5dc",
+      "image_id": "sha256:d98b4f606d0361f20be5c483826c2f5a5e3b02e4e70ec585b216e02d0e1de421",
+      "results": [
+        {
+          "target": "praxis-postgres:17-security1 (debian 13.7)",
+          "class": "os-pkgs",
+          "counts": {
+            "LOW": 119,
+            "HIGH": 61,
+            "MEDIUM": 89,
+            "UNKNOWN": 6,
+            "CRITICAL": 1
+          },
+          "entries": 276,
+          "entries_with_fixed_version": 0
+        },
+        {
+          "target": "usr/local/bin/gosu",
+          "class": "lang-pkgs",
+          "counts": {},
+          "entries": 0,
+          "entries_with_fixed_version": 0
+        }
+      ]
+    },
+    "caddy": {
+      "report": "docs/caddy-patched-image-scan.json",
+      "sha256": "6f2d6b28fa439e4693a1930e981353214dd3ddfb73a090843319b25c00c47c49",
+      "image_id": "sha256:1c11934c8a90023cfb52d743e2d52e6b9dea0dc9907d718821513bc5f0e1667f",
+      "results": [
+        {
+          "target": "praxis-caddy:2.11.4-security1 (alpine 3.23.6)",
+          "class": "os-pkgs",
+          "counts": {},
+          "entries": 0,
+          "entries_with_fixed_version": 0
+        },
+        {
+          "target": "usr/bin/caddy",
+          "class": "lang-pkgs",
+          "counts": {
+            "MEDIUM": 2,
+            "LOW": 4,
+            "UNKNOWN": 1
+          },
+          "entries": 7,
+          "entries_with_fixed_version": 6
+        }
+      ]
+    }
+  },
+  "counts_note": "Package/advisory entries, not unique CVEs or confirmed exploitability. No severity or unfixed exclusions."
+}

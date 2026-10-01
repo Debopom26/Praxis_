@@ -1,0 +1,13 @@
+.git
+.venv
+.tools
+.cache
+.env
+artifacts
+android-sdk
+praxis-dashboard
+**/__pycache__
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+**/build

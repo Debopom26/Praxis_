@@ -1,0 +1,26 @@
+{
+  "name": "praxis-dashboard",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Praxis live/admin dashboard. SRS Sec.24 locks the dashboard stack to React + TypeScript + Vite.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "check:ui": "node dashboard-check.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  }
+}

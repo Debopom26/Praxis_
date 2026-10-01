@@ -1,0 +1,55 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "clipping_ratio": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Clipping Ratio",
+      "type": "number"
+    },
+    "silence_ratio": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Silence Ratio",
+      "type": "number"
+    },
+    "snr_proxy_db": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Snr Proxy Db"
+    },
+    "duration_ms": {
+      "minimum": 0,
+      "title": "Duration Ms",
+      "type": "number"
+    },
+    "completeness": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Completeness",
+      "type": "number"
+    },
+    "reason_codes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reason Codes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "clipping_ratio",
+    "silence_ratio",
+    "snr_proxy_db",
+    "duration_ms",
+    "completeness"
+  ],
+  "title": "AudioQuality",
+  "type": "object"
+}

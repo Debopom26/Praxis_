@@ -1,0 +1,11 @@
+{
+  "type": "unavailable",
+  "call_id": "test-call",
+  "module": "risk",
+  "status": "UNAVAILABLE",
+  "artifact_state": "UNVALIDATED",
+  "reason_codes": [
+    "NO_VALIDATED_ARTIFACT"
+  ],
+  "timestamp": "2026-09-20T00:00:00Z"
+}

@@ -1,0 +1,59 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "tenant_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Tenant Id",
+      "type": "string"
+    },
+    "policy_version": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "warn_at": {
+      "default": 40,
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Warn At",
+      "type": "number"
+    },
+    "verify_at": {
+      "default": 60,
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Verify At",
+      "type": "number"
+    },
+    "escalate_at": {
+      "default": 80,
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Escalate At",
+      "type": "number"
+    },
+    "hold_at": {
+      "default": 90,
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Hold At",
+      "type": "number"
+    },
+    "verification_workflow": {
+      "default": "registered-number callback or MFA",
+      "maxLength": 512,
+      "minLength": 1,
+      "title": "Verification Workflow",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tenant_id",
+    "policy_version"
+  ],
+  "title": "PolicyConfig",
+  "type": "object"
+}

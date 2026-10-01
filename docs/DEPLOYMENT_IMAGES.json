@@ -1,0 +1,809 @@
+{
+  "timestamp": "2026-09-21T14:55:14.566235+00:00",
+  "versions": {
+    "docker": {
+      "Client": {
+        "Version": "29.8.0",
+        "ApiVersion": "1.56",
+        "DefaultAPIVersion": "1.56",
+        "GitCommit": "88096ef",
+        "GoVersion": "go1.26.8",
+        "Os": "windows",
+        "Arch": "amd64",
+        "BuildTime": "Thu Sep  3 21:53:38 2026",
+        "Context": "desktop-linux"
+      },
+      "Server": {
+        "Platform": {
+          "Name": "Docker Desktop 4.91.0 (239619)"
+        },
+        "Version": "29.8.0",
+        "ApiVersion": "1.56",
+        "MinAPIVersion": "1.40",
+        "Os": "linux",
+        "Arch": "amd64",
+        "Components": [
+          {
+            "Name": "Engine",
+            "Version": "29.8.0",
+            "Details": {
+              "ApiVersion": "1.56",
+              "Arch": "amd64",
+              "BuildTime": "Thu Sep  3 21:51:20 2026",
+              "Experimental": "false",
+              "GitCommit": "3ce5872",
+              "GoVersion": "go1.26.8",
+              "KernelVersion": "6.18.33.2-microsoft-standard-WSL2",
+              "MinAPIVersion": "1.40",
+              "Module": "github.com/moby/moby/v2",
+              "ModuleVersion": "v2.0.0+unknown",
+              "Os": "linux"
+            }
+          },
+          {
+            "Name": "containerd",
+            "Version": "v2.3.4",
+            "Details": {
+              "GitCommit": "db8809540e1a7a9da5d518876894933ff55692ab"
+            }
+          },
+          {
+            "Name": "runc",
+            "Version": "1.4.3",
+            "Details": {
+              "GitCommit": "v1.4.3-0-gbb14dabe"
+            }
+          },
+          {
+            "Name": "docker-init",
+            "Version": "0.19.0",
+            "Details": {
+              "GitCommit": "de40ad0"
+            }
+          }
+        ],
+        "GitCommit": "3ce5872",
+        "GoVersion": "go1.26.8",
+        "KernelVersion": "6.18.33.2-microsoft-standard-WSL2",
+        "BuildTime": "2026-09-03T21:51:20.000000000+00:00"
+      }
+    },
+    "compose": "5.5.1",
+    "postgres": "postgres (PostgreSQL) 17.11 (Debian 17.11-1.pgdg13+2)",
+    "caddy": "unknown",
+    "gosu": "1.19 (go1.26.8 on linux/amd64; gc)",
+    "python": "Python 3.11.16",
+    "ffmpeg": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers",
+    "caddy_module": "v2.11.4",
+    "caddy_version_note": "caddy version prints unknown for this go-build module binary; embedded caddy build-info proves module v2.11.4 and Go 1.26.8."
+  },
+  "images": {
+    "praxis-backend:latest": {
+      "Id": "sha256:374766946e885da19bc1de8c900f080ab9895d7f031a86fd41d006f74713a028",
+      "RepoTags": [
+        "praxis-backend:latest"
+      ],
+      "RepoDigests": [
+        "praxis-backend@sha256:374766946e885da19bc1de8c900f080ab9895d7f031a86fd41d006f74713a028"
+      ],
+      "Created": "2026-09-21T14:43:52.587209146Z",
+      "Architecture": "amd64",
+      "Os": "linux",
+      "RootFS": {
+        "Type": "layers",
+        "Layers": [
+          "sha256:34467cc93912af891dfee8a3902adf9b4f355a9bca4eaa46f658d1181a21de0d",
+          "sha256:b3445de4503d21b3ebc42db2f284bc6c8ad96184ea91ce55fb57f5e87910e1f2",
+          "sha256:546c86e4df2dc808fcf1953c346bfeef32f4c953933634d57c1d38730b750e9c",
+          "sha256:6b6ff8eb9da6c277f4b33452c77d59f8b5ff04e0bcca1a3054570b9db343da79",
+          "sha256:c5176c12020da463abd4a5a90233edc4b434e8d4edbc22c3eaaeff7e94d4b4a0",
+          "sha256:3bf55e17e3c0e8cce32986415eaabb49f37457a1c975e2ed124b2d77669cc202",
+          "sha256:cda788f8d441785f0348d3173858290e03e228e8e8542de7b8b2fa63a6931f28",
+          "sha256:8f06cfc3c2b43d17f8bb6f683c612a64fee94301ae81e526c14d868e4ea93c6d",
+          "sha256:3381eface5c96473d270026a3ddb7bf9b782b2e436dc7fa65422ee3ffd1b1b67",
+          "sha256:0734608cf482ab7c70a1f80b263bde4826b8caa99b2db4a84e4f5d8cc3849b07",
+          "sha256:5d7d2a2e7b98cd8f810a9c7dbfa7cb7407b46188c4eb5dc0bf77019b7db50b01",
+          "sha256:9f14c45fd89b09c717cab30fdfd8d373723188c21225e6c1021fdadbcb49da68",
+          "sha256:db50a05524cf60bee540f18640f4a2ca4e7c65f61f29c1c0b3f1e56a65867ddd",
+          "sha256:367f1327696443120bea5811d86bc30e1b501940aec61c61e0dbd643f9b7887a"
+        ]
+      }
+    },
+    "praxis-migrate:latest": {
+      "Id": "sha256:1db1125cb8d49300064193cd66cb30edf0550c63b5259514407b063e6e625576",
+      "RepoTags": [
+        "praxis-migrate:latest"
+      ],
+      "RepoDigests": [
+        "praxis-migrate@sha256:1db1125cb8d49300064193cd66cb30edf0550c63b5259514407b063e6e625576"
+      ],
+      "Created": "2026-09-21T14:43:52.587209146Z",
+      "Architecture": "amd64",
+      "Os": "linux",
+      "RootFS": {
+        "Type": "layers",
+        "Layers": [
+          "sha256:34467cc93912af891dfee8a3902adf9b4f355a9bca4eaa46f658d1181a21de0d",
+          "sha256:b3445de4503d21b3ebc42db2f284bc6c8ad96184ea91ce55fb57f5e87910e1f2",
+          "sha256:546c86e4df2dc808fcf1953c346bfeef32f4c953933634d57c1d38730b750e9c",
+          "sha256:6b6ff8eb9da6c277f4b33452c77d59f8b5ff04e0bcca1a3054570b9db343da79",
+          "sha256:c5176c12020da463abd4a5a90233edc4b434e8d4edbc22c3eaaeff7e94d4b4a0",
+          "sha256:3bf55e17e3c0e8cce32986415eaabb49f37457a1c975e2ed124b2d77669cc202",
+          "sha256:cda788f8d441785f0348d3173858290e03e228e8e8542de7b8b2fa63a6931f28",
+          "sha256:8f06cfc3c2b43d17f8bb6f683c612a64fee94301ae81e526c14d868e4ea93c6d",
+          "sha256:3381eface5c96473d270026a3ddb7bf9b782b2e436dc7fa65422ee3ffd1b1b67",
+          "sha256:0734608cf482ab7c70a1f80b263bde4826b8caa99b2db4a84e4f5d8cc3849b07",
+          "sha256:5d7d2a2e7b98cd8f810a9c7dbfa7cb7407b46188c4eb5dc0bf77019b7db50b01",
+          "sha256:9f14c45fd89b09c717cab30fdfd8d373723188c21225e6c1021fdadbcb49da68",
+          "sha256:db50a05524cf60bee540f18640f4a2ca4e7c65f61f29c1c0b3f1e56a65867ddd",
+          "sha256:367f1327696443120bea5811d86bc30e1b501940aec61c61e0dbd643f9b7887a"
+        ]
+      }
+    },
+    "praxis-postgres:17-security1": {
+      "Id": "sha256:d98b4f606d0361f20be5c483826c2f5a5e3b02e4e70ec585b216e02d0e1de421",
+      "RepoTags": [
+        "praxis-postgres:17-security1"
+      ],
+      "RepoDigests": [
+        "praxis-postgres@sha256:d98b4f606d0361f20be5c483826c2f5a5e3b02e4e70ec585b216e02d0e1de421"
+      ],
+      "Created": "2026-09-21T05:49:40.749524684Z",
+      "Architecture": "amd64",
+      "Os": "linux",
+      "RootFS": {
+        "Type": "layers",
+        "Layers": [
+          "sha256:a6dc765193a52cbaede3c93a9ff48b9540948dd0774bbe7031fcb5847606f9ac",
+          "sha256:f045bb47cfd3b64b60760a11998afd1b9c1c30262240a0b60c80cd8bcb4009b5",
+          "sha256:1991fbc514d4857298ce23bfaf22378b8828690e9856d20968e7dacc8eaf5fbd",
+          "sha256:03c9dfac22327bf4ee85bf08869e40396852c880ca60aa90213268b338f64299",
+          "sha256:b663a18833892c2f2cd4ac474f8352ef38708a116dd7f9be99b6f03a16942183",
+          "sha256:ba2fb24da1a625041997f12df6f06afa9c51ac59ae697d7a7e473cbac7e4cd66",
+          "sha256:218801d2b59e9c745856bb3e93d5375310076d18cf0d64be0db5c3fdae21b935",
+          "sha256:3194b7529fe276d01ba6490c571a32b64606ee325113e8fcdc40b55a32b198f2",
+          "sha256:2de58b2d4a31d16a68d378caf394bc542ff6f1817aaff929750b4c4daebde06d",
+          "sha256:411db5022f2733d46242bfe5c7fe3b5228de8a79f3e405a25e86510dd3cadfb5",
+          "sha256:5c0cdc8b7aa4ce4e362e732976322b91527b1055f9416237dae90d867d296671",
+          "sha256:0f8b9ed3d6eae7ed70b03f65bb5f6e1d2dc62c8afac4a52ee995c93def89dc42",
+          "sha256:8948d93a76fd3935758518a7473255e9e9b4e169f749727b8eaa05e2b6ddf19e",
+          "sha256:a1c5ebd3f5a755e15a7804914fc4170ba0fa51a9359e81b9784a2d364176e8b1",
+          "sha256:466a8f16f5fdc06efbbc1329ece74525c2b2019075ef7a00819fb09fe7ee7944"
+        ]
+      }
+    },
+    "praxis-caddy:2.11.4-security1": {
+      "Id": "sha256:1c11934c8a90023cfb52d743e2d52e6b9dea0dc9907d718821513bc5f0e1667f",
+      "RepoTags": [
+        "praxis-caddy:2.11.4-security1"
+      ],
+      "RepoDigests": [
+        "praxis-caddy@sha256:1c11934c8a90023cfb52d743e2d52e6b9dea0dc9907d718821513bc5f0e1667f"
+      ],
+      "Created": "2026-09-21T05:59:24.989052436Z",
+      "Architecture": "amd64",
+      "Os": "linux",
+      "RootFS": {
+        "Type": "layers",
+        "Layers": [
+          "sha256:e63b02c2b5c761df2cb95e657d744f27d95da4e051235a13c80b88cd68eab188",
+          "sha256:c56ed5007fe949efbc262fb0cbf5dd1bb1c60954b423375e37b3fc6faa478d39",
+          "sha256:b5691abaf4ca50aadf0bb3d1ba4a044164bccaa0c8ec4fba98edb6b74c9d1f76",
+          "sha256:b772a028c043e792604569b2a9835c29bab7f909d4b16fd6b14cceac6efde5c7",
+          "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "sha256:45bca5a1d6ce53ada923bb7ceb6860c916207793dbaf3f2d6647a22e76d5de24"
+        ]
+      }
+    },
+    "python:3.11-slim-bookworm": {
+      "local_tag_available": false
+    },
+    "postgres:17": {
+      "Id": "sha256:f4c66b820c6f974249089d3d16d86a3698eae11e8746eb6644b2271031e91232",
+      "RepoTags": [
+        "postgres:17"
+      ],
+      "RepoDigests": [
+        "postgres@sha256:f4c66b820c6f974249089d3d16d86a3698eae11e8746eb6644b2271031e91232"
+      ],
+      "Created": "2026-09-19T00:36:29.390746549Z",
+      "Architecture": "amd64",
+      "Os": "linux",
+      "RootFS": {
+        "Type": "layers",
+        "Layers": [
+          "sha256:a6dc765193a52cbaede3c93a9ff48b9540948dd0774bbe7031fcb5847606f9ac",
+          "sha256:f045bb47cfd3b64b60760a11998afd1b9c1c30262240a0b60c80cd8bcb4009b5",
+          "sha256:1991fbc514d4857298ce23bfaf22378b8828690e9856d20968e7dacc8eaf5fbd",
+          "sha256:03c9dfac22327bf4ee85bf08869e40396852c880ca60aa90213268b338f64299",
+          "sha256:b663a18833892c2f2cd4ac474f8352ef38708a116dd7f9be99b6f03a16942183",
+          "sha256:ba2fb24da1a625041997f12df6f06afa9c51ac59ae697d7a7e473cbac7e4cd66",
+          "sha256:218801d2b59e9c745856bb3e93d5375310076d18cf0d64be0db5c3fdae21b935",
+          "sha256:3194b7529fe276d01ba6490c571a32b64606ee325113e8fcdc40b55a32b198f2",
+          "sha256:2de58b2d4a31d16a68d378caf394bc542ff6f1817aaff929750b4c4daebde06d",
+          "sha256:411db5022f2733d46242bfe5c7fe3b5228de8a79f3e405a25e86510dd3cadfb5",
+          "sha256:5c0cdc8b7aa4ce4e362e732976322b91527b1055f9416237dae90d867d296671",
+          "sha256:0f8b9ed3d6eae7ed70b03f65bb5f6e1d2dc62c8afac4a52ee995c93def89dc42",
+          "sha256:8948d93a76fd3935758518a7473255e9e9b4e169f749727b8eaa05e2b6ddf19e",
+          "sha256:a1c5ebd3f5a755e15a7804914fc4170ba0fa51a9359e81b9784a2d364176e8b1"
+        ]
+      }
+    },
+    "caddy:2.11.4": {
+      "local_tag_available": false
+    },
+    "golang:1.26.8-alpine": {
+      "local_tag_available": false
+    }
+  },
+  "containers": [
+    {
+      "name": "/praxis-backend-1",
+      "id": "f8695fe2851b89078e5a13362400fabcf295db1361ffb4b201c4766565f590cf",
+      "service": "backend",
+      "image_id": "sha256:374766946e885da19bc1de8c900f080ab9895d7f031a86fd41d006f74713a028",
+      "image_reference": "praxis-backend",
+      "status": "running",
+      "exit_code": 0,
+      "health": "healthy",
+      "user": "praxis",
+      "readonly_rootfs": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "privileged": false,
+      "port_bindings": {},
+      "mounts": [
+        {
+          "type": "volume",
+          "destination": "/app/.cache",
+          "read_write": true
+        },
+        {
+          "type": "bind",
+          "destination": "/app/artifacts",
+          "read_write": false
+        }
+      ],
+      "networks": [
+        "praxis_internal"
+      ]
+    },
+    {
+      "name": "/praxis-caddy-1",
+      "id": "58f455b388cb324a6968f20a9e724f815f5fae853567100ffe966cd93cdf143f",
+      "service": "caddy",
+      "image_id": "sha256:1c11934c8a90023cfb52d743e2d52e6b9dea0dc9907d718821513bc5f0e1667f",
+      "image_reference": "praxis-caddy:2.11.4-security1",
+      "status": "running",
+      "exit_code": 0,
+      "health": null,
+      "user": "",
+      "readonly_rootfs": false,
+      "cap_drop": null,
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "privileged": false,
+      "port_bindings": {
+        "443/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "443"
+          }
+        ],
+        "443/udp": [
+          {
+            "HostIp": "",
+            "HostPort": "443"
+          }
+        ],
+        "80/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "80"
+          }
+        ]
+      },
+      "mounts": [
+        {
+          "type": "volume",
+          "destination": "/config",
+          "read_write": true
+        },
+        {
+          "type": "volume",
+          "destination": "/data",
+          "read_write": true
+        },
+        {
+          "type": "bind",
+          "destination": "/etc/caddy/Caddyfile",
+          "read_write": false
+        }
+      ],
+      "networks": [
+        "praxis_edge",
+        "praxis_internal"
+      ]
+    },
+    {
+      "name": "/praxis-database-1",
+      "id": "9ae543854a3f847dd197663d200ec8da4bf83541d83020ee118922f7383d0539",
+      "service": "database",
+      "image_id": "sha256:d98b4f606d0361f20be5c483826c2f5a5e3b02e4e70ec585b216e02d0e1de421",
+      "image_reference": "praxis-postgres:17-security1",
+      "status": "running",
+      "exit_code": 0,
+      "health": "healthy",
+      "user": "",
+      "readonly_rootfs": false,
+      "cap_drop": null,
+      "security_opt": null,
+      "privileged": false,
+      "port_bindings": {},
+      "mounts": [
+        {
+          "type": "volume",
+          "destination": "/var/lib/postgresql/data",
+          "read_write": true
+        }
+      ],
+      "networks": [
+        "praxis_internal"
+      ]
+    },
+    {
+      "name": "/praxis-migrate-1",
+      "id": "82f5ed8bdab94f7401dc2bf9db1aa33bbb6c50c74d1f4e951c5183bf12cd5914",
+      "service": "migrate",
+      "image_id": "sha256:1db1125cb8d49300064193cd66cb30edf0550c63b5259514407b063e6e625576",
+      "image_reference": "praxis-migrate",
+      "status": "exited",
+      "exit_code": 0,
+      "health": null,
+      "user": "praxis",
+      "readonly_rootfs": true,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "privileged": false,
+      "port_bindings": {},
+      "mounts": [],
+      "networks": [
+        "praxis_internal"
+      ]
+    }
+  ],
+  "linux_python_packages": [
+    {
+      "name": "alembic",
+      "version": "1.20.0"
+    },
+    {
+      "name": "annotated-doc",
+      "version": "0.0.5"
+    },
+    {
+      "name": "annotated-types",
+      "version": "0.8.0"
+    },
+    {
+      "name": "anyio",
+      "version": "4.15.1"
+    },
+    {
+      "name": "argon2-cffi",
+      "version": "25.1.0"
+    },
+    {
+      "name": "argon2-cffi-bindings",
+      "version": "26.1.0"
+    },
+    {
+      "name": "asttokens",
+      "version": "3.0.2"
+    },
+    {
+      "name": "audeer",
+      "version": "2.6.0"
+    },
+    {
+      "name": "audformat",
+      "version": "1.4.2"
+    },
+    {
+      "name": "audinterface",
+      "version": "1.4.0"
+    },
+    {
+      "name": "audiofile",
+      "version": "1.6.1"
+    },
+    {
+      "name": "audmath",
+      "version": "1.4.4"
+    },
+    {
+      "name": "audobject",
+      "version": "0.7.13"
+    },
+    {
+      "name": "audresample",
+      "version": "1.3.6"
+    },
+    {
+      "name": "certifi",
+      "version": "2026.7.22"
+    },
+    {
+      "name": "cffi",
+      "version": "2.1.1"
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.5.1"
+    },
+    {
+      "name": "click",
+      "version": "8.5.0"
+    },
+    {
+      "name": "cloudpickle",
+      "version": "3.1.2"
+    },
+    {
+      "name": "cryptography",
+      "version": "50.0.1"
+    },
+    {
+      "name": "fastapi",
+      "version": "0.141.1"
+    },
+    {
+      "name": "filelock",
+      "version": "3.32.3"
+    },
+    {
+      "name": "fsspec",
+      "version": "2026.7.0"
+    },
+    {
+      "name": "greenlet",
+      "version": "3.5.6"
+    },
+    {
+      "name": "h11",
+      "version": "0.16.0"
+    },
+    {
+      "name": "hf-xet",
+      "version": "1.6.0"
+    },
+    {
+      "name": "httpcore",
+      "version": "1.0.9"
+    },
+    {
+      "name": "httptools",
+      "version": "0.8.0"
+    },
+    {
+      "name": "httpx",
+      "version": "0.28.1"
+    },
+    {
+      "name": "huggingface_hub",
+      "version": "1.32.0"
+    },
+    {
+      "name": "HyperPyYAML",
+      "version": "1.2.3"
+    },
+    {
+      "name": "idna",
+      "version": "3.20"
+    },
+    {
+      "name": "iso3166",
+      "version": "3.0.0"
+    },
+    {
+      "name": "iso639-lang",
+      "version": "2.6.3"
+    },
+    {
+      "name": "Jinja2",
+      "version": "3.1.6"
+    },
+    {
+      "name": "joblib",
+      "version": "1.6.0"
+    },
+    {
+      "name": "llvmlite",
+      "version": "0.49.0"
+    },
+    {
+      "name": "Mako",
+      "version": "1.4.1"
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "4.2.0"
+    },
+    {
+      "name": "MarkupSafe",
+      "version": "3.0.3"
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2"
+    },
+    {
+      "name": "more-itertools",
+      "version": "11.1.0"
+    },
+    {
+      "name": "mpmath",
+      "version": "1.3.0"
+    },
+    {
+      "name": "narwhals",
+      "version": "2.26.0"
+    },
+    {
+      "name": "networkx",
+      "version": "3.6.1"
+    },
+    {
+      "name": "numba",
+      "version": "0.67.0"
+    },
+    {
+      "name": "numpy",
+      "version": "2.4.6"
+    },
+    {
+      "name": "openai-whisper",
+      "version": "20250625"
+    },
+    {
+      "name": "opensmile",
+      "version": "2.6.0"
+    },
+    {
+      "name": "oyaml",
+      "version": "1.0"
+    },
+    {
+      "name": "packaging",
+      "version": "26.3"
+    },
+    {
+      "name": "pandas",
+      "version": "3.0.6"
+    },
+    {
+      "name": "praat-parselmouth",
+      "version": "0.4.7"
+    },
+    {
+      "name": "praxis-backend",
+      "version": "0.1.0"
+    },
+    {
+      "name": "psycopg",
+      "version": "3.3.6"
+    },
+    {
+      "name": "psycopg-binary",
+      "version": "3.3.6"
+    },
+    {
+      "name": "psycopg-pool",
+      "version": "3.3.2"
+    },
+    {
+      "name": "pyarrow",
+      "version": "25.0.1"
+    },
+    {
+      "name": "pycparser",
+      "version": "3.0"
+    },
+    {
+      "name": "pydantic",
+      "version": "2.13.5"
+    },
+    {
+      "name": "pydantic-settings",
+      "version": "2.15.0"
+    },
+    {
+      "name": "pydantic_core",
+      "version": "2.46.5"
+    },
+    {
+      "name": "Pygments",
+      "version": "2.21.0"
+    },
+    {
+      "name": "PyJWT",
+      "version": "2.14.0"
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0"
+    },
+    {
+      "name": "python-dotenv",
+      "version": "1.2.3"
+    },
+    {
+      "name": "python-multipart",
+      "version": "0.0.32"
+    },
+    {
+      "name": "PyYAML",
+      "version": "6.0.3"
+    },
+    {
+      "name": "regex",
+      "version": "2026.9.10"
+    },
+    {
+      "name": "requests",
+      "version": "2.34.2"
+    },
+    {
+      "name": "rich",
+      "version": "15.0.0"
+    },
+    {
+      "name": "ruamel.yaml",
+      "version": "0.18.17"
+    },
+    {
+      "name": "ruamel.yaml.clib",
+      "version": "0.2.15"
+    },
+    {
+      "name": "safetensors",
+      "version": "0.8.0"
+    },
+    {
+      "name": "scikit-learn",
+      "version": "1.9.1"
+    },
+    {
+      "name": "scipy",
+      "version": "1.17.1"
+    },
+    {
+      "name": "sentence-transformers",
+      "version": "6.1.0"
+    },
+    {
+      "name": "sentencepiece",
+      "version": "0.2.2"
+    },
+    {
+      "name": "setuptools",
+      "version": "84.0.0"
+    },
+    {
+      "name": "shellingham",
+      "version": "1.5.4"
+    },
+    {
+      "name": "silero-vad",
+      "version": "6.2.1"
+    },
+    {
+      "name": "six",
+      "version": "1.17.0"
+    },
+    {
+      "name": "soundfile",
+      "version": "0.14.0"
+    },
+    {
+      "name": "speechbrain",
+      "version": "1.1.1"
+    },
+    {
+      "name": "SQLAlchemy",
+      "version": "2.0.54"
+    },
+    {
+      "name": "starlette",
+      "version": "1.6.0"
+    },
+    {
+      "name": "sympy",
+      "version": "1.14.0"
+    },
+    {
+      "name": "threadpoolctl",
+      "version": "3.7.0"
+    },
+    {
+      "name": "tiktoken",
+      "version": "0.14.0"
+    },
+    {
+      "name": "tokenizers",
+      "version": "0.23.2"
+    },
+    {
+      "name": "torch",
+      "version": "2.14.0+cpu"
+    },
+    {
+      "name": "torchaudio",
+      "version": "2.11.0+cpu"
+    },
+    {
+      "name": "tqdm",
+      "version": "4.70.1"
+    },
+    {
+      "name": "transformers",
+      "version": "5.17.0"
+    },
+    {
+      "name": "triton",
+      "version": "3.8.0"
+    },
+    {
+      "name": "typer",
+      "version": "0.27.2"
+    },
+    {
+      "name": "typing-inspection",
+      "version": "0.4.4"
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0"
+    },
+    {
+      "name": "urllib3",
+      "version": "2.8.0"
+    },
+    {
+      "name": "uvicorn",
+      "version": "0.53.0"
+    },
+    {
+      "name": "uvloop",
+      "version": "0.22.1"
+    },
+    {
+      "name": "watchfiles",
+      "version": "1.2.0"
+    },
+    {
+      "name": "websockets",
+      "version": "17.1"
+    },
+    {
+      "name": "wheel",
+      "version": "0.46.3"
+    }
+  ],
+  "scope": "Observed local deployment; no container environment variables collected; local image IDs are not registry publication digests.",
+  "resolved_build_bases": {
+    "python:3.11-slim-bookworm": "sha256:a36c24f9cbdf4fd0f52d67f0823eeac19c2028c637cecc392d97f980d4fec56b",
+    "postgres:17": "sha256:f4c66b820c6f974249089d3d16d86a3698eae11e8746eb6644b2271031e91232",
+    "caddy:2.11.4": "sha256:14a9c00d4e833ebc2b65d36515b37bde3b73f0b323a2663aaafc88953d8c4e3f",
+    "golang:1.26.8-alpine": "sha256:51a7c389a5ddaf82f527191a1e9bff9928655130a44e4975dd1d7e0acf59f1ae"
+  }
+}
