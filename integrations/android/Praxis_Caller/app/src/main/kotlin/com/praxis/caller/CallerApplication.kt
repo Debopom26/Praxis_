@@ -8,6 +8,9 @@ import com.praxis.caller.praxis.*
 import com.praxis.caller.auth.*
 import com.praxis.caller.audio.CaptureState
 import com.praxis.caller.data.PhoneDataRepository
+import com.praxis.caller.voip.VoipManager
+import com.praxis.caller.voip.VoipPhase
+import com.praxis.caller.auth.AuthStatus
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -17,6 +20,7 @@ class CallerApplication : Application() {
     val settings get() = PraxisSettings.load(this)
     val auth by lazy { PraxisAuthManager(settings?.auth, SecureStore(this), { settings }) }
     val praxis = PraxisManager()
+    val voip by lazy { VoipManager(this) }
     val captureEpoch = java.util.concurrent.atomic.AtomicLong()
     val capture = MutableStateFlow(CaptureState())
     override fun onCreate() {
@@ -25,7 +29,12 @@ class CallerApplication : Application() {
         applicationScope.launch {
             calls.calls.collect { current ->
                 val id = praxis.state.value.callId
-                if (id != null && current.none { it.id == id && !it.ended }) praxis.disconnect()
+                if (id != null && !voip.ownsAnalysis(id) && current.none { it.id == id && !it.ended }) praxis.disconnect()
+            }
+        }
+        applicationScope.launch {
+            auth.state.collect { state ->
+                if (state.status == AuthStatus.SIGNED_IN) voip.connect() else voip.disconnect()
             }
         }
         applicationScope.launch {

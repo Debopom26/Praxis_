@@ -26,7 +26,7 @@ internal interface SuppliedAnalyzerPort {
 
 internal class SuppliedAnalysisClient : SuppliedAnalyzerPort {
     private val http = OkHttpClient.Builder().followRedirects(false).followSslRedirects(false)
-        .callTimeout(120, TimeUnit.SECONDS).build()
+        .readTimeout(120, TimeUnit.SECONDS).callTimeout(120, TimeUnit.SECONDS).build()
 
     override suspend fun analyze(settings: PraxisSettings, token: String, sessionId: String,
         pcmS16le: ByteArray): SuppliedResult = withContext(Dispatchers.IO) {
@@ -44,8 +44,12 @@ internal class SuppliedAnalysisClient : SuppliedAnalyzerPort {
             .put("sample_rate", 16000).put("channels", 1)
             .put("pcm_f32le_base64", Base64.encodeToString(output.array(), Base64.NO_WRAP))
             .toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+        val started = android.os.SystemClock.elapsedRealtime()
+        Log.i("PraxisTransport", String.format(Locale.US,
+            "V2 request started rms=%.6f peak=%.4f", sqrt(power / (pcmS16le.size / 2)), peak))
         val value = http.newCall(Request.Builder().url(settings.baseUrl + "api/v2/analysis")
             .header("Authorization", "Bearer $token").post(body).build()).execute().use {
+            if (!it.isSuccessful) Log.w("PraxisTransport", "V2 HTTP status=${it.code}")
             require(it.isSuccessful)
             val source = checkNotNull(it.body).source(); source.request(1048577)
             require(source.buffer.size <= 1048576)
@@ -57,8 +61,9 @@ internal class SuppliedAnalysisClient : SuppliedAnalyzerPort {
         val synthetic = value.getJSONObject("synthetic_voice").getDouble("score_0_100")
         require(score in 0.0..100.0 && synthetic in 0.0..100.0)
         Log.i("PraxisTransport", String.format(Locale.US,
-            "V2 window rms=%.6f peak=%.4f score=%.3f ai=%.3f action=%s",
-            sqrt(power / (pcmS16le.size / 2)), peak, score, synthetic, guidance.getString("action")))
+            "V2 window rms=%.6f peak=%.4f score=%.3f ai=%.3f action=%s latency_ms=%d",
+            sqrt(power / (pcmS16le.size / 2)), peak, score, synthetic, guidance.getString("action"),
+            android.os.SystemClock.elapsedRealtime() - started))
         SuppliedResult(score, synthetic, guidance.getString("action").take(128),
             guidance.getString("message").take(2000), value.getString("regressor_status").take(128))
     }

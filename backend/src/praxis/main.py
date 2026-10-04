@@ -42,6 +42,7 @@ from praxis.runtime import Runtime
 from praxis.security import AccessDenied, Encryption, RateLimiter, Tokens, require_role
 from praxis.speaker import SpeakerService
 from praxis.streaming import StreamCapacity, StreamRegistry, UnavailableProcessor
+from praxis.voip import Peer, VoipHub
 
 logger = logging.getLogger("praxis")
 
@@ -67,6 +68,7 @@ def create_app(
     tokens = Tokens(settings)
     limiter = RateLimiter()
     registry = StreamRegistry(settings.max_connections)
+    voip = VoipHub()
     runtime = Runtime(settings)
     privacy = Privacy(repo, Encryption(settings.embedding_key_base64.get_secret_value()))
     repo.privacy = privacy
@@ -110,6 +112,7 @@ def create_app(
     app = FastAPI(title="Praxis", version=__version__, lifespan=lifespan)
     app.state.repository = repo
     app.state.runtime = runtime
+    app.state.voip = voip
     app.add_middleware(BodyLimit)
     if settings.webapp_origins:
         app.add_middleware(CORSMiddleware, allow_origins=settings.webapp_origins,
@@ -182,6 +185,76 @@ def create_app(
             "username": value.username,
         }
 
+    @app.websocket("/api/v1/voip")
+    async def voip_socket(ws: WebSocket):
+        peer = None
+        async def close_safely(code: int) -> None:
+            # A concurrent peer failure may already have closed this socket.
+            with suppress(Exception):
+                await ws.close(code=code)
+        try:
+            principal = await asyncio.to_thread(authenticate, ws.headers.get("authorization"))
+            require_role(principal, "admin", "host")
+            peer = Peer(principal, ws)
+            if not await voip.register(peer):
+                await close_safely(1008)
+                return
+            await ws.accept()
+            await peer.send({"type": "ready", "username": await asyncio.to_thread(repo.voip_identity, principal)})
+            while True:
+                message = await ws.receive()
+                if message["type"] == "websocket.disconnect":
+                    break
+                current = await asyncio.to_thread(authenticate, ws.headers.get("authorization"))
+                if current.user_id != principal.user_id or current.tenant_id != principal.tenant_id:
+                    await close_safely(1008)
+                    break
+                if message.get("bytes") is not None:
+                    if not limiter.allow("voip-audio:" + principal.user_id, 65, 1):
+                        await close_safely(1008)
+                        break
+                    if not await voip.relay(peer, message["bytes"]):
+                        await close_safely(1008)
+                        break
+                    continue
+                raw = message.get("text")
+                if raw is None or len(raw) > 256 or not limiter.allow("voip-control:" + principal.user_id, 20, 1):
+                    await close_safely(1008)
+                    break
+                data = json.loads(raw)
+                if not isinstance(data, dict):
+                    await close_safely(1007)
+                    break
+                action = data.get("type")
+                if action == "ping":
+                    await peer.send({"type": "pong"})
+                elif action == "dial":
+                    target = data.get("to")
+                    if not isinstance(target, str) or not 1 <= len(target) <= 128:
+                        await close_safely(1007)
+                        break
+                    recipient = await asyncio.to_thread(repo.voip_recipient, principal, target)
+                    name = await asyncio.to_thread(repo.voip_identity, principal)
+                    await voip.invite(peer, recipient or "", name)
+                elif action == "accept":
+                    await voip.accept(peer, str(data.get("call_id", "")))
+                elif action == "hangup":
+                    await voip.hangup(peer)
+                else:
+                    await close_safely(1007)
+                    break
+        except WebSocketDisconnect:
+            pass
+        except (HTTPException, AccessDenied):
+            await close_safely(1008)
+        except (ValueError, TypeError, json.JSONDecodeError):
+            await close_safely(1007)
+        except SQLAlchemyError:
+            await close_safely(1013)
+        finally:
+            if peer:
+                await voip.unregister(peer)
+
     @app.get("/api/v1/dashboard/sessions")
     async def dashboard_sessions(
         q: str = Query(default="", max_length=128),
@@ -192,13 +265,25 @@ def create_app(
     ):
         p = await asyncio.to_thread(authenticate, authorization)
         connected = await registry.snapshot()
-        return await asyncio.to_thread(repo.dashboard_sessions, p, connected, q, offset, limit, active)
+        active_voip = await voip.active_refs()
+        return await asyncio.to_thread(repo.dashboard_sessions, p, connected, q, offset, limit, active, active_voip)
 
     @app.get("/api/v1/dashboard/sessions/{session_id}")
     async def dashboard_session(session_id: str, authorization: str | None = Header(default=None)):
         p = await asyncio.to_thread(authenticate, authorization)
         connected = await registry.snapshot()
-        return await asyncio.to_thread(repo.dashboard_session, p, session_id, session_id in connected)
+        active_voip = await voip.active_refs()
+        return await asyncio.to_thread(repo.dashboard_session, p, session_id, session_id in connected, active_voip)
+
+    @app.get("/api/v1/dashboard/sessions/{session_id}/analysis")
+    async def dashboard_analysis_history(
+        session_id: str,
+        offset: int = Query(default=0, ge=0),
+        limit: int = Query(default=100, ge=1, le=100),
+        authorization: str | None = Header(default=None),
+    ):
+        p = await asyncio.to_thread(authenticate, authorization)
+        return await asyncio.to_thread(repo.analysis_history, p, session_id, limit, offset)
 
     @app.post("/api/v1/sessions", status_code=201)
     def start(value: SessionStart, authorization: str | None = Header(default=None)):

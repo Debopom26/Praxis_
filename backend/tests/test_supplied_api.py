@@ -104,3 +104,12 @@ def test_dashboard_persists_only_allowlisted_analysis_metadata(repo, settings):
         assert view["latest_analysis"]["experimental_score_0_100"] == 42.5
         assert view["latest_analysis"]["action"] == "NO_ALERT"
         assert "transcript" not in str(view) and "embedding" not in str(view)
+        history_url = f"/api/v1/dashboard/sessions/{sid}/analysis"
+        history = client.get(history_url, headers=admin).json()
+        assert history["total"] == 1
+        assert history["results"][0]["experimental_score_0_100"] == 42.5
+        assert "transcript" not in str(history) and "embedding" not in str(history)
+        assert client.post(f"/api/v1/sessions/{sid}/end", headers=admin).status_code == 200
+        assert client.get(history_url, headers=admin).json()["total"] == 1
+        other = login(client, "admin-b", "b")
+        assert client.get(history_url, headers=other).status_code == 404

@@ -29,4 +29,17 @@ internal class SessionDisplayClient {
             .header("Authorization", "Bearer $token")
             .put(body).build()).execute().use { if (!it.isSuccessful) throw java.io.IOException("HTTP_${it.code}") }
     }
+
+    suspend fun updateVoip(settings: PraxisSettings, token: String, sessionId: String,
+                           peerUsername: String) = withContext(Dispatchers.IO) {
+        if (token.isBlank() || peerUsername.isBlank()) return@withContext
+        val body = JSONObject()
+            .put("remote_name", peerUsername.take(128))
+            .put("call_connected_at", Instant.now().toString())
+            .toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+        http.newCall(Request.Builder()
+            .url(settings.baseUrl + "api/v1/sessions/$sessionId/display")
+            .header("Authorization", "Bearer $token")
+            .put(body).build()).execute().use { if (!it.isSuccessful) throw java.io.IOException("HTTP_${it.code}") }
+    }
 }

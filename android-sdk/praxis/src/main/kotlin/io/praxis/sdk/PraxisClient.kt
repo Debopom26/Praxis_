@@ -79,7 +79,7 @@ class PraxisClient(private val config: PraxisConfig) : Closeable {
     private val root = config.baseUrl.toHttpUrl()
     private val json = PraxisWire.json
     private val http = OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS).pingInterval(10, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS).pingInterval(60, TimeUnit.SECONDS)
         .followRedirects(false).followSslRedirects(false).build()
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val eventQueue = Channel<PraxisEvent>(64)

@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, cast
-from uuid import uuid4
+from uuid import UUID, uuid4
 
-from sqlalchemy import create_engine, delete, func, or_, select, text, update
+from sqlalchemy import and_, create_engine, delete, func, or_, select, text, update
 from sqlalchemy.engine import CursorResult
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import sessionmaker
@@ -103,6 +103,24 @@ class Repository:
                 raise AccessDenied()
             return self.principal(user.id, tenant_id)
 
+    def voip_identity(self, principal: Principal) -> str:
+        with self.sessions() as db:
+            user = db.get(User, principal.user_id)
+            if user is None or not user.active:
+                raise AccessDenied()
+            return user.username
+
+    def voip_recipient(self, principal: Principal, username: str) -> str | None:
+        with self.sessions() as db:
+            return db.scalar(
+                select(User.id).join(Membership, Membership.user_id == User.id).where(
+                    User.username == username,
+                    User.active.is_(True),
+                    Membership.tenant_id == principal.tenant_id,
+                    Membership.role.in_(("admin", "host")),
+                )
+            )
+
     @staticmethod
     def _owned(db, principal: Principal, session_id: str):
         query = select(SessionRecord).where(
@@ -165,14 +183,52 @@ class Repository:
         with self.sessions() as db:
             return SessionView.model_validate(self._owned(db, p, session_id).payload)
 
-    def dashboard_session(self, p: Principal, session_id: str, connected: bool) -> dict:
+    @staticmethod
+    def _active_clause(connected_ids: set[str], active_voip: set[tuple[str, str, str]]):
+        return or_(
+            SessionRecord.id.in_(connected_ids),
+            *(and_(
+                SessionRecord.tenant_id == tenant,
+                SessionRecord.owner_id == owner,
+                SessionRecord.call_id.like(call_id + "-%"),
+            ) for tenant, owner, call_id in active_voip),
+        )
+
+    def dashboard_session(self, p: Principal, session_id: str, connected: bool,
+                          active_voip: set[tuple[str, str, str]] | None = None) -> dict:
         with self.sessions() as db:
             row = self._owned(db, p, session_id)
+            if active_voip:
+                connected = connected or any(
+                    row.tenant_id == tenant and row.owner_id == owner
+                    and row.call_id.startswith(call_id + "-")
+                    for tenant, owner, call_id in active_voip
+                )
             return self._dashboard_view(db, row, connected)
+
+    def analysis_history(self, p: Principal, session_id: str, limit: int, offset: int) -> dict:
+        with self.sessions() as db:
+            self._owned(db, p, session_id)
+            stmt = select(EvidenceRecord).where(
+                EvidenceRecord.tenant_id == p.tenant_id,
+                EvidenceRecord.session_id == session_id,
+                EvidenceRecord.payload["type"].as_string() == "supplied_analysis",
+            )
+            total = db.scalar(select(func.count()).select_from(stmt.subquery())) or 0
+            rows = db.scalars(stmt.order_by(
+                EvidenceRecord.timestamp.desc(), EvidenceRecord.id.desc()
+            ).offset(offset).limit(limit)).all()
+            return {"results": [
+                {"timestamp": row.timestamp.isoformat(), **{
+                    key: row.payload[key] for key in (
+                        "experimental_score_0_100", "regressor_status", "action", "message"
+                    ) if key in row.payload
+                }} for row in rows
+            ], "total": total}
 
     def dashboard_sessions(
         self, p: Principal, connected_ids: set[str], q: str, offset: int, limit: int,
-        active: bool | None,
+        active: bool | None, active_voip: set[tuple[str, str, str]] | None = None,
     ) -> dict:
         with self.sessions() as db:
             stmt = select(SessionRecord).where(SessionRecord.tenant_id == p.tenant_id)
@@ -182,20 +238,42 @@ class Repository:
                 pattern = f"%{q}%"
                 stmt = stmt.where(or_(SessionRecord.remote_name.ilike(pattern),
                                       SessionRecord.remote_number.ilike(pattern)))
+            live = self._active_clause(connected_ids, active_voip or set())
             if active is True:
-                stmt = stmt.where(SessionRecord.ended.is_(False), SessionRecord.id.in_(connected_ids))
+                stmt = stmt.where(SessionRecord.ended.is_(False), live)
             elif active is False:
-                stmt = stmt.where(or_(SessionRecord.ended.is_(True), SessionRecord.id.not_in(connected_ids)))
+                stmt = stmt.where(or_(SessionRecord.ended.is_(True), ~live))
             total = db.scalar(select(func.count()).select_from(stmt.subquery())) or 0
             rows = db.scalars(stmt.order_by(SessionRecord.created_at.desc(), SessionRecord.id.desc())
                               .offset(offset).limit(limit)).all()
-            return {"sessions": [self._dashboard_view(db, row, row.id in connected_ids) for row in rows],
+            return {"sessions": [self._dashboard_view(
+                db, row, row.id in connected_ids or any(
+                    row.tenant_id == tenant and row.owner_id == owner
+                    and row.call_id.startswith(call_id + "-")
+                    for tenant, owner, call_id in (active_voip or set())
+                )) for row in rows],
                     "total": total}
 
     @staticmethod
     def _dashboard_view(db, row: SessionRecord, connected: bool) -> dict:
         view = SessionView.model_validate(row.payload)
         owner = db.get(User, row.owner_id)
+        remote_name = row.remote_name
+        if remote_name is None and len(row.call_id) == 73 and row.call_id[36] == "-":
+            try:
+                call_prefix = str(UUID(row.call_id[:36]))
+                UUID(row.call_id[37:])
+            except ValueError:
+                pass
+            else:
+                remote_name = db.scalar(
+                    select(User.username).join(SessionRecord, SessionRecord.owner_id == User.id)
+                    .where(
+                        SessionRecord.tenant_id == row.tenant_id,
+                        SessionRecord.owner_id != row.owner_id,
+                        SessionRecord.call_id.like(call_prefix + "-%"),
+                    ).limit(1)
+                )
         risk = db.scalar(select(RiskRecord).where(
             RiskRecord.tenant_id == row.tenant_id, RiskRecord.session_id == row.id
         ).order_by(RiskRecord.timestamp.desc(), RiskRecord.id.desc()).limit(1))
@@ -206,7 +284,7 @@ class Repository:
         return {
             "session_id": row.id, "tenant_id": row.tenant_id, "call_id": row.call_id,
             "owner_username": owner.username if owner else None,
-            "remote_name": row.remote_name, "remote_number": row.remote_number,
+            "remote_name": remote_name, "remote_number": row.remote_number,
             "created_at": view.created_at.isoformat(),
             "call_connected_at": row.call_connected_at.isoformat() if row.call_connected_at else None,
             "ended_at": view.ended_at.isoformat() if view.ended_at else None,

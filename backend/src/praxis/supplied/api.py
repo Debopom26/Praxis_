@@ -4,6 +4,7 @@ import base64
 import json
 import math
 from typing import Literal
+from uuid import uuid4
 
 import numpy as np
 from fastapi import Header, HTTPException
@@ -11,7 +12,7 @@ from pydantic import Field
 
 from praxis.contracts import Contract
 from praxis.contracts.base import Identifier
-from praxis.db.models import SpeakerProfile
+from praxis.db.models import EvidenceRecord, SpeakerProfile
 from praxis.db.repository import utcnow
 from praxis.security import Encryption, require_role
 
@@ -82,13 +83,20 @@ def install_routes(app, runtime, repo, settings, authenticate, limiter):
                 score = result.get("experimental_score_0_100")
                 if isinstance(score, (int, float)) and math.isfinite(score) and 0 <= score <= 100:
                     advice = result.get("guidance", {})
-                    owned.latest_analysis = {
+                    recorded_at = utcnow()
+                    analysis = {
                         "experimental_score_0_100": float(score),
                         "regressor_status": str(result.get("regressor_status", ""))[:128],
                         "action": str(advice.get("action", ""))[:128],
                         "message": str(advice.get("message", ""))[:2000],
                     }
-                    owned.latest_analysis_at = utcnow()
+                    owned.latest_analysis = analysis
+                    owned.latest_analysis_at = recorded_at
+                    db.add(EvidenceRecord(
+                        id=str(uuid4()), tenant_id=principal.tenant_id,
+                        session_id=value.session_id, timestamp=recorded_at,
+                        payload={"type": "supplied_analysis", **analysis},
+                    ))
                 repo._audit(db, principal, value.session_id, "supplied_analysis",
                             ["BOOTSTRAP_UNTRAINED", result["guidance"]["assessment"]],
                             policy_version="benign-ai-guidance-1")

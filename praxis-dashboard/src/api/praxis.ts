@@ -15,6 +15,10 @@ export interface LatestAnalysis {
   message: string;
 }
 
+export interface RecordedAnalysis extends LatestAnalysis {
+  timestamp: string;
+}
+
 export interface DashboardSession {
   session_id: string;
   tenant_id: string;
@@ -70,6 +74,12 @@ export function dashboardSessions(token: string, query = '', offset = 0,
 
 export function dashboardSession(id: string, token: string, signal?: AbortSignal) {
   return request<DashboardSession>(`/api/v1/dashboard/sessions/${encodeURIComponent(id)}`,
+    { token, signal });
+}
+
+export function dashboardAnalysisHistory(id: string, token: string, offset = 0, signal?: AbortSignal) {
+  return request<{ results: RecordedAnalysis[]; total: number }>(
+    `/api/v1/dashboard/sessions/${encodeURIComponent(id)}/analysis?limit=20&offset=${offset}`,
     { token, signal });
 }
 

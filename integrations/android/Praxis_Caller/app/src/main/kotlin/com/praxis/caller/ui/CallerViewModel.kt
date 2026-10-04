@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-enum class Destination { PHONE, CALL, PRAXIS }
+enum class Destination { PHONE, CALL, PRAXIS, VOIP }
 enum class PhoneTab { RECENTS, CONTACTS, KEYPAD }
 
 data class CallerUiState(
@@ -52,4 +52,3 @@ class CallerViewModel(private val savedState: SavedStateHandle) : ViewModel() {
         }
     }
 }
-

@@ -81,6 +81,15 @@ class PraxisManagerTest {
         }
         assertTrue(PraxisSettings.secureUrl("https://example.com/", true))
     }
+    @Test fun oneSecondVoipBlocksUseExistingSdkContract() = runBlocking {
+        val p = Port(); val m = manager(p); m.connect("c", settings) { "test" }
+        p.callback!!(PraxisEvent.Connection(true, emptyList()))
+        assertTrue(m.sendAudio("c", ByteArray(32000), 1000))
+        assertTrue(m.sendAudio("c", ByteArray(32000), 2000))
+        assertFalse(m.sendAudio("c", ByteArray(32001), 3000))
+        assertEquals(2, p.frames)
+        m.disconnect()
+    }
     @Test fun twoSecondBlocksProduceBoundedOverlappingV2Window() = runBlocking {
         val analyzer = object : SuppliedAnalyzerPort {
             var calls = 0

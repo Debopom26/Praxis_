@@ -22,7 +22,7 @@ internal interface PraxisPort : Closeable {
 }
 internal class SdkPort(private val client: PraxisClient) : PraxisPort {
     constructor(settings: PraxisSettings, token: () -> String) : this(PraxisClient(PraxisConfig(settings.baseUrl, settings.tenantId, settings.hostAppId, token,
-        maxBufferedFrames = 25, maxBufferedAudioBytes = 16000)))
+        maxBufferedFrames = 25, maxBufferedAudioBytes = 96000)))
     override fun listen(callback: (PraxisEvent) -> Unit) = client.onEvent(callback)
     override suspend fun start(callId: String) = client.startSession(callId)
     override suspend fun end(sessionId: String) = client.endSession(sessionId)
@@ -165,7 +165,7 @@ class PraxisManager internal constructor(
     fun sendAudio(callId: String, bytes: ByteArray, timestamp: Long): Boolean = synchronized(lock) {
         val s = mutable.value
         if (s.status !in setOf(PraxisStatus.CONNECTED, PraxisStatus.RECONNECTING) || s.callId != callId || s.sessionId == null ||
-            bytes.size != 640 || timestamp <= lastTimestamp || timestamp < 0) return false
+            bytes.size !in setOf(640, 32000) || timestamp <= lastTimestamp || timestamp < 0) return false
         if (s.status == PraxisStatus.RECONNECTING) {
             // The supplied SDK rejects frames while its WSS is down. Do not retain raw audio;
             // keep the consented capture service alive and resume on the next connection event.
@@ -223,7 +223,8 @@ class PraxisManager internal constructor(
                         runCatching { Log.i("PraxisTransport", "V2 analysis result displayed") }
                     }
                 }
-            } catch (_: Exception) {
+            } catch (error: Exception) {
+                Log.w("PraxisTransport", "V2 request failed type=${error.javaClass.simpleName}")
                 synchronized(lock) {
                     if (generation == epoch) mutable.value = mutable.value.copy(
                         lastEvent = "Analysis unavailable", detail = "V2 analysis unavailable.")

@@ -31,6 +31,10 @@ import com.praxis.caller.R
 import com.praxis.caller.ui.call.CallScreen
 import com.praxis.caller.ui.phone.PhoneScreen
 import com.praxis.caller.ui.praxis.PraxisScreen
+import com.praxis.caller.ui.voip.VoipPanel
+import com.praxis.caller.CallerApplication
+import com.praxis.caller.voip.VoipPhase
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun CallerApp(model: CallerViewModel = viewModel(), calls: CallManager,
@@ -39,11 +43,16 @@ fun CallerApp(model: CallerViewModel = viewModel(), calls: CallManager,
     onCallVisibility: (Boolean, Boolean) -> Unit,
     contacts: List<com.praxis.caller.data.PhoneEntry>, recents: List<com.praxis.caller.data.PhoneEntry>, onRequestPhoneData: () -> Unit) {
     val activeCalls by calls.calls.collectAsStateWithLifecycle()
+    val app = LocalContext.current.applicationContext as CallerApplication
+    val voip by app.voip.state.collectAsStateWithLifecycle()
     LaunchedEffect(activeCalls) {
         onCallVisibility(activeCalls.any { !it.ended }, activeCalls.any { it.ringing })
     }
     LaunchedEffect(activeCalls.firstOrNull()?.id) {
         if (activeCalls.isNotEmpty()) model.navigate(Destination.CALL)
+    }
+    LaunchedEffect(voip.phase) {
+        if (voip.phase in setOf(VoipPhase.RINGING, VoipPhase.ACTIVE)) model.navigate(Destination.VOIP)
     }
     val state by model.state.collectAsStateWithLifecycle()
     BackHandler(enabled = state.destination != Destination.PHONE) { model.backToPhone() }
@@ -58,11 +67,13 @@ fun CallerApp(model: CallerViewModel = viewModel(), calls: CallManager,
                         Destination.PHONE -> Icons.Default.Home
                         Destination.CALL -> Icons.Default.Phone
                         Destination.PRAXIS -> Icons.Default.Info
+                        Destination.VOIP -> Icons.Default.Phone
                     }, contentDescription = null) },
-                    label = { Text(stringResource(when (destination) {
+                    label = { Text(if (destination == Destination.VOIP) "Internet" else stringResource(when (destination) {
                         Destination.PHONE -> R.string.phone
                         Destination.CALL -> R.string.call
                         Destination.PRAXIS -> R.string.praxis
+                        Destination.VOIP -> R.string.phone
                     })) },
                 )
             }
@@ -79,6 +90,7 @@ fun CallerApp(model: CallerViewModel = viewModel(), calls: CallManager,
                 Destination.PHONE -> PhoneScreen(state, model::selectPhoneTab, model::appendDigit, model::deleteDigit, model::clearNumber, onPlaceCall, contacts, recents, onRequestPhoneData, { number -> model.setDraft(number); model.selectPhoneTab(PhoneTab.KEYPAD) })
                 Destination.CALL -> CallScreen(activeCalls, calls)
                 Destination.PRAXIS -> PraxisScreen()
+                Destination.VOIP -> VoipPanel()
             }
         }
     }
