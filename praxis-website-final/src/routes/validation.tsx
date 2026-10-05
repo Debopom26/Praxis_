@@ -10,7 +10,7 @@ export const Route = createFileRoute("/validation")({
       {
         name: "description",
         content:
-          "An honest status matrix of Praxis capabilities: what has been validated, what is architectural support only, and what remains open research.",
+          "Implementation and runtime verification status of the current Praxis modules, with the scope of existing checks.",
       },
       { property: "og:title", content: "Praxis Validation — What Is Measured and What Is Not" },
       {

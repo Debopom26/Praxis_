@@ -44,13 +44,6 @@ export function Hero() {
 
           <div className="mt-7 flex flex-wrap items-center gap-2.5">
             <Link
-              to="/try"
-              className="ridge-btn group inline-flex items-center gap-2 rounded-md px-5 py-3 font-mono text-[11px] tracking-[0.12em] uppercase"
-            >
-              <span>Try Praxis</span>
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-            <Link
               to="/how-it-works"
               className="inline-flex items-center gap-2 rounded-md border border-border-strong px-4 py-2.5 font-mono text-[11px] tracking-[0.12em] uppercase hover:bg-accent"
             >

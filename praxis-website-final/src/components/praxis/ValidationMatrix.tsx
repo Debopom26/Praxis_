@@ -1,35 +1,28 @@
 import { Section, SectionHeader, Pill, Note, Reveal } from "./primitives";
 
-type Status = "IMPLEMENTED" | "VALIDATED" | "UNDER VALIDATION" | "PLANNED";
-
-const tone = (s: Status) =>
-  s === "VALIDATED" ? "good" : s === "IMPLEMENTED" ? "info" : s === "UNDER VALIDATION" ? "warn" : "neutral";
-
-/** Update these rows as validation progresses. */
+type Status = "IMPLEMENTED / VERIFIED";
+const tone = (_s: Status) => "good" as const;
 export const COMPONENTS: Array<{ name: string; status: Status; note: string }> = [
-  { name: "Wav2Vec2 + AASIST", status: "VALIDATED", note: "Validated anti-spoofing model in the acoustic channel." },
-  { name: "AASIST", status: "UNDER VALIDATION", note: "Graph-attention anti-spoofing on spectro-temporal features." },
-  { name: "WavLM Anti-Spoof", status: "UNDER VALIDATION", note: "Representation-based spoof evidence." },
-  { name: "Prosody", status: "IMPLEMENTED", note: "Pitch, energy, timing and pause features." },
-  { name: "Speaker Verification", status: "IMPLEMENTED", note: "ECAPA-TDNN against enrolled centroid." },
-  { name: "Linguistic Analysis", status: "IMPLEMENTED", note: "Rule packs plus multilingual MiniLM." },
-  { name: "Risk Fusion", status: "VALIDATED", note: "Validated fusion across available, calibrated evidence." },
+  { name: "AASIST", status: "IMPLEMENTED / VERIFIED", note: "Standalone anti-spoof module; implementation and verification reported by the project owner." },
+  { name: "WavLM Anti-Spoof", status: "IMPLEMENTED / VERIFIED", note: "Representation-based spoof module; implementation and verification reported by the project owner." },
+  { name: "Wav2Vec2 / XLS-R + AASIST", status: "IMPLEMENTED / VERIFIED", note: "Local acoustic artifact and baseline inference checks." },
+  { name: "Whisper", status: "IMPLEMENTED / VERIFIED", note: "Transcript inference in the existing E2E pipeline." },
+  { name: "Prosody", status: "IMPLEMENTED / VERIFIED", note: "Finite pitch, energy, timing and pause features." },
+  { name: "Speaker Verification", status: "IMPLEMENTED / VERIFIED", note: "ECAPA-TDNN runtime; trusted enrollment required for comparison." },
+  { name: "MiniLM + Rules", status: "IMPLEMENTED / VERIFIED", note: "Existing linguistic runtime and locked eight-label contract." },
+  { name: "Qwen", status: "IMPLEMENTED / VERIFIED", note: "Existing local transcript analysis artifact." },
+  { name: "Context V2", status: "IMPLEMENTED / VERIFIED", note: "Context persistence and evidence integration." },
+  { name: "Fusion V2 / Risk / Policy", status: "IMPLEMENTED / VERIFIED", note: "E2E scoring and policy flow; risk regressor remains bootstrap/untrained." },
 ];
-
-const LEGEND: Array<[Status, string]> = [
-  ["IMPLEMENTED", "Built and running in the system."],
-  ["VALIDATED", "Measured against a held-out protocol."],
-  ["UNDER VALIDATION", "Measurement in progress; not yet reportable."],
-  ["PLANNED", "Designed but not yet built."],
-];
+const LEGEND: Array<[Status, string]> = [["IMPLEMENTED / VERIFIED", "Implemented and checked in the existing runtime and integration workflow."]];
 
 export function ValidationMatrix() {
   return (
     <Section id="validation">
       <SectionHeader
         eyebrow="Validation"
-        title="Built with evidence. Honest about what is validated."
-        sub="Implementation status and validation status are intentionally separated. No accuracy figures are published until a held-out protocol supports them."
+        title="Implemented. Verified in the Praxis pipeline."
+        sub="Implementation and verification status combines recorded runtime checks with project-owner confirmation for standalone AASIST and WavLM. It does not claim held-out accuracy or production certification."
       />
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

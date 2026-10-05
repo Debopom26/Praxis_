@@ -6,7 +6,6 @@ import logo from "@/assets/praxis-logo-static.png";
 
 const NAV = [
   { label: "Home", to: "/" },
-  { label: "Try Praxis", to: "/try" },
   { label: "How It Works", to: "/how-it-works" },
   { label: "Documentation", to: "/docs" },
   { label: "Validation", to: "/validation" },

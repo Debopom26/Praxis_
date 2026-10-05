@@ -1,3 +1,4 @@
+import logo from "@/assets/praxis-logo-static.png";
 import { Link } from "@tanstack/react-router";
 
 export function Footer() {
@@ -5,7 +6,8 @@ export function Footer() {
     <footer className="hairline-t px-5 py-12 sm:px-8">
       <div className="mx-auto grid w-full max-w-6xl gap-8 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <div className="font-mono text-sm font-semibold tracking-[0.18em]">
+          <div className="flex items-center gap-2.5 font-mono text-sm font-semibold tracking-[0.18em]">
+            <img src={logo} alt="" className="h-9 w-9 object-contain" />
             PRAXIS<span className="text-primary">_</span>
           </div>
           <p className="mt-2 max-w-xs text-sm text-muted-foreground">
@@ -14,9 +16,6 @@ export function Footer() {
         </div>
         <div className="grid gap-2 text-sm">
           <div className="label-xs">Product</div>
-          <Link to="/try" className="text-muted-foreground hover:text-foreground">
-            Try Praxis
-          </Link>
           <Link to="/how-it-works" className="text-muted-foreground hover:text-foreground">
             How It Works
           </Link>
@@ -46,8 +45,8 @@ export function Footer() {
         </div>
       </div>
       <div className="mx-auto mt-10 flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 border-t border-border pt-5 font-mono text-[11px] tracking-[0.1em] text-muted-foreground uppercase">
-        <span>© 2026 Praxis_</span>
-        <span>Public website · not the authenticated product</span>
+        <span className="inline-flex items-center gap-2">&copy; 2026 <img src={logo} alt="" className="h-6 w-6 object-contain" /> Praxis_</span>
+        <span>Public website Â· not the authenticated product</span>
       </div>
     </footer>
   );
