@@ -4,7 +4,12 @@ $mutex = [System.Threading.Mutex]::new($false, 'Local\PraxisOnlineLauncher')
 $locked = $false
 try {
     try { $locked = $mutex.WaitOne(0) } catch [System.Threading.AbandonedMutexException] { $locked = $true }
-    if (-not $locked) { throw 'Praxis online launcher is already running. Use its existing window.' }
+    if (-not $locked) {
+        Write-Host 'Praxis launcher is already open. Leave its window running; no second startup is needed.'
+        Write-Host 'Dashboard/phone server: https://praxisdashboard.debopomrc2602.workers.dev/'
+        Write-Host 'If it is stuck, close the existing launcher with Ctrl+C, then open this launcher again.'
+        return
+    }
     $dockerBin = Join-Path $env:LOCALAPPDATA 'Programs\DockerDesktop\resources\bin'
     if (Test-Path (Join-Path $dockerBin 'docker.exe')) { $env:Path = "$dockerBin;$env:Path" }
     if (-not (Get-Command docker -ErrorAction SilentlyContinue)) { throw 'Docker Desktop is not installed.' }
