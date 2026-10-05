@@ -1,58 +1,98 @@
-# 🛡️ Praxis_
-
-### Real-Time AI Protection Against Voice Scams & Malicious Impersonation
+# 🛡️ PRAXIS
+### Real-Time AI-Powered Voice Scam Detection & Protection System
 
 <p align="center">
-  <b>Voice Intelligence • Scam Detection • Context Awareness • Risk-Based Protection</b>
+
+  <img src="https://img.shields.io/badge/AI-Powered-Voice%20Security-00C853?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Real--Time-Detection-00B0FF?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Audio-Forensics-7C4DFF?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Status-Active%20Development-FF9800?style=for-the-badge" />
+
 </p>
 
 <p align="center">
-  Praxis_ is an AI-powered voice security platform designed to analyze
-  conversations, detect suspicious voice and language signals, and
-  estimate the risk of malicious impersonation in real time.
+  <b>PRAXIS detects potential voice scams during live conversations by analysing speech, voice characteristics, conversational context and scam patterns — then converts these signals into an actionable risk assessment.</b>
 </p>
 
 ---
 
-## 🚨 The Problem
+## 🧠 What is PRAXIS?
 
-Voice scams are becoming increasingly sophisticated.
+**PRAXIS** is an AI-driven voice scam detection and protection platform designed to identify suspicious behaviour during phone conversations.
 
-Attackers can combine:
+Traditional fraud detection systems often operate **after** a scam has already occurred.
 
-- 🎭 Caller impersonation
-- 🤖 AI-generated voices
-- 🧬 Voice cloning
-- 🗣️ Social engineering
-- 💳 Financial manipulation
-- 🔐 Credential theft
-- ⏱️ Urgency-based attacks
-- 📞 Trusted-person impersonation
+PRAXIS focuses on the critical moment:
 
-Traditional caller-ID systems mainly answer:
+> **While the conversation is happening.**
 
-> **"Who is calling?"**
+Instead of depending on a single AI model, PRAXIS combines multiple independent signals:
 
-Praxis_ aims to answer a different question:
+- 🎙️ Voice characteristics
+- 🗣️ Speech content
+- 🧠 Conversational context
+- 🔊 Audio authenticity / spoof detection
+- 🚨 Known scam patterns
+- 📊 Behavioural evidence
 
-> **"Can this conversation be trusted?"**
+These signals are passed through an **evidence-fusion and risk-engine layer** to produce a unified risk assessment.
 
-Instead of depending on a single AI model, Praxis_ combines multiple
-sources of evidence:
+---
+
+# 🚨 The Problem
+
+Voice-based scams are becoming increasingly sophisticated.
+
+Attackers can use:
+
+- Social engineering
+- Impersonation
+- Urgency and fear
+- Fake banking support
+- OTP requests
+- KYC scams
+- Investment scams
+- Government impersonation
+- AI-generated / synthetic voices
+- Manipulated or replayed audio
+
+A simple keyword detector is not enough.
+
+For example:
+
+> "Your bank account has been flagged. Please verify your OTP immediately."
+
+The system needs to understand more than the word `OTP`.
+
+It needs to determine:
+
+**What is being said?**
+
+**Who is speaking?**
+
+**Does the voice appear authentic?**
+
+**Does the conversation resemble a known scam pattern?**
+
+**How dangerous is the overall interaction?**
+
+This is the problem PRAXIS attempts to solve.
+
+---
+
+# 🎯 Core Objective
+
+PRAXIS aims to provide:
 
 ```text
-🎙️ Voice
-   +
-🗣️ Speech
-   +
-🧠 Language
-   +
-👤 Identity
-   +
-🧭 Context
-   +
-📊 Evidence Quality
-   ↓
-⚠️ Risk Score
-   ↓
-🛡️ Security Action
+LIVE CONVERSATION
+       ↓
+AUDIO CAPTURE
+       ↓
+MULTI-SIGNAL AI ANALYSIS
+       ↓
+EVIDENCE FUSION
+       ↓
+RISK ENGINE
+       ↓
+REAL-TIME WARNING
