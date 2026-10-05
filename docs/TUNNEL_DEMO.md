@@ -9,7 +9,10 @@ changes whenever the connector restarts. Quick Tunnels are a demo service, not a
 guaranteed production endpoint.
 
 Set Cloudflare Worker `praxisdashboard` runtime variable `PRAXIS_BACKEND_ORIGIN`
-to that HTTPS origin, then use the same origin as the Android server address.
+to that HTTPS origin. In Android, use the fixed dashboard address instead:
+`https://praxisdashboard.debopomrc2602.workers.dev/`.
+After each tunnel restart, update only PRAXIS_BACKEND_ORIGIN in Cloudflare;
+the phone server address stays unchanged. This update is manual, not automatic.
 Do not put a password, tunnel token, or local IP into the repository.
 
 The loopback gateway starts the existing `scripts/start.ps1` only when a POST to
@@ -37,3 +40,8 @@ unchanged. The backend image was updated from existing tested source to include
 the previously undeployed signup endpoint; backend regression suite: 93 passed.
 The runtime origin is stored in Cloudflare settings, never hardcoded in source;
 keep_vars preserves that setting on dashboard redeployment.
+
+## 2026-10-05 expired tunnel recovery and stable Android origin
+The historical wishing-strength-ethical-extreme Quick Tunnel expired. Dashboard 530 was caused by its stale backend origin. Production PRAXIS_BACKEND_ORIGIN now points to https://turns-sequences-est-eddie.trycloudflare.com; the active connector remains running. Future start-tunnel.ps1 launches force HTTP/2 over IPv4 after observed QUIC connection failures, without disabling TLS. Dashboard handles 530 with a tunnel recovery message. Commit 953b5f5 preserves the upstream 101 Response and WebSocket metadata in the Workers proxy; deployed successfully (288f1d49).
+Verified through https://praxisdashboard.debopomrc2602.workers.dev: fresh signup persisted in real PostgreSQL, login, session lifecycle, authenticated analysis WSS ping/pong, and two-party VoIP signaling plus exact bidirectional synthetic PCM relay. Disposable records removed. Login-triggered existing model startup initially returned PRAXIS_STARTING; verification waited until readiness and then passed. No physical phone/model-score test claimed. Gateway tests 4 passed; Ruff passed; dashboard build passed. No model, secrets, TLS bypass, or APK changes.
+Android can now use the fixed dashboard origin above; tunnel restart requires changing only Cloudflare runtime PRAXIS_BACKEND_ORIGIN. No automatic origin synchronization implemented. Keep PC awake, Docker unpaused, gateway and connector running. Older checkpoint URLs/instructions remain historical and are superseded here. No paid services used.
