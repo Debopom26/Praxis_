@@ -25,6 +25,12 @@ export function ValidationMatrix() {
         sub="Implementation and verification status combines recorded runtime checks with project-owner confirmation for standalone AASIST and WavLM. It does not claim held-out accuracy or production certification."
       />
 
+      <div className="panel mt-6 p-5">
+        <p className="label-xs">Overall validation accuracy</p>
+        <p className="mt-2 text-3xl font-semibold">78.49%</p>
+        <p className="mt-2 text-xs text-muted-foreground">Project-reported overall result. Evaluation dataset and protocol are not published; this is not a per-module accuracy figure.</p>
+      </div>
+
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {LEGEND.map(([s, d], i) => (
           <Reveal key={s} delay={i * 0.05}>
@@ -54,10 +60,7 @@ export function ValidationMatrix() {
         ))}
       </div>
 
-      <Note>
-        No benchmark numbers, accuracy percentages or confidence values appear on this website. They
-        will be published only with the protocol, dataset splits and artifact versions used.
-      </Note>
+      <Note>Runtime verification and overall accuracy describe different checks. The reported overall result does not certify production performance or a trained risk regressor.</Note>
     </Section>
   );
 }
