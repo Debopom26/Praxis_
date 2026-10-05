@@ -2,6 +2,8 @@
 
 The Master SRS remains authoritative. IMPLEMENTED describes code in this partial phase; VALIDATED refers only to the stated checks, not detection accuracy, a complete SRS demo, or a production deployment.
 
+2026-10-05 account enrollment: public `POST /api/v1/auth/register` creates only a new organization and first administrator; authenticated `POST /api/v1/admin/hosts` lets that organization's administrator create a caller account. Both use the existing organizations/users/memberships tables, Argon2id, unique usernames, transactions, validation and rate limits. Dashboard sign-up and admin Accounts UI use these endpoints. Unit tests cover tenant isolation, role denial, conflicts and rollback; public hosting remains pending until Cloudflare and a reachable HTTPS backend are configured.
+
 | Requirement | Current implementation | Verification / remaining work |
 | --- | --- | --- |
 | FR-01 ingestion | Authenticated WSS, controlled enrollment clip input, synthetic test tooling | API/WSS unit tests, actual Caddy WSS authentication/PCM ACK/reconnect/gap/size checks and real model orchestration; general evaluation UI excluded |

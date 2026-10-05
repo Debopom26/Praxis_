@@ -22,13 +22,21 @@ from praxis.contracts import (
     TranscriptEvent,
     UnavailableEvent,
 )
-from praxis.security import PASSWORD_HASHER, AccessDenied, Principal, verify_password
+from praxis.security import (
+    PASSWORD_HASHER,
+    AccessDenied,
+    Principal,
+    hash_password,
+    require_role,
+    verify_password,
+)
 
 from .models import (
     AuditRecord,
     Configuration,
     EvidenceRecord,
     Membership,
+    Organization,
     RetainedPayload,
     RiskRecord,
     SessionRecord,
@@ -102,6 +110,34 @@ class Repository:
             if not user or not valid:
                 raise AccessDenied()
             return self.principal(user.id, tenant_id)
+
+    def register_organization(self, tenant_id: str, organization_name: str,
+                              username: str, password: str) -> None:
+        """Create a new tenant and its first administrator in one transaction."""
+        encoded = hash_password(password)
+        with self.sessions.begin() as db:
+            if db.get(Organization, tenant_id) is not None or db.scalar(
+                select(User.id).where(User.username == username)
+            ) is not None:
+                raise Conflict()
+            db.add(Organization(id=tenant_id, name=organization_name))
+            db.flush()
+            user_id = str(uuid4())
+            db.add(User(id=user_id, username=username, password_hash=encoded, active=True))
+            db.flush()
+            db.add(Membership(tenant_id=tenant_id, user_id=user_id, role="admin"))
+
+    def create_host_account(self, principal: Principal, username: str, password: str) -> None:
+        """An existing tenant administrator may add a caller to that tenant only."""
+        require_role(principal, "admin")
+        encoded = hash_password(password)
+        with self.sessions.begin() as db:
+            if db.scalar(select(User.id).where(User.username == username)) is not None:
+                raise Conflict()
+            user_id = str(uuid4())
+            db.add(User(id=user_id, username=username, password_hash=encoded, active=True))
+            db.flush()
+            db.add(Membership(tenant_id=principal.tenant_id, user_id=user_id, role="host"))
 
     def voip_identity(self, principal: Principal) -> str:
         with self.sessions() as db:

@@ -2,6 +2,8 @@
 
 React, TypeScript and Vite dashboard for the **live Praxis backend** in the parent `Praxis_` folder. It displays authenticated, tenant-scoped sessions and actual persisted analysis. No demo account, fabricated score or browser audio capture is used.
 
+The sign-in screen also creates a **new organization** and its first administrator. The backend writes the organization, Argon2id password hash, and membership in one transaction. For another person in an **existing** organization, its administrator signs in and uses **Accounts → Add a caller**. New callers use their own username/password on both the dashboard and Android app. Public sign-up cannot join an existing organization or grant access to its records. Account creation requires the backend to be online; the browser never stores the new password.
+
 Double-click `start.cmd` to build the current dashboard, start the existing Praxis services, and open their HTTPS dashboard. Docker Desktop must be running. For a launcher check without opening a browser, run `start.cmd -NoOpen`.
 
 The launcher opens `https://localhost/` on this computer. On every backend start, the terminal also prints the current HTTPS LAN address for a phone on the same network. After switching networks, restart Praxis and update the phone's saved server address; no LAN IP is baked into the dashboard or Android app.

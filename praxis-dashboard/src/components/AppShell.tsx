@@ -19,6 +19,7 @@ import {
   IconHeart,
   IconInfo,
   IconList,
+  IconLock,
   IconLogout,
   IconMenu,
   IconX,
@@ -48,6 +49,7 @@ const SECTIONS: ReadonlyArray<{ label: string; items: ReadonlyArray<NavEntry> }>
   {
     label: 'Platform',
     items: [
+      { to: '/accounts', label: 'Accounts', icon: <IconLock /> },
       { to: '/health', label: 'System Health', icon: <IconHeart /> },
       { to: '/provenance', label: 'Help', icon: <IconInfo /> },
     ],
@@ -140,7 +142,7 @@ export function AppShell({
           {SECTIONS.map((section) => (
             <div key={section.label}>
               <div className="nav-section-label">{section.label}</div>
-              {section.items.map((item) => (
+              {section.items.filter(item => item.to !== '/accounts' || session?.role === 'admin').map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}

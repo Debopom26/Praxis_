@@ -60,6 +60,23 @@ export function praxisLogin(username: string, password: string, tenantId: string
   });
 }
 
+export function praxisRegister(tenantId: string, organizationName: string,
+  username: string, password: string) {
+  return request<{ status: string; tenant_id: string; username: string }>(
+    '/api/v1/auth/register', {
+      method: 'POST', body: {
+        tenant_id: tenantId, organization_name: organizationName, username, password,
+      },
+    });
+}
+
+export function praxisCreateHost(token: string, username: string, password: string) {
+  return request<{ status: string; tenant_id: string; username: string }>(
+    '/api/v1/admin/hosts', {
+      method: 'POST', token, body: { username, password },
+    });
+}
+
 export function praxisHealth(signal?: AbortSignal) {
   return request<PraxisHealth>('/api/v1/health', { signal });
 }

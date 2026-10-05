@@ -32,6 +32,7 @@ from praxis.contracts import (
     RetentionConfig,
     SessionStart,
 )
+from praxis.contracts.base import Identifier
 from praxis.contracts.enrollment import EnrollmentRequest
 from praxis.db.repository import Conflict, MissingResource, Repository, utcnow
 from praxis.http_limits import BodyLimit
@@ -51,6 +52,18 @@ class Login(Contract):
     username: str = Field(min_length=1, max_length=128)
     password: str = Field(min_length=1, max_length=1024, repr=False)
     tenant_id: str = Field(min_length=1, max_length=128)
+
+
+class RegisterOrganization(Contract):
+    tenant_id: Identifier
+    organization_name: str = Field(min_length=1, max_length=256)
+    username: Identifier
+    password: str = Field(min_length=12, max_length=1024, repr=False)
+
+
+class CreateHostAccount(Contract):
+    username: Identifier
+    password: str = Field(min_length=12, max_length=1024, repr=False)
 
 
 class SessionDisplay(Contract):
@@ -184,6 +197,29 @@ def create_app(
             "role": p.role,
             "username": value.username,
         }
+
+    @app.post("/api/v1/auth/register", status_code=201)
+    def register(value: RegisterOrganization, request: Request):
+        organization_name = value.organization_name.strip()
+        if not organization_name:
+            raise ValueError("Organization name is required")
+        ip = request.client.host if request.client else "unknown"
+        if not limiter.allow("register:" + ip, 5, 3600) or not limiter.allow(
+            "register:global", 20, 3600
+        ):
+            raise HTTPException(status_code=429, detail="RATE_LIMITED")
+        repo.register_organization(value.tenant_id, organization_name,
+                                   value.username, value.password)
+        return {"status": "CREATED", "tenant_id": value.tenant_id, "username": value.username}
+
+    @app.post("/api/v1/admin/hosts", status_code=201)
+    def create_host(value: CreateHostAccount, authorization: str | None = Header(default=None)):
+        p = authenticate(authorization)
+        require_role(p, "admin")
+        if not limiter.allow("create-host:" + p.tenant_id, 20, 3600):
+            raise HTTPException(status_code=429, detail="RATE_LIMITED")
+        repo.create_host_account(p, value.username, value.password)
+        return {"status": "CREATED", "tenant_id": p.tenant_id, "username": value.username}
 
     @app.websocket("/api/v1/voip")
     async def voip_socket(ws: WebSocket):

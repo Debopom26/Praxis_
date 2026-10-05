@@ -9,6 +9,7 @@
 import { useEffect } from 'react';
 
 import { AuditPage } from './pages/AuditPage';
+import { AccountsPage } from './pages/AccountsPage';
 import { HealthPage } from './pages/HealthPage';
 import { LivePage } from './pages/LivePage';
 import { LoginPage } from './pages/LoginPage';
@@ -32,6 +33,9 @@ function Routed() {
   const head = segments(path)[0] ?? 'overview';
   let page;
   switch (head) {
+    case 'accounts':
+      page = session.role === 'admin' ? <AccountsPage /> : <OverviewPage />;
+      break;
     case 'live':
       page = <LivePage />;
       break;
