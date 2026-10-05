@@ -3,6 +3,7 @@
   "name": "praxisdashboard",
   "main": "worker.ts",
   "compatibility_date": "2026-10-05",
+  "keep_vars": true,
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",

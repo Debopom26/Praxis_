@@ -4,7 +4,7 @@
  * The credentials and organization are verified by the live Praxis backend.
  */
 
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 
 import { IconAlertTriangle, IconLock } from '../components/Icons';
@@ -25,10 +25,17 @@ export function LoginPage() {
   const [creating, setCreating] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [serverStarting, setServerStarting] = useState(false);
+  useEffect(() => {
+    const showStarting = () => setServerStarting(true);
+    window.addEventListener('praxis-starting', showStarting);
+    return () => window.removeEventListener('praxis-starting', showStarting);
+  }, []);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormError(null);
+    setServerStarting(false);
     if (!creating) {
       await signIn(username.trim(), password, tenantId.trim());
       return;
@@ -134,7 +141,7 @@ export function LoginPage() {
 
           <button type="submit" className="btn btn-accent" disabled={busy || submitting}>
             <IconLock />
-            {submitting ? 'Creating account…' : busy ? 'Signing in…' : creating ? 'Create organization' : 'Sign in'}
+            {(busy || submitting) && serverStarting ? 'Starting Praxis…' : submitting ? 'Creating account…' : busy ? 'Signing in…' : creating ? 'Create organization' : 'Sign in'}
           </button>
 
         </div>

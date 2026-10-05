@@ -109,6 +109,17 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
   let response: Response;
   try {
     response = await fetch(path, init);
+    const canWake = init.method === 'POST' &&
+      ['/api/v1/auth/login', '/api/v1/auth/register'].includes(path);
+    const deadline = Date.now() + 10 * 60 * 1000;
+    while (canWake && response.status === 503 && Date.now() < deadline) {
+      const problem = await response.clone().json().catch(() => null) as { code?: string } | null;
+      if (problem?.code !== 'PRAXIS_STARTING') break;
+      window.dispatchEvent(new CustomEvent('praxis-starting'));
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      if (options.signal?.aborted) throw new Error('Request cancelled');
+      response = await fetch(path, init);
+    }
   } catch {
     throw new ApiError({
       code: 'NETWORK_ERROR',
