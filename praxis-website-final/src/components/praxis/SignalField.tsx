@@ -245,14 +245,16 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
         const positionIndex = index * 3;
         const lane = stream.radial[index] ?? 0;
         const z = stream.depth[index] ?? 0;
-        const envelope = sample.amplitude * height * 0.25;
+        const peakVariation = 0.92 + 0.08 * Math.sin(progress * Math.PI * 5 + sample.center);
+        const envelope = sample.amplitude * height * 0.25 * peakVariation;
         const phase = progress * Math.PI * 18 + lane * 2.5;
         const wave = Math.sin(phase) * 0.72 + Math.sin(phase * 2.1 + sample.center) * 0.2;
         stream.positions[positionIndex] = x;
         stream.positions[positionIndex + 1] = sample.center * 0.25 + wave * envelope;
         stream.positions[positionIndex + 2] = z;
         const laneFade = 0.35 + Math.sin(lane * Math.PI) * 0.65;
-        stream.alphas[index] = horizontalFade * laneFade * (0.32 + sample.density * 0.42);
+        const peakLight = 0.8 + 0.2 * Math.abs(wave);
+        stream.alphas[index] = horizontalFade * laneFade * peakLight * (0.32 + sample.density * 0.42);
       }
     }
 
@@ -264,8 +266,8 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
 
     const points = pointsRef.current;
     if (points) {
-      const targetX = 0.55 + (reducedMotion ? 0 : pointer.current.y * 0.055);
-      const targetY = -0.12 + (reducedMotion ? 0 : pointer.current.x * 0.07);
+      const targetX = 0.24 + (reducedMotion ? 0 : pointer.current.y * 0.015);
+      const targetY = 0.22 + (reducedMotion ? 0 : pointer.current.x * 0.025);
       points.rotation.x += (targetX - points.rotation.x) * (1 - Math.exp(-2.8 * Math.max(dt, 0.016)));
       points.rotation.y += (targetY - points.rotation.y) * (1 - Math.exp(-2.8 * Math.max(dt, 0.016)));
     }
