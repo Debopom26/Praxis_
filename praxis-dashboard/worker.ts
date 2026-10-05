@@ -3,6 +3,7 @@ import { onRequest } from './functions/api/[[path]]';
 
 interface Env {
   PRAXIS_BACKEND_ORIGIN: string;
+  PRAXIS_TUNNEL?: { get(key: string, options: { cacheTtl: number }): Promise<string | null> };
   ASSETS: { fetch(request: Request): Promise<Response> };
 }
 

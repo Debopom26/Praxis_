@@ -1,47 +1,19 @@
-# Free local tunnel demo
+# Start the local Praxis server online
 
-Cloudflare hosts the dashboard; the PC runs the unchanged Praxis models and database.
-No GPU cloud, paid plan, credit purchase, or automatic billing is enabled by this setup.
+Double-click **Start-Praxis-Online.bat** in the project root. It opens Docker Desktop if needed, waits for the engine, runs the existing start.ps1 without rebuilding models, starts the loopback gateway and a free temporary tunnel, verifies public HTTPS health, and publishes the new address to Cloudflare KV. Keep the launcher window open and the laptop awake/online. If Docker is paused, unpause it and retry. Ctrl+C stops this launcher/tunnel; saved accounts, history and models remain on disk.
 
-Keep Windows awake, Docker Desktop unpaused, and the connector/launcher running.
-Run `scripts/start-tunnel.ps1` from the Praxis project. Its temporary HTTPS address
-changes whenever the connector restarts. Quick Tunnels are a demo service, not a
-guaranteed production endpoint.
+Dashboard and Android server address (unchanged after restarts):
+https://praxisdashboard.debopomrc2602.workers.dev/
 
-Set Cloudflare Worker `praxisdashboard` runtime variable `PRAXIS_BACKEND_ORIGIN`
-to that HTTPS origin. In Android, use the fixed dashboard address instead:
-`https://praxisdashboard.debopomrc2602.workers.dev/`.
-After each tunnel restart, update only PRAXIS_BACKEND_ORIGIN in Cloudflare;
-the phone server address stays unchanged. This update is manual, not automatic.
-Do not put a password, tunnel token, or local IP into the repository.
+No dashboard redeployment or manual Cloudflare setting update is needed on subsequent starts. Address propagation can take about a minute. Model loading after a cold start can take several minutes. The laptop being off/asleep makes the backend unavailable; the launcher cannot wake it remotely.
 
-The loopback gateway starts the existing `scripts/start.ps1` only when a POST to
-the login or registration endpoint arrives while the backend is unavailable.
-It returns `PRAXIS_STARTING` without forwarding credentials during startup.
-The dashboard retries for up to ten minutes and shows “Starting Praxis…”.
-Concurrent attempts share one startup, with a one-minute retry cooldown.
-The backend stays running after login; no automatic shutdown is implemented.
+One-time setup is complete on this PC: official Wrangler 4.137.0 OAuth authorization, KV namespace PRAXIS_TUNNEL, production worker binding and deployment. The launcher uses cached Wrangler, and its existing authorization refreshes normally. Credentials stay in Wrangler's local ignored configuration; none are exported to this repository. If access is revoked or login expires, run `npx wrangler@4.137.0 login` inside praxis-dashboard and approve once in the browser. If npm's cache was deleted, run `npx --yes wrangler@4.137.0 --version` once to restore it. This is authorization/package recovery, not a dashboard deployment.
 
-HTTP and WebSocket forwarding to local Caddy verify TLS against the existing
-Praxis CA and localhost hostname. Existing backend authentication/RBAC remain
-mandatory. No raw audio or login bodies are saved by the gateway. Startup logs
-are local under ignored runtime/. The gateway binds only to 127.0.0.1:8787.
+KV stores only backend-origin, not credentials, audio or analysis. The Worker reads it on API requests with a 60-second cache TTL; lookup failures or a missing value fail closed (503), rather than forwarding credentials to a stale fallback. HTTPS validation, backend authentication and upstream WebSocket upgrade metadata are preserved. No public address-update endpoint exists: only the authorized local Cloudflare CLI writes KV. The database, gateway and model-worker ports stay private. The single launcher locks against duplicate startup.
 
-Status: four gateway tests, Ruff and dashboard build passed. Docker is now
-unpaused (29.8.0); backend/database healthy. The running loopback gateway reaches
-the real backend over verified TLS and preserves invalid-login HTTP 401.
-With explicit user approval, the free temporary tunnel is running. Real public
-HTTPS login/session creation, authenticated WSS ping/pong, and hosted dashboard
-login proxy passed; disposable verification records were removed. No phone-call
-test or model-scoring run is claimed by this transport smoke.
-Real login-triggered backend restart passed after confirming no recent call
-activity. The persistent model worker's process and existing .env hash were
-unchanged. The backend image was updated from existing tested source to include
-the previously undeployed signup endpoint; backend regression suite: 93 passed.
-The runtime origin is stored in Cloudflare settings, never hardcoded in source;
-keep_vars preserves that setting on dashboard redeployment.
+No paid plan, payment details, GPU cloud or automatic top-up was enabled. Cloudflare's existing Free-plan quotas still apply; Quick Tunnels provide no uptime guarantee. This is a local demo setup.
 
-## 2026-10-05 expired tunnel recovery and stable Android origin
-The historical wishing-strength-ethical-extreme Quick Tunnel expired. Dashboard 530 was caused by its stale backend origin. Production PRAXIS_BACKEND_ORIGIN now points to https://turns-sequences-est-eddie.trycloudflare.com; the active connector remains running. Future start-tunnel.ps1 launches force HTTP/2 over IPv4 after observed QUIC connection failures, without disabling TLS. Dashboard handles 530 with a tunnel recovery message. Commit 953b5f5 preserves the upstream 101 Response and WebSocket metadata in the Workers proxy; deployed successfully (288f1d49).
-Verified through https://praxisdashboard.debopomrc2602.workers.dev: fresh signup persisted in real PostgreSQL, login, session lifecycle, authenticated analysis WSS ping/pong, and two-party VoIP signaling plus exact bidirectional synthetic PCM relay. Disposable records removed. Login-triggered existing model startup initially returned PRAXIS_STARTING; verification waited until readiness and then passed. No physical phone/model-score test claimed. Gateway tests 4 passed; Ruff passed; dashboard build passed. No model, secrets, TLS bypass, or APK changes.
-Android can now use the fixed dashboard origin above; tunnel restart requires changing only Cloudflare runtime PRAXIS_BACKEND_ORIGIN. No automatic origin synchronization implemented. Keep PC awake, Docker unpaused, gateway and connector running. Older checkpoint URLs/instructions remain historical and are superseded here. No paid services used.
+## Verified 2026-10-05
+The real launcher reused persistent worker PID 16644, confirmed PostgreSQL/backend/Caddy, created a different tunnel and automatically wrote its verified HTTPS origin to remote KV. Removed only the previous manual connector, then passed fresh real PostgreSQL signup/login/session, authenticated analysis WSS ping/pong, and two-party VoIP signaling plus exact bidirectional synthetic PCM relay through the unchanged dashboard URL. Disposable test records were removed. Four gateway tests, Ruff, PowerShell syntax, dynamic proxy/security tests, and dashboard build passed; duplicate launcher correctly rejected. Initial CLI output decoding error was fixed with explicit UTF-8 decoding. No physical phone call/scoring run claimed. Production deployment c83c7340-818b-428d-aa71-b82b0de1a91b enabled dynamic lookup; later repository builds retain the binding. Models, APKs, secrets and API contracts unchanged.
+
+Prior manual tunnel instructions in historical checkpoint files are superseded by this guide.

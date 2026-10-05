@@ -11,7 +11,7 @@ if (-not $running) {
     Start-Process -FilePath $python -ArgumentList @((Join-Path $PSScriptRoot 'tunnel_gateway.py')) -WindowStyle Hidden
     Start-Sleep -Seconds 2
 }
-Write-Host 'Keep this window open. Copy the HTTPS trycloudflare address into the dashboard backend setting and Android server address.'
-Write-Host 'This launcher starts Praxis on sign-in. It cannot wake an off/asleep PC. Temporary address changes after restart.'
-& $connector tunnel --no-autoupdate --protocol http2 --edge-ip-version 4 --url http://127.0.0.1:8787
-if ($LASTEXITCODE -ne 0) { throw 'Tunnel did not connect. Check network access and retry; do not use an address until health checks succeed.' }
+Write-Host 'Keep this window open. The tunnel address will update automatically; no dashboard redeployment.'
+Write-Host 'Phone server: https://praxisdashboard.debopomrc2602.workers.dev/'
+& $python (Join-Path $PSScriptRoot 'tunnel_launcher.py')
+if ($LASTEXITCODE -ne 0) { throw 'Tunnel startup failed. See the message above; no server readiness is claimed.' }

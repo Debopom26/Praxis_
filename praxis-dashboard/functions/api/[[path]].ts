@@ -1,7 +1,17 @@
-interface Env { PRAXIS_BACKEND_ORIGIN: string }
+interface Env {
+  PRAXIS_BACKEND_ORIGIN: string;
+  PRAXIS_TUNNEL?: { get(key: string, options: { cacheTtl: number }): Promise<string | null> };
+}
 
 export const onRequest = async (context: { request: Request; env: Env }): Promise<Response> => {
-  const origin = context.env.PRAXIS_BACKEND_ORIGIN;
+  let origin = context.env.PRAXIS_BACKEND_ORIGIN;
+  if (context.env.PRAXIS_TUNNEL) {
+    try {
+      origin = await context.env.PRAXIS_TUNNEL.get('backend-origin', { cacheTtl: 60 }) ?? '';
+    } catch {
+      return new Response('Praxis address lookup unavailable; retry shortly', { status: 503 });
+    }
+  }
   if (!origin) return new Response('Praxis backend is not configured', { status: 503 });
   let backend: URL;
   try { backend = new URL(origin); } catch { return new Response('Invalid backend origin', { status: 503 }); }
