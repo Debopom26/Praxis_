@@ -15,11 +15,11 @@ import { useAuth } from '../state/auth';
 export function LivePage() {
   const id = segments(useRoutePath())[1];
   const { rows, loading, error } = useSessionDirectory();
-  const { session } = useAuth();
+  const { session, guest } = useAuth();
   const [detail, setDetail] = useState<DashboardSession | null>(null);
   const [detailError, setDetailError] = useState(false);
   useEffect(() => {
-    if (!id || !session) { setDetail(null); return; }
+    if (guest || !id || !session) { setDetail(null); return; }
     let stopped = false;
     let timer: ReturnType<typeof setTimeout>;
     let controller: AbortController;
@@ -33,7 +33,7 @@ export function LivePage() {
     setDetail(null); setDetailError(false);
     void check();
     return () => { stopped = true; clearTimeout(timer); controller?.abort(); };
-  }, [id, session?.accessToken]);
+  }, [id, session?.accessToken, guest]);
   const selected = id ? detail : rows.find(row => row.connected);
   const analysis = selected?.latest_analysis ?? null;
   const analysisFresh = selected ? currentAnalysis(selected) !== null : false;
@@ -41,7 +41,7 @@ export function LivePage() {
     <div className="content"><div className="page-head"><h1 className="page-title">Live Monitoring</h1>
       <p className="small muted">Live status and the most recent usable analysis from Praxis.</p></div>
       <CurrentSessions />
-      {error || detailError ? <p role="alert" className="note note-bad">Cannot load session details.</p> : loading && !id ? <p role="status">Loading session…</p> : id && !selected ? <p role="status">Checking session…</p> : selected ?
+      {error || detailError ? <p role="alert" className="note note-bad">Cannot load session details.</p> : loading && !id ? <p role="status">Loading session…</p> : id && !selected ? <p role="status">{guest ? 'No session found.' : 'Checking session…'}</p> : selected ?
         <div style={{ marginTop: 20 }}><Panel title={selected.connected ? 'Active analysis' : 'Last recorded analysis'}>
           <div className="grid grid-2">
             <div><div className="eyebrow">Calling from</div><strong>{selected.owner_username || 'Account unavailable'}</strong></div>

@@ -1,9 +1,8 @@
 /**
  * Route dispatch.
  *
- * Every route below is reachable only with a verified token. The console holds no local
- * notion of who may see what: the backend answers that on each request, and a session
- * belonging to another tenant resolves as not found.
+ * Guest mode uses the same pages with disconnected, empty data hooks.
+ * Backend data and mutations still require a verified token.
  */
 
 import { useEffect } from 'react';
@@ -21,20 +20,20 @@ import { AuthProvider, useAuth } from './state/auth';
 
 function Routed() {
   const path = useRoutePath();
-  const { session } = useAuth();
+  const { session, guest } = useAuth();
 
   useEffect(() => {
-    if (!session && path !== '/login') navigate('/login');
-    if (session && path === '/login') navigate('/overview');
-  }, [session, path]);
+    if (!session && !guest && path !== '/login') navigate('/login');
+    if ((session || guest) && path === '/login') navigate('/overview');
+  }, [session, guest, path]);
 
-  if (!session) return <div className="route-view route-view-login"><LoginPage /></div>;
+  if (!session && !guest) return <div className="route-view route-view-login"><LoginPage /></div>;
 
   const head = segments(path)[0] ?? 'overview';
   let page;
   switch (head) {
     case 'accounts':
-      page = session.role === 'admin' ? <AccountsPage /> : <OverviewPage />;
+      page = guest || session?.role === 'admin' ? <AccountsPage /> : <OverviewPage />;
       break;
     case 'live':
       page = <LivePage />;

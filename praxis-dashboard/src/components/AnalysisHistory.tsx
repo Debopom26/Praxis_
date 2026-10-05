@@ -6,14 +6,14 @@ import { useAuth } from '../state/auth';
 import { Panel } from './ui';
 
 export function AnalysisHistory({ sessionId }: { sessionId: string }) {
-  const { session } = useAuth();
+  const { session, guest } = useAuth();
   const [offset, setOffset] = useState(0);
   const [results, setResults] = useState<RecordedAnalysis[]>([]);
   const [total, setTotal] = useState(0);
   const [error, setError] = useState(false);
   useEffect(() => { setOffset(0); setResults([]); }, [sessionId]);
   useEffect(() => {
-    if (!session) return;
+    if (guest || !session) return;
     let stopped = false;
     let timer: ReturnType<typeof setTimeout>;
     let controller: AbortController;
@@ -27,7 +27,7 @@ export function AnalysisHistory({ sessionId }: { sessionId: string }) {
     };
     void check();
     return () => { stopped = true; clearTimeout(timer); controller?.abort(); };
-  }, [sessionId, session?.accessToken, offset]);
+  }, [sessionId, session?.accessToken, offset, guest]);
 
   return <Panel title="Recorded analysis">
     {error ? <p role="alert" className="note note-bad">Cannot load analysis history.</p>
