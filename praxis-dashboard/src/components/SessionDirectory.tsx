@@ -11,7 +11,7 @@ export function SessionDirectory({ title = 'Look up sessions', pastOnly = false 
   const [input, setInput] = useState('');
   const [query, setQuery] = useState('');
   const [offset, setOffset] = useState(0);
-  const { session } = useAuth();
+  const { session, guest } = useAuth();
   const { rows, total, loading, error } = useSessionDirectory(query, offset, pastOnly ? false : undefined);
   return <Panel title={title}>
     <form className="toolbar session-search" onSubmit={e => { e.preventDefault(); setOffset(0); setQuery(input.trim()); }}>
@@ -36,6 +36,6 @@ export function SessionDirectory({ title = 'Look up sessions', pastOnly = false 
         <span className="small muted">{offset + 1}–{offset + rows.length} of {total}</span>
         <button className="btn btn-ghost btn-sm" disabled={offset + rows.length >= total} onClick={() => setOffset(v => v + 20)}>Next</button>
       </div>
-    </> : <p className="muted">{query ? 'No sessions match that name or number.' : 'No sessions available yet.'}</p>}
+    </> : <p className="muted">{query ? 'No sessions match that name or number.' : guest ? 'No sessions found.' : 'No sessions available yet.'}</p>}
   </Panel>;
 }

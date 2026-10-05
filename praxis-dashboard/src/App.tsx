@@ -1,8 +1,8 @@
 /**
  * Route dispatch.
  *
- * Real data routes require a verified token. Guest routes render a separate static
- * preview without mounting authenticated pages or contacting the backend.
+ * Guest mode uses the same pages with disconnected, empty data hooks.
+ * Backend data and mutations still require a verified token.
  */
 
 import { useEffect } from 'react';
@@ -12,7 +12,6 @@ import { AccountsPage } from './pages/AccountsPage';
 import { HealthPage } from './pages/HealthPage';
 import { LivePage } from './pages/LivePage';
 import { LoginPage } from './pages/LoginPage';
-import { GuestPage } from './pages/GuestPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { ProvenancePage } from './pages/ProvenancePage';
 import { SessionsPage } from './pages/SessionsPage';
@@ -28,15 +27,13 @@ function Routed() {
     if ((session || guest) && path === '/login') navigate('/overview');
   }, [session, guest, path]);
 
-  if (guest) return <div className="route-view" key={path}><GuestPage /></div>;
-
-  if (!session) return <div className="route-view route-view-login"><LoginPage /></div>;
+  if (!session && !guest) return <div className="route-view route-view-login"><LoginPage /></div>;
 
   const head = segments(path)[0] ?? 'overview';
   let page;
   switch (head) {
     case 'accounts':
-      page = session.role === 'admin' ? <AccountsPage /> : <OverviewPage />;
+      page = guest || session?.role === 'admin' ? <AccountsPage /> : <OverviewPage />;
       break;
     case 'live':
       page = <LivePage />;

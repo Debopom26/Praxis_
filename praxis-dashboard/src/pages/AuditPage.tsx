@@ -10,13 +10,13 @@ import { useAuth } from '../state/auth';
 
 export function AuditPage() {
   const id = segments(useRoutePath())[1];
-  const { session } = useAuth();
+  const { session, guest } = useAuth();
   const [events, setEvents] = useState<PraxisAuditEvent[]>([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(0);
   useEffect(() => {
-    if (!id || !session || session.role === 'host') return;
+    if (guest || !id || !session || session.role === 'host') return;
     const controller = new AbortController();
     setLoading(true); setError(false);
     praxisAudit(id, session.accessToken, controller.signal)
@@ -24,7 +24,7 @@ export function AuditPage() {
       .catch(() => { if (!controller.signal.aborted) setError(true); })
       .finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
-  }, [id, session?.accessToken, session?.role, reload]);
+  }, [id, session?.accessToken, session?.role, reload, guest]);
   return <AppShell title="Audit Trail" subtitle="Recorded history of a conversation">
     <div className="content"><div className="page-head"><h1 className="page-title">Audit Trail</h1>
       <p className="small muted">Recorded events from the Praxis backend.</p></div>

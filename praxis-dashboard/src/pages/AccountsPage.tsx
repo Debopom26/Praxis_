@@ -8,7 +8,7 @@ import { Panel } from '../components/ui';
 import { useAuth } from '../state/auth';
 
 export function AccountsPage() {
-  const { session } = useAuth();
+  const { session, guest } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -20,7 +20,7 @@ export function AccountsPage() {
     event.preventDefault();
     setError(null);
     setCreated(null);
-    if (!session || session.role !== 'admin') return;
+    if (guest || !session || session.role !== 'admin') return;
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
@@ -46,7 +46,7 @@ export function AccountsPage() {
   return <AppShell title="Accounts" subtitle="Add callers to your organization">
     <div className="content">
       <div className="page-head"><h1 className="page-title">Accounts</h1>
-        <p className="small muted">Create a separate sign-in for another person in organization {session?.tenantId}.</p>
+        <p className="small muted">{guest ? 'Sign in as an organization administrator to create caller accounts.' : `Create a separate sign-in for another person in organization ${session?.tenantId}.`}</p>
       </div>
       <Panel title="Add a caller">
         <form className="col gap-16" onSubmit={onSubmit}>
@@ -63,7 +63,7 @@ export function AccountsPage() {
               onChange={event => setConfirmPassword(event.target.value)} required /></div>
           {error ? <p className="note note-bad" role="alert">{error}</p> : null}
           {created ? <p className="note" role="status">Account {created} created. Share the sign-in details privately.</p> : null}
-          <button className="btn btn-accent" type="submit" disabled={busy}>
+          <button className="btn btn-accent" type="submit" disabled={busy || guest}>
             {busy ? 'Creating account…' : 'Create caller account'}
           </button>
           <p className="small muted">This account can use the caller app and dashboard. Only an organization administrator can add people to an existing organization.</p>

@@ -142,7 +142,7 @@ export function AppShell({
           {SECTIONS.map((section) => (
             <div key={section.label}>
               <div className="nav-section-label">{section.label}</div>
-              {section.items.filter(item => item.to !== '/accounts' || session?.role === 'admin').map((item) => (
+              {section.items.filter(item => item.to !== '/accounts' || guest || session?.role === 'admin').map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}
@@ -219,7 +219,7 @@ export function AppShell({
             </div>
           </div>
           <div className="header-right">
-            <span className="workspace-chip"><span className="workspace-orbit" aria-hidden="true" /> {guest ? 'Guest' : session?.username ?? 'Workspace'}</span>
+            <span className="workspace-chip"><span className="workspace-orbit" aria-hidden="true" /> {guest ? 'Guest · Not connected' : session?.username ?? 'Workspace'}</span>
             {streamStatus ? <ConnectionPill status={streamStatus} /> : null}
           </div>
         </header>

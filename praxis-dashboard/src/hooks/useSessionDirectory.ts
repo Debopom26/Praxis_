@@ -4,8 +4,8 @@ import type { DashboardSession } from '../api/praxis';
 import { useAuth } from '../state/auth';
 
 export function useSessionDirectory(query = '', offset = 0, active?: boolean) {
-  const { session } = useAuth();
-  const token = session?.accessToken;
+  const { session, guest } = useAuth();
+  const token = guest ? undefined : session?.accessToken;
   const [rows, setRows] = useState<DashboardSession[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
