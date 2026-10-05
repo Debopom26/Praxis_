@@ -141,6 +141,8 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
       message:
         typeof problem.message === 'string'
           ? problem.message
+          : response.status === 530
+            ? 'The Praxis tunnel is offline or its address changed. Update the Cloudflare backend address to the current tunnel URL.'
           : response.status === 502
             ? 'Cannot reach the Praxis backend. Check that it is running at the configured API address (PRAXIS_DEV_BACKEND in local development).'
           : `Request failed with status ${response.status}.`,

@@ -13,4 +13,5 @@ if (-not $running) {
 }
 Write-Host 'Keep this window open. Copy the HTTPS trycloudflare address into the dashboard backend setting and Android server address.'
 Write-Host 'This launcher starts Praxis on sign-in. It cannot wake an off/asleep PC. Temporary address changes after restart.'
-& $connector tunnel --no-autoupdate --url http://127.0.0.1:8787
+& $connector tunnel --no-autoupdate --protocol http2 --edge-ip-version 4 --url http://127.0.0.1:8787
+if ($LASTEXITCODE -ne 0) { throw 'Tunnel did not connect. Check network access and retry; do not use an address until health checks succeed.' }

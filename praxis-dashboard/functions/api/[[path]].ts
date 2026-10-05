@@ -19,6 +19,8 @@ export const onRequest = async (context: { request: Request; env: Env }): Promis
     body: ['GET', 'HEAD'].includes(context.request.method) ? undefined : context.request.body,
     redirect: 'manual',
   });
+  // Preserve Cloudflare's upgraded socket so Android can use this stable origin.
+  if (response.status === 101) return response;
   const outgoing = new Headers(response.headers);
   outgoing.delete('set-cookie');
   outgoing.set('Cache-Control', 'no-store');
