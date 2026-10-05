@@ -25,12 +25,12 @@ type NoiseState = {
   transientDecay: number;
 };
 
-const COLUMN_COUNT = 168;
-const PARTICLES_PER_COLUMN = 32;
+const COLUMN_COUNT = 224;
+const PARTICLES_PER_COLUMN = 42;
 const PARTICLE_COUNT = COLUMN_COUNT * PARTICLES_PER_COLUMN;
 const FIELD_WIDTH = 22;
 const FIELD_HEIGHT = 8;
-const TRAVEL_TIME = 13;
+const TRAVEL_TIME = 18;
 
 function nextTarget(value: number, steps: number, min: number, max: number) {
   if (steps > 0) return { target: value, steps: steps - 1 };
@@ -120,7 +120,7 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
         radial[index] = particle / (PARTICLES_PER_COLUMN - 1);
         depth[index] = (radial[index] - 0.5) * 7;
         jitter[index] = Math.random() * Math.PI * 2;
-        sizes[index] = 1.8 + Math.random() * 1.1;
+        sizes[index] = 1.1 + Math.pow(Math.random(), 4) * 3.5;
       }
     }
 
@@ -133,8 +133,8 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
       uPixelRatio: { value: 1 },
       uColor: { value: new THREE.Color(0.72, 0.75, 0.78) },
       uBrightColor: { value: new THREE.Color(0.94, 0.95, 0.96) },
-      uAccent: { value: new THREE.Color("#dd9057") },
-      uSignal: { value: new THREE.Color("#4bbaaa") },
+      uAccent: { value: new THREE.Color("#efb968") },
+      uSignal: { value: new THREE.Color("#777491") },
     };
     const material = new THREE.ShaderMaterial({
       transparent: true,
@@ -151,7 +151,7 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
           vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
           vAlpha = aAlpha;
           vDepth = clamp((position.z + 3.5) / 7.0, 0.0, 1.0);
-          gl_PointSize = aSize * uPixelRatio * (13.0 / max(3.0, -viewPosition.z));
+          gl_PointSize = aSize * uPixelRatio * (16.0 / max(3.0, -viewPosition.z)) * (0.8 + aAlpha * 1.4);
           gl_Position = projectionMatrix * viewPosition;
         }
       `,
@@ -166,8 +166,8 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
           float distanceToCenter = length(gl_PointCoord - vec2(0.5));
           float softDot = 1.0 - smoothstep(0.12, 0.5, distanceToCenter);
           float core = 1.0 - smoothstep(0.0, 0.24, distanceToCenter);
-          vec3 tint = mix(uSignal, uAccent, smoothstep(0.25, 0.9, vDepth));
-          vec3 color = mix(mix(uColor, tint, 0.55), uBrightColor, core * 0.3);
+          vec3 tint = mix(uSignal, uAccent, smoothstep(0.12, 0.65, vAlpha));
+          vec3 color = mix(tint, uBrightColor, core * smoothstep(0.45, 0.9, vAlpha) * 0.55);
           gl_FragColor = vec4(color, softDot * vAlpha);
         }
       `,
@@ -245,16 +245,18 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
         const positionIndex = index * 3;
         const lane = stream.radial[index] ?? 0;
         const z = stream.depth[index] ?? 0;
-        const peakVariation = 0.92 + 0.08 * Math.sin(progress * Math.PI * 5 + sample.center);
-        const envelope = sample.amplitude * height * 0.25 * peakVariation;
-        const phase = progress * Math.PI * 18 + lane * 2.5;
-        const wave = Math.sin(phase) * 0.72 + Math.sin(phase * 2.1 + sample.center) * 0.2;
-        stream.positions[positionIndex] = x;
-        stream.positions[positionIndex + 1] = sample.center * 0.25 + wave * envelope;
-        stream.positions[positionIndex + 2] = z;
-        const laneFade = 0.35 + Math.sin(lane * Math.PI) * 0.65;
-        const peakLight = 0.8 + 0.2 * Math.abs(wave);
-        stream.alphas[index] = horizontalFade * laneFade * peakLight * (0.32 + sample.density * 0.42);
+        const phase = progress * Math.PI * 10 + lane * 2.4;
+        const peakVariation = 0.82 + 0.18 * Math.sin(progress * Math.PI * 5 + sample.center);
+        const envelope = sample.amplitude * height * 0.32 * peakVariation;
+        const wave = Math.sin(phase) * 0.74 + Math.sin(phase * 2.3 + sample.center) * 0.22;
+        const grain = Math.sin(stream.jitter[index] ?? 0);
+        stream.positions[positionIndex] = x + grain * 0.024;
+        stream.positions[positionIndex + 1] = sample.center * 0.35 + wave * envelope + grain * 0.09;
+        stream.positions[positionIndex + 2] = z + grain * 0.045;
+        const laneFade = 0.4 + Math.sin(lane * Math.PI) * 0.6;
+        const crest = Math.pow(Math.max(0, wave), 3);
+        const highlight = crest * (0.2 + sample.transient * 0.35 + sample.density * 0.65);
+        stream.alphas[index] = horizontalFade * laneFade * (0.19 + highlight * 1.4);
       }
     }
 
@@ -266,8 +268,8 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
 
     const points = pointsRef.current;
     if (points) {
-      const targetX = 0.24 + (reducedMotion ? 0 : pointer.current.y * 0.015);
-      const targetY = 0.22 + (reducedMotion ? 0 : pointer.current.x * 0.025);
+      const targetX = 0.18 + (reducedMotion ? 0 : pointer.current.y * 0.015);
+      const targetY = 0.16 + (reducedMotion ? 0 : pointer.current.x * 0.025);
       points.rotation.x += (targetX - points.rotation.x) * (1 - Math.exp(-2.8 * Math.max(dt, 0.016)));
       points.rotation.y += (targetY - points.rotation.y) * (1 - Math.exp(-2.8 * Math.max(dt, 0.016)));
     }
