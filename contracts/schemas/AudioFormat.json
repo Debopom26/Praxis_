@@ -1,0 +1,35 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "encoding": {
+      "const": "pcm_s16le",
+      "default": "pcm_s16le",
+      "title": "Encoding",
+      "type": "string"
+    },
+    "sample_rate": {
+      "enum": [
+        8000,
+        16000,
+        24000,
+        32000,
+        44100,
+        48000
+      ],
+      "title": "Sample Rate",
+      "type": "integer"
+    },
+    "channels": {
+      "maximum": 2,
+      "minimum": 1,
+      "title": "Channels",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "sample_rate",
+    "channels"
+  ],
+  "title": "AudioFormat",
+  "type": "object"
+}

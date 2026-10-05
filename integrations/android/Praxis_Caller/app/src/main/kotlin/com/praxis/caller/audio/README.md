@@ -1,0 +1,1 @@
+CallAudioSource and SpeakerMicAudioSource implement acoustic PCM with testable recorder ownership. CaptureService is private, foreground and non-sticky; CapturePolicy gates active call, speaker, unmuted, authenticated, connected and approved input. No audio files.

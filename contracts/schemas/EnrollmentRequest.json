@@ -1,0 +1,40 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "session_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Session Id",
+      "type": "string"
+    },
+    "identity": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Identity",
+      "type": "string"
+    },
+    "approved": {
+      "title": "Approved",
+      "type": "boolean"
+    },
+    "clips_base64": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "minItems": 3,
+      "title": "Clips Base64",
+      "type": "array"
+    }
+  },
+  "required": [
+    "session_id",
+    "identity",
+    "approved",
+    "clips_base64"
+  ],
+  "title": "EnrollmentRequest",
+  "type": "object"
+}

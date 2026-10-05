@@ -1,0 +1,177 @@
+{
+  "timestamp": "2026-09-21T14:50:38.461884+00:00",
+  "checks": {
+    "distinct_existing_credentials_preserved": true,
+    "postgres_healthy_and_migration_exit_zero": true,
+    "migrations_0001_0002_schema": [
+      "alembic_version",
+      "audit_events",
+      "configurations",
+      "evidence_events",
+      "memberships",
+      "model_versions",
+      "organizations",
+      "retained_payloads",
+      "risk_events",
+      "sessions",
+      "speaker_profiles",
+      "users"
+    ],
+    "postgres_version": "17.11 (Debian 17.11-1.pgdg13+2)",
+    "pre_verification_user_count": 0,
+    "runtime_least_privilege": {
+      "role": "praxis_runtime",
+      "superuser": false,
+      "owns_tables": false,
+      "ddl_role_migration_temp_denied": true
+    },
+    "untrusted_local_ca_rejected": true,
+    "https_health_models_and_unvalidated_artifacts": {
+      "service_version": "0.1.0",
+      "contract_version": "1.0.0",
+      "status": "AVAILABLE",
+      "components": {
+        "backend": {
+          "status": "AVAILABLE",
+          "version": "0.1.0",
+          "reason_codes": []
+        },
+        "database": {
+          "status": "AVAILABLE",
+          "version": null,
+          "reason_codes": []
+        },
+        "audio": {
+          "status": "AVAILABLE",
+          "version": "silero-vad-6.2.1",
+          "reason_codes": []
+        },
+        "whisper": {
+          "status": "AVAILABLE",
+          "version": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+          "reason_codes": []
+        },
+        "ecapa": {
+          "status": "AVAILABLE",
+          "version": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+          "reason_codes": []
+        },
+        "prosody": {
+          "status": "AVAILABLE",
+          "version": "opensmile-2.6.0_praat-0.4.7",
+          "reason_codes": []
+        },
+        "minilm": {
+          "status": "AVAILABLE",
+          "version": "e8f8c211226b894fcb81acc59f3b34ba3efd5f42",
+          "reason_codes": []
+        },
+        "ai_text": {
+          "status": "AVAILABLE",
+          "version": "da87bfb608c14b7cf20ba1ce41287e8de496c0cd",
+          "reason_codes": []
+        },
+        "linguistic_rules": {
+          "status": "AVAILABLE",
+          "version": "rules-en-1.0.0",
+          "reason_codes": []
+        },
+        "policy": {
+          "status": "AVAILABLE",
+          "version": "sih-policy-v1",
+          "reason_codes": [
+            "REQUIRES_VALID_RISK"
+          ]
+        }
+      },
+      "artifacts": [
+        {
+          "module": "minilm",
+          "state": "UNVALIDATED",
+          "version": null,
+          "reason_codes": [
+            "NO_VALIDATED_ARTIFACT"
+          ]
+        },
+        {
+          "module": "ai_text",
+          "state": "UNVALIDATED",
+          "version": null,
+          "reason_codes": [
+            "NO_VALIDATED_ARTIFACT"
+          ]
+        },
+        {
+          "module": "risk",
+          "state": "UNVALIDATED",
+          "version": null,
+          "reason_codes": [
+            "NO_VALIDATED_ARTIFACT"
+          ]
+        },
+        {
+          "module": "speaker_thresholds",
+          "state": "UNVALIDATED",
+          "version": null,
+          "reason_codes": [
+            "NO_VALIDATED_ARTIFACT"
+          ]
+        },
+        {
+          "module": "prosody_classifier",
+          "state": "UNVALIDATED",
+          "version": null,
+          "reason_codes": [
+            "NO_VALIDATED_ARTIFACT"
+          ]
+        }
+      ],
+      "timestamp": "2026-09-21T14:50:44.888136Z"
+    },
+    "caddy_https_security_headers": true,
+    "deployed_request_body_limit": true,
+    "documented_interactive_admin_creation_no_password_echo": true,
+    "auth_jwt_expiry_issuer_audience_tenant_and_session_context": true,
+    "live_membership_rbac_rechecked": true,
+    "tenant_configuration_policy_isolation": true,
+    "trusted_wss_auth_ping_ack_reconnect_duplicate_sequence_gap": true,
+    "deployed_wss_message_size_bound": true,
+    "real_wss_audit_failure_closes_without_ack": true,
+    "postgres_trigger_audit_failure_rolls_back_deployed_mutations": true,
+    "postgres_retention_default_off_opt_in_encryption_expiry_and_completed_context_purge": true,
+    "actual_ecapa_synthetic_profile_encrypted_tenant_scoped_deleted_audio_default_off": true,
+    "no_live_audio_files_in_writable_container_paths": true,
+    "deployed_health_reports_real_database_outage": true,
+    "postgres_volume_backend_restart_session_context_sequence_and_completion": true,
+    "audit_call_provenance": 15,
+    "disposable_tenants_users_profiles_and_credentials_removed": true,
+    "container_log_secret_token_audio_embedding_marker_scan": true,
+    "environment_keys_unchanged": true
+  },
+  "scope": "Real PostgreSQL and deployed HTTPS/WSS; synthetic fixtures only; local CA trust",
+  "result": "PASSED",
+  "final_images": {
+    "backend": "sha256:374766946e885da19bc1de8c900f080ab9895d7f031a86fd41d006f74713a028",
+    "caddy": "sha256:1c11934c8a90023cfb52d743e2d52e6b9dea0dc9907d718821513bc5f0e1667f",
+    "database": "sha256:d98b4f606d0361f20be5c483826c2f5a5e3b02e4e70ec585b216e02d0e1de421",
+    "migrate": "sha256:1db1125cb8d49300064193cd66cb30edf0550c63b5259514407b063e6e625576"
+  },
+  "final_tls": {
+    "protocol": "TLSv1.3",
+    "cipher": [
+      "TLS_AES_128_GCM_SHA256",
+      "TLSv1.3",
+      128
+    ],
+    "certificate_sha256": "3c5cf2788e7b49f9a7324dff7fe6bb92aa5a06a28483c2be558df205cec37c2c",
+    "hostname_verified": true,
+    "trusted_local_ca": true
+  },
+  "final_cleanup_counts": {
+    "users": 0,
+    "test_orgs": 0,
+    "test_triggers": 0,
+    "test_functions": 0
+  },
+  "final_observed_at": "2026-09-21T14:55:14.566235+00:00"
+}

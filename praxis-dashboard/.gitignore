@@ -1,0 +1,10 @@
+node_modules/
+dist/
+artifacts/
+.vite/
+*.local
+.env
+.env.*
+!.env.example
+*.pem
+*.key

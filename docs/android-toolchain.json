@@ -1,0 +1,14 @@
+{
+  "gradle": {
+    "version": "8.11.1",
+    "sha256": "f397b287023acdba1e9f6fc5ea72d22dd63669d59ed4a289a29b1a76eee151c6"
+  },
+  "platforms;android-35": {
+    "url": "https://dl.google.com/android/repository/platform-35_r02.zip",
+    "sha1": "0bb560a90a7a2cbd0dd8348224d518b638fe7949"
+  },
+  "build-tools;35.0.0": {
+    "url": "https://dl.google.com/android/repository/build-tools_r35_windows.zip",
+    "sha1": "af059bb67cf7786f45ee0db85e2d24985df1b4b6"
+  }
+}

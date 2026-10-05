@@ -1,0 +1,240 @@
+/* Reset, typography, primitives and motion. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root { min-height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--ink-1);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+button { font-family: inherit; font-size: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+input, select, textarea { font-family: inherit; font-size: inherit; color: var(--ink-1); }
+
+input::placeholder { color: var(--ink-4); }
+
+code, .mono {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.sidebar :focus-visible { outline-offset: 2px; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #e7ded7; border-radius: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* --- Type scale (docs/design.md Sec.4.1) ------------------------------------------ */
+.page-title { font-size: 28px; font-weight: 700; letter-spacing: -0.4px; line-height: 1.2; }
+.section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.2px; }
+.card-title { font-size: 15.5px; font-weight: 700; letter-spacing: -0.1px; }
+.small { font-size: 12px; }
+.tiny { font-size: 11px; font-weight: 600; letter-spacing: 0.2px; }
+.muted { color: var(--ink-3); }
+.dim { color: var(--ink-4); }
+
+/* Any value that updates live uses tabular figures so digits do not jitter. */
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* --- Utilities -------------------------------------------------------------------- */
+.row { display: flex; align-items: center; }
+.between { justify-content: space-between; }
+.wrap { flex-wrap: wrap; }
+.col { display: flex; flex-direction: column; }
+.gap-4 { gap: 4px; } .gap-6 { gap: 6px; } .gap-8 { gap: 8px; }
+.gap-10 { gap: 10px; } .gap-12 { gap: 12px; } .gap-16 { gap: 16px; }
+.grow { flex: 1; min-width: 0; }
+.hidden { display: none !important; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* --- Surfaces --------------------------------------------------------------------- */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+}
+
+
+.card-pad { padding: 20px; }
+
+/* Glass is reserved for the login screen and overlays - never for evidence cards,
+ * where legibility under glare matters more than aesthetics. */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+}
+
+/* --- Buttons ---------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  min-height: 38px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 13.5px;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  white-space: nowrap;
+}
+.btn:active:not(:disabled) { transform: translateY(0); box-shadow: none; }
+.btn svg { width: 16px; height: 16px; }
+
+.btn-primary { background: var(--navy-1); color: #fff; }
+.btn-accent { background: var(--orange); color: #fff; }
+.btn-ghost { background: transparent; color: var(--ink-2); border: 1px solid var(--border); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-sm { padding: 7px 12px; min-height: 32px; font-size: 12.5px; border-radius: 10px; }
+
+/* --- Pills ------------------------------------------------------------------------ */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.pill svg { width: 13px; height: 13px; }
+
+.dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+
+/* --- Risk ramp -------------------------------------------------------------------- */
+.risk-low { background: var(--risk-low-bg); color: var(--risk-low-text); }
+.risk-medium { background: var(--risk-med-bg); color: var(--risk-med-text); }
+.risk-high { background: var(--risk-high-bg); color: var(--risk-high-text); }
+.risk-critical { background: var(--risk-crit-bg); color: var(--risk-crit-text); }
+
+.dot-low { background: var(--risk-low); }
+.dot-medium { background: var(--risk-med); }
+.dot-high { background: var(--risk-high); }
+.dot-critical { background: var(--risk-crit); }
+
+.risk-badge { padding: 5px 12px; font-weight: 700; letter-spacing: 0.3px; }
+
+/* HOLD is the only solid-filled state in the system (docs/design.md Sec.3.4), so the
+ * highest-consequence action is unmistakable. */
+.action-hold { background: var(--risk-crit); color: #fff; }
+.action-hold .dot { background: #fff; }
+
+/* --- Module status ---------------------------------------------------------------- */
+/* Structural/neutral styling, never the risk ramp. See docs/design.md Sec.3.5. */
+.status-badge { padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+.status-available { background: var(--status-neutral-bg); color: var(--status-neutral-text); }
+.status-low-quality { background: var(--risk-med-bg); color: var(--risk-med-text); }
+.status-unavailable {
+  background: var(--status-unavailable-bg);
+  color: var(--status-neutral-text);
+  border: 1px dashed #d6cbc3;
+}
+.status-error { background: var(--risk-crit-bg); color: var(--risk-crit-text); }
+
+/* --- Health ----------------------------------------------------------------------- */
+.status-operational { background: var(--health-ok-bg); color: var(--health-ok-text); }
+.status-degraded { background: var(--health-warn-bg); color: var(--health-warn-text); }
+.status-offline { background: var(--health-bad-bg); color: var(--health-bad-text); }
+.status-maintenance { background: var(--health-idle-bg); color: var(--health-idle-text); }
+
+/* --- Forms ------------------------------------------------------------------------ */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  min-height: 40px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255, 138, 0, 0.14); }
+.input:disabled { background: var(--bg-alt); color: var(--ink-3); cursor: not-allowed; }
+
+/* --- Banners and notes ------------------------------------------------------------ */
+.note {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  line-height: 1.5;
+  background: var(--bg-alt);
+  color: var(--ink-2);
+  border: 1px solid var(--border-soft);
+}
+.note svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; }
+.note-warn { background: var(--health-warn-bg); color: var(--health-warn-text); border-color: rgba(245, 166, 35, 0.24); }
+.note-bad { background: var(--health-bad-bg); color: var(--health-bad-text); border-color: rgba(229, 72, 77, 0.24); }
+.note-ok { background: var(--health-ok-bg); color: var(--health-ok-text); border-color: rgba(54, 201, 143, 0.24); }
+.note-info { background: rgba(136, 119, 107, 0.08); color: var(--ink-2); }
+
+/* --- Motion (docs/design.md Sec.6) ------------------------------------------------ */
+/* Motion shows that data arrived. It never dramatises escalation, and nothing loops
+ * decoratively: a perpetual "analysing" animation would be the visual equivalent of
+ * fabricating evidence. */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.35s ease both; }
+
+@keyframes routeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.route-view { min-height: 100vh; animation: routeIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.route-view-login { min-height: 100vh; }
+
+.stagger > * { animation: fadeIn 0.4s ease both; }
+.stagger > *:nth-child(1) { animation-delay: 0.02s; }
+.stagger > *:nth-child(2) { animation-delay: 0.06s; }
+.stagger > *:nth-child(3) { animation-delay: 0.1s; }
+.stagger > *:nth-child(4) { animation-delay: 0.14s; }
+.stagger > *:nth-child(5) { animation-delay: 0.18s; }
+.stagger > *:nth-child(6) { animation-delay: 0.22s; }
+.stagger > *:nth-child(7) { animation-delay: 0.26s; }
+.stagger > *:nth-child(8) { animation-delay: 0.30s; }
+.stagger > *:nth-child(9) { animation-delay: 0.34s; }
+.stagger > *:nth-child(10) { animation-delay: 0.38s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Small glyph rendered inside a text run (status pills, sub-block headings). */
+.inline-ic { width: 12px; height: 12px; vertical-align: -1px; margin-right: 2px; }

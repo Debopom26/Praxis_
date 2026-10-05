@@ -1,0 +1,125 @@
+/* ThreeUI AnimatedTopDock / glass rail, applied to the existing app navigation.
+   The registered threeui.css provides the rail, highlights, dividers and items.
+   These overrides fit its geometry and foreground colors to the light workspace.
+   The user requested only the panel: no shader field or proximity resizing. */
+.sidebar.atd-glass__rail {
+  --atd-icon: 18px;
+  --atd-gap: 12px;
+  --atd-label: 13px;
+  --atd-item-height: 46px;
+  --atd-bar-pad: 0px;
+  position: fixed;
+  inset: 14px auto 14px 14px;
+  z-index: 50;
+  width: calc(var(--sidebar-w) - 24px);
+  padding: 0;
+  gap: 0;
+  border: 1px solid rgba(255, 255, 255, 0.64);
+  border-radius: 24px;
+  color: #4e3726;
+  /* Authored glass gradient over a subtle tint for the existing pale workspace. */
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)), rgba(232, 213, 199, 0.42);
+  box-shadow:
+    0 30px 64px -26px rgba(72, 45, 25, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.44),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  transform: none;
+}
+
+.sidebar.atd-glass__rail::before { z-index: 0; }
+.sidebar.atd-glass__rail > * { position: relative; z-index: 1; }
+.sidebar.atd-glass__rail > .drawer-close { position: absolute; }
+.sidebar .atd-glass__hairline { flex-shrink: 0; margin: 8px 24px; }
+.sidebar .sidebar-logo { padding: 20px 22px 8px; }
+.sidebar .sidebar-nav { gap: 0; padding: 0 14px 12px; }
+.sidebar .nav-section-label { color: #7f6552; }
+.sidebar .nav-item {
+  height: auto;
+  min-height: 46px;
+  padding: 12px 14px;
+  gap: 12px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  color: #624734;
+  background: transparent;
+  font: 500 13px/1.35 var(--font-sans, system-ui, sans-serif);
+  transform: none;
+  will-change: auto;
+  transition: color 180ms, border-color 200ms, background 200ms, box-shadow 200ms, transform 180ms var(--ease-out);
+}
+.sidebar .nav-icon { width: 18px; height: 18px; opacity: 1; }
+.sidebar .nav-item[aria-current="page"] {
+  color: #16110d;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: linear-gradient(180deg, #ffffff, #f4ece6);
+  box-shadow: 0 10px 24px -12px rgba(176, 133, 102, 0.35), inset 0 -1px rgba(0, 0, 0, 0.14);
+}
+.sidebar .nav-item.active .nav-icon { color: #db6e21; }
+.sidebar .nav-item:focus-visible {
+  color: #362417;
+  border-color: rgba(255, 255, 255, 0.65);
+  outline: 2px solid #db6e21;
+  outline-offset: 2px;
+}
+.sidebar .sidebar-bottom { margin: 0 14px 8px; padding: 0; border: 0; }
+.sidebar .sidebar-tenant, .sidebar .sidebar-profile .role { color: #7f6552; }
+.sidebar .sidebar-tenant strong, .sidebar .sidebar-profile .who { color: #4e3726; }
+.sidebar .icon-btn { color: #624734; }
+.sidebar .avatar {
+  color: #754d31;
+  background: linear-gradient(160deg, #ffffffbd, #f2e0d4a6);
+  border: 1px solid #ffffffb3;
+  box-shadow: inset 0 1px #ffffffcc;
+}
+.sidebar .sidebar-tenant { padding: 8px 8px 6px; }
+.theme-control { margin: 8px 8px 10px; }
+.theme-control-label { display: block; margin-bottom: 7px; color: #7f6552; font-size: 10px; font-weight: 650; letter-spacing: 1.1px; text-transform: uppercase; }
+.theme-toggle { display: flex; width: 100%; min-height: 44px; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid rgba(255, 255, 255, 0.48); border-radius: 14px; color: #624734; background: rgba(255, 255, 255, 0.12); text-align: left; transition: background 180ms, border-color 180ms, box-shadow 180ms; }
+.theme-toggle-icon { width: 17px; height: 17px; flex: 0 0 17px; }
+.theme-toggle-label { flex: 1; font-size: 12px; font-weight: 550; }
+.theme-switch-track { position: relative; width: 34px; height: 20px; flex: 0 0 34px; border: 1px solid rgba(120, 90, 68, 0.22); border-radius: 999px; background: rgba(112, 84, 64, 0.16); transition: background 180ms; }
+.theme-switch-track > span { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px #4e372630; transition: transform 180ms var(--ease-out); }
+.theme-toggle[aria-checked="true"] .theme-switch-track { background: #a66b41; }
+.theme-toggle[aria-checked="true"] .theme-switch-track > span { transform: translateX(14px); }
+.sidebar :focus-visible { outline-color: #db6e21; }
+
+@media (hover: hover) and (pointer: fine) {
+  .sidebar .nav-item:hover:not([aria-current="page"]) {
+    color: #362417;
+    border-color: rgba(255, 255, 255, 0.24);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.07));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46), 0 8px 18px -10px rgba(72, 45, 25, 0.18);
+  }
+  .sidebar .icon-btn:hover { color: #362417; background: #ffffff66; }
+  .theme-toggle:hover { border-color: rgba(255, 255, 255, 0.78); background: rgba(255, 255, 255, 0.32); box-shadow: 0 6px 18px -12px rgba(72, 45, 25, 0.42); }
+}
+@media (max-width: 860px) {
+  .sidebar.atd-glass__rail {
+    z-index: 90;
+    inset: 10px auto 10px 10px;
+    width: min(310px, calc(100vw - 40px));
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)), rgba(242, 229, 220, 0.86);
+    transform: translateX(calc(-100% - 12px));
+    transition: transform var(--duration-drawer) var(--ease-drawer), opacity 200ms var(--ease-out);
+  }
+  .sidebar.atd-glass__rail.open { transform: translateX(0); }
+  .sidebar .sidebar-logo { padding-right: 48px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar .nav-item, .theme-toggle, .theme-switch-track, .theme-switch-track > span { transition: none; }
+  .sidebar .nav-item:hover:not([aria-current="page"]) { transform: none; }
+}
+@media (max-width: 860px) and (prefers-reduced-motion: reduce) {
+  .sidebar.atd-glass__rail { transform: none; opacity: 0; pointer-events: none; transition: opacity 150ms ease; }
+  .sidebar.atd-glass__rail.open { opacity: 1; pointer-events: auto; }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .sidebar.atd-glass__rail { background: #f6ede7; backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  .sidebar.atd-glass__rail { border-color: #7f6552; }
+  .sidebar .nav-item[aria-current="page"] { border-color: #7f6552; }
+}

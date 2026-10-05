@@ -1,0 +1,12 @@
+# Keep Caddy 2.11.4; rebuild its dependency fixes without changing proxy behavior.
+FROM golang:1.26.8-alpine AS builder
+ENV CGO_ENABLED=0 GOTOOLCHAIN=local
+WORKDIR /build
+RUN go mod init praxis.local/caddy-security-build \
+    && go get github.com/caddyserver/caddy/v2/cmd/caddy@v2.11.4 \
+    && go get golang.org/x/crypto@v0.56.0 golang.org/x/net@v0.58.0 golang.org/x/text@v0.41.0 \
+        google.golang.org/grpc@v1.83.2 \
+    && go mod verify \
+    && go build -trimpath -o /out/caddy github.com/caddyserver/caddy/v2/cmd/caddy
+FROM caddy:2.11.4@sha256:14a9c00d4e833ebc2b65d36515b37bde3b73f0b323a2663aaafc88953d8c4e3f
+COPY --from=builder /out/caddy /usr/bin/caddy

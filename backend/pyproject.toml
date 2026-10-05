@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "praxis-backend"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = ["pydantic==2.13.5", "fastapi==0.141.1", "uvicorn[standard]==0.53.0", "pydantic-settings==2.15.0", "sqlalchemy[asyncio]==2.0.54", "alembic==1.20.0", "psycopg[binary,pool]==3.3.6", "argon2-cffi==25.1.0", "PyJWT==2.14.0", "cryptography==50.0.1", "numpy==2.4.6", "scipy==1.17.1", "soundfile==0.14.0", "python-multipart==0.0.32", "torch==2.14.0", "torchaudio==2.11.0", "silero-vad==6.2.1", "openai-whisper==20250625", "speechbrain==1.1.1", "opensmile==2.6.0", "praat-parselmouth==0.4.7", "transformers==5.17.0", "sentence-transformers==6.1.0", "scikit-learn==1.9.1", "sentencepiece==0.2.2"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

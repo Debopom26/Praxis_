@@ -1,0 +1,95 @@
+name: praxis
+services:
+  database:
+    image: praxis-postgres:17-security1
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile.postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: praxis
+      POSTGRES_USER: praxis_owner
+      POSTGRES_PASSWORD: ${PRAXIS_OWNER_PASSWORD:?Run scripts/init-env.ps1}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U praxis_owner -d praxis"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+    networks: [internal]
+  migrate:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    environment:
+      PRAXIS_MIGRATION_DATABASE_URL: postgresql+psycopg://praxis_owner:${PRAXIS_OWNER_PASSWORD}@database:5432/praxis
+      PRAXIS_RUNTIME_PASSWORD: ${PRAXIS_RUNTIME_PASSWORD:?Run scripts/init-env.ps1}
+    command: ["python", "/app/scripts/migrate_and_grant.py"]
+    depends_on:
+      database: {condition: service_healthy}
+    networks: [internal]
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+  backend:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    restart: unless-stopped
+    environment:
+      PRAXIS_DATABASE_URL: postgresql+psycopg://praxis_runtime:${PRAXIS_RUNTIME_PASSWORD}@database:5432/praxis
+      PRAXIS_JWT_SECRET: ${PRAXIS_JWT_SECRET:?Run scripts/init-env.ps1}
+      PRAXIS_EMBEDDING_KEY_BASE64: ${PRAXIS_EMBEDDING_KEY_BASE64:?Run scripts/init-env.ps1}
+      PRAXIS_SUPPLIED_MODELS_ENABLED: ${PRAXIS_SUPPLIED_MODELS_ENABLED:-false}
+      PRAXIS_SUPPLIED_WORKER_URL: ${PRAXIS_SUPPLIED_WORKER_URL:-}
+      PRAXIS_SUPPLIED_WORKER_TOKEN: ${PRAXIS_SUPPLIED_WORKER_TOKEN:-}
+      PRAXIS_ARTIFACTS_DIR: /app/artifacts
+      HF_HOME: /app/.cache/huggingface
+      XDG_CACHE_HOME: /app/.cache
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    volumes:
+      - ../artifacts:/app/artifacts:ro
+      - model_cache:/app/.cache
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    networks: [internal, worker]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health', timeout=5)"]
+      start_period: 180s
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  caddy:
+    image: praxis-caddy:2.11.4-security1
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile.caddy
+    restart: unless-stopped
+    environment:
+      PRAXIS_HOST: ${PRAXIS_HOST:-localhost}
+      PRAXIS_DEFAULT_SNI: ${PRAXIS_DEFAULT_SNI:-localhost}
+    ports: ["443:443", "443:443/udp", "80:80"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ../integrations/dashboard-dist:/srv/dashboard:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [backend]
+    networks: [internal, edge]
+    security_opt: [no-new-privileges:true]
+networks:
+  internal: {internal: true}
+  edge: {}
+  worker: {}
+volumes:
+  postgres_data:
+  model_cache:
+  caddy_data:
+  caddy_config:

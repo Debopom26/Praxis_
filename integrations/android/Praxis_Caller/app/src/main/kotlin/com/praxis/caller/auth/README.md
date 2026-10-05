@@ -1,0 +1,1 @@
+PraxisAuthManager is a configurable OAuth2-PKCE adapter, disabled without a verified backend contract/config. SecureStore uses Keystore AES-GCM. AuthCallbackActivity validates through the manager. Never log tokens.

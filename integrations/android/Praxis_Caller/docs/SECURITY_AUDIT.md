@@ -1,0 +1,18 @@
+# Security and failure audit - 2026-09-29
+
+Scope: app plus explicit SDK runtime derivative. Final re-audit: all identified locally fixable findings repaired; 36 app tests and 8 runtime SDK tests pass. External restrictions stay blocked.
+
+| Finding | Severity | Evidence | Fix | Retest | Status |
+| --- | --- | --- | --- | --- | --- |
+| SDK buffered audio after disconnect and waited for HTTP before cleanup | High | supplied PraxisClient.streamAudio/endSession | runtime stopStreaming clears buffers/retries/peers synchronously; adapter calls it before REST cleanup; disconnected frames rejected | RuntimeSafetyTest + PraxisManagerTest + real SDK wire-path test | PASS - final-delivery and final-runtime-sdk-repair |
+| Hello status ignored and ACK/resume not bounded | High | supplied PraxisClient.onMessage | validate AVAILABLE, sequence/timestamp bounds; invalid input fails closed | RuntimeSafetyTest rejects unavailable hello and impossible ACK | PASS in final-runtime-sdk-repair |
+| DTMF never stopped, HOLD property/capability confusion, optimistic mute state | Medium | historical CallScreen/CallManager | active-only bounded tones, cleanup; Details.can; callback audio state | TelecomTest and AudioStateTest | PASS - final-delivery |
+| Stale callbacks/results across sessions and duplicate decision sounds | Medium | supplied SDK events unscoped | epoch/call/time filtering; bounded dedup and sound keys | PraxisManagerTest | PASS - final-delivery |
+| Provider revocation could crash; call-log number presentation ignored | Medium | historical PhoneDataRepository | permission checks plus caught provider exceptions; restricted numbers hidden | denied-provider test + source audit | Phase3 PASS; device revocation queued |
+| Auth callback injection, token disclosure/storage risks | High boundary | exported AuthCallbackActivity, private SecureStore | exact callback, single-use random state, PKCE, bounded TLS exchange, no logs, AES-GCM Keystore, backups disabled, expiry, cancellation generation, destructive key clear on sign-out | AuthBoundaryTest; hardware Keystore/live provider still unavailable | callback tests pass; real auth BLOCKED |
+| Microphone cancellation/restart could overlap and publish stale state | High | CaptureService ownership | global recorder mutex, service epoch/live gate, nonblocking read, finally stop/release, private FGS, no sticky restart | AudioLifecycleTest, CapturePolicyTest | PASS - final-delivery |
+| Sensitive logging/public recording/exported audio | High boundary | app manifest and source scan | no audio files/broadcasts; private capture service; no token/number logging; immutable PendingIntents; Telecom service BIND_INCALL_SERVICE | static scan, merged manifest and lint | signature/package PASS; merged manifest inspected |
+| SDK remote-only contract versus mixed acoustic input | High external | supplied SDK comment vs locked V1 requirement | source implemented but disabled until verified backend approval; no claim of quality | requires backend owner and phone | BLOCKED, external |
+| Production server/auth details absent | External | no supplied host/tenant/hostAppId/OAuth contract | unconfigured state, no fake success, explicit example config | config-rejection tests | BLOCKED, external |
+
+No policy event executes a Telecom command. Auth/cloud/audio code never disconnects an Android Call. Server session finalization is best effort; network failure/process death can leave server cleanup to backend policy. Capture/connection consent is not automatically restored after process death. Physical OEM/Keystore/acoustic/security validation is not inferred from host tests.

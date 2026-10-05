@@ -1,0 +1,2 @@
+# Preserve exact supplied SDK/fixture bytes across checkouts for provenance checks.
+* -text

@@ -1,0 +1,151 @@
+{
+  "$defs": {
+    "EvidenceSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "module": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_.:@-]+$",
+          "title": "Module",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/ModuleStatus"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "model_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Version"
+        }
+      },
+      "required": [
+        "module",
+        "status",
+        "reason_codes"
+      ],
+      "title": "EvidenceSummary",
+      "type": "object"
+    },
+    "ModuleStatus": {
+      "enum": [
+        "AVAILABLE",
+        "LOW_QUALITY",
+        "UNAVAILABLE",
+        "ERROR"
+      ],
+      "title": "ModuleStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "risk",
+      "default": "risk",
+      "title": "Type",
+      "type": "string"
+    },
+    "call_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "window_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Window Id",
+      "type": "string"
+    },
+    "risk_raw_0_100": {
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Risk Raw 0 100",
+      "type": "number"
+    },
+    "risk_display_0_100": {
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Risk Display 0 100",
+      "type": "number"
+    },
+    "evidence_summary": {
+      "items": {
+        "$ref": "#/$defs/EvidenceSummary"
+      },
+      "minItems": 1,
+      "title": "Evidence Summary",
+      "type": "array"
+    },
+    "quality": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Quality",
+      "type": "object"
+    },
+    "missingness": {
+      "additionalProperties": {
+        "type": "boolean"
+      },
+      "title": "Missingness",
+      "type": "object"
+    },
+    "risk_model_version": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Risk Model Version",
+      "type": "string"
+    },
+    "artifact_state": {
+      "const": "VALIDATED",
+      "default": "VALIDATED",
+      "title": "Artifact State",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    }
+  },
+  "required": [
+    "call_id",
+    "window_id",
+    "risk_raw_0_100",
+    "risk_display_0_100",
+    "evidence_summary",
+    "quality",
+    "missingness",
+    "risk_model_version",
+    "timestamp"
+  ],
+  "title": "RiskEvent",
+  "type": "object"
+}

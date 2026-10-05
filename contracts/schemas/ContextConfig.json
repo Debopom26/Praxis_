@@ -1,0 +1,70 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "tenant_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Tenant Id",
+      "type": "string"
+    },
+    "version": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Version",
+      "type": "string"
+    },
+    "weights": {
+      "additionalProperties": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "title": "Weights",
+      "type": "object"
+    },
+    "operating_start": {
+      "anyOf": [
+        {
+          "format": "time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Operating Start"
+    },
+    "operating_end": {
+      "anyOf": [
+        {
+          "format": "time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Operating End"
+    },
+    "timezone": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Timezone"
+    }
+  },
+  "required": [
+    "tenant_id",
+    "version"
+  ],
+  "title": "ContextConfig",
+  "type": "object"
+}

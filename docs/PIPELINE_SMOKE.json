@@ -1,0 +1,459 @@
+{
+  "fixture": "SYNTHETIC_TEST_ONLY",
+  "persistence": "isolated SQLite fixture, not PostgreSQL",
+  "accuracy_validated": false,
+  "realtime_validated": false,
+  "elapsed_seconds": 127.658,
+  "events": [
+    {
+      "type": "audio_window",
+      "module": "audio_window",
+      "status": "AVAILABLE",
+      "reasons": []
+    },
+    {
+      "type": "unavailable",
+      "module": "acoustic",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "DEFERRED_SCOPE"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "prosody",
+      "status": "AVAILABLE",
+      "reasons": [
+        "CLASSIFIER_UNVALIDATED",
+        "SPEAKING_RATE_IS_VOICING_PROXY"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "speaker",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NOT_ENROLLED"
+      ]
+    },
+    {
+      "type": "context",
+      "module": "context",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_APPLICABLE_CONTEXT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "risk",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_VALIDATED_ARTIFACT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "policy",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "RISK_UNAVAILABLE"
+      ]
+    },
+    {
+      "type": "audio_window",
+      "module": "audio_window",
+      "status": "AVAILABLE",
+      "reasons": []
+    },
+    {
+      "type": "unavailable",
+      "module": "acoustic",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "DEFERRED_SCOPE"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "prosody",
+      "status": "AVAILABLE",
+      "reasons": [
+        "CLASSIFIER_UNVALIDATED",
+        "SPEAKING_RATE_IS_VOICING_PROXY"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "speaker",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NOT_ENROLLED"
+      ]
+    },
+    {
+      "type": "context",
+      "module": "context",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_APPLICABLE_CONTEXT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "risk",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_VALIDATED_ARTIFACT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "policy",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "RISK_UNAVAILABLE"
+      ]
+    },
+    {
+      "type": "audio_window",
+      "module": "audio_window",
+      "status": "AVAILABLE",
+      "reasons": []
+    },
+    {
+      "type": "unavailable",
+      "module": "acoustic",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "DEFERRED_SCOPE"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "prosody",
+      "status": "AVAILABLE",
+      "reasons": [
+        "CLASSIFIER_UNVALIDATED",
+        "SPEAKING_RATE_IS_VOICING_PROXY"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "speaker",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NOT_ENROLLED"
+      ]
+    },
+    {
+      "type": "context",
+      "module": "context",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_APPLICABLE_CONTEXT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "risk",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_VALIDATED_ARTIFACT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "policy",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "RISK_UNAVAILABLE"
+      ]
+    },
+    {
+      "type": "transcript",
+      "module": "transcript",
+      "status": "AVAILABLE",
+      "reasons": [],
+      "text_nonempty": true,
+      "language": "en",
+      "segments": 3,
+      "latency_ms": 24788.360000002285
+    },
+    {
+      "type": "evidence",
+      "module": "linguistic_rules",
+      "status": "AVAILABLE",
+      "reasons": []
+    },
+    {
+      "type": "unavailable",
+      "module": "minilm",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "CLASSIFIER_HEAD_UNVALIDATED"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "ai_text",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "INSUFFICIENT_NORMALIZED_TOKENS"
+      ]
+    },
+    {
+      "type": "audio_window",
+      "module": "audio_window",
+      "status": "AVAILABLE",
+      "reasons": []
+    },
+    {
+      "type": "unavailable",
+      "module": "acoustic",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "DEFERRED_SCOPE"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "prosody",
+      "status": "AVAILABLE",
+      "reasons": [
+        "CLASSIFIER_UNVALIDATED",
+        "SPEAKING_RATE_IS_VOICING_PROXY"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "speaker",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NOT_ENROLLED"
+      ]
+    },
+    {
+      "type": "context",
+      "module": "context",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_APPLICABLE_CONTEXT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "risk",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_VALIDATED_ARTIFACT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "policy",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "RISK_UNAVAILABLE"
+      ]
+    },
+    {
+      "type": "audio_window",
+      "module": "audio_window",
+      "status": "AVAILABLE",
+      "reasons": []
+    },
+    {
+      "type": "unavailable",
+      "module": "acoustic",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "DEFERRED_SCOPE"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "prosody",
+      "status": "AVAILABLE",
+      "reasons": [
+        "CLASSIFIER_UNVALIDATED",
+        "SPEAKING_RATE_IS_VOICING_PROXY"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "speaker",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NOT_ENROLLED"
+      ]
+    },
+    {
+      "type": "context",
+      "module": "context",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_APPLICABLE_CONTEXT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "risk",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_VALIDATED_ARTIFACT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "policy",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "RISK_UNAVAILABLE"
+      ]
+    },
+    {
+      "type": "audio_window",
+      "module": "audio_window",
+      "status": "AVAILABLE",
+      "reasons": []
+    },
+    {
+      "type": "unavailable",
+      "module": "acoustic",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "DEFERRED_SCOPE"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "prosody",
+      "status": "AVAILABLE",
+      "reasons": [
+        "CLASSIFIER_UNVALIDATED",
+        "SPEAKING_RATE_IS_VOICING_PROXY"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "speaker",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NOT_ENROLLED"
+      ]
+    },
+    {
+      "type": "context",
+      "module": "context",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_APPLICABLE_CONTEXT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "risk",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_VALIDATED_ARTIFACT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "policy",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "RISK_UNAVAILABLE"
+      ]
+    },
+    {
+      "type": "audio_window",
+      "module": "audio_window",
+      "status": "AVAILABLE",
+      "reasons": []
+    },
+    {
+      "type": "unavailable",
+      "module": "acoustic",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "DEFERRED_SCOPE"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "prosody",
+      "status": "AVAILABLE",
+      "reasons": [
+        "CLASSIFIER_UNVALIDATED",
+        "SPEAKING_RATE_IS_VOICING_PROXY"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "speaker",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NOT_ENROLLED"
+      ]
+    },
+    {
+      "type": "context",
+      "module": "context",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_APPLICABLE_CONTEXT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "risk",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "NO_VALIDATED_ARTIFACT"
+      ]
+    },
+    {
+      "type": "unavailable",
+      "module": "policy",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "RISK_UNAVAILABLE"
+      ]
+    },
+    {
+      "type": "transcript",
+      "module": "transcript",
+      "status": "AVAILABLE",
+      "reasons": [],
+      "text_nonempty": true,
+      "language": "en",
+      "segments": 2,
+      "latency_ms": 20859.381199999916
+    },
+    {
+      "type": "evidence",
+      "module": "linguistic_rules",
+      "status": "AVAILABLE",
+      "reasons": []
+    },
+    {
+      "type": "unavailable",
+      "module": "minilm",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "CLASSIFIER_HEAD_UNVALIDATED"
+      ]
+    },
+    {
+      "type": "evidence",
+      "module": "ai_text",
+      "status": "UNAVAILABLE",
+      "reasons": [
+        "INSUFFICIENT_NORMALIZED_TOKENS"
+      ]
+    }
+  ],
+  "audit_records": 58
+}

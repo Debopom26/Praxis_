@@ -1,0 +1,22 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "ack",
+      "default": "ack",
+      "title": "Type",
+      "type": "string"
+    },
+    "sequence_id": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "title": "Sequence Id",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "sequence_id"
+  ],
+  "title": "AckEvent",
+  "type": "object"
+}

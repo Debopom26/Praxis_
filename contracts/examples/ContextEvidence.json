@@ -1,0 +1,20 @@
+{
+  "type": "context",
+  "call_id": "test-call",
+  "config_version": "test-only",
+  "status": "UNAVAILABLE",
+  "flags": {
+    "unknown_contact": "UNKNOWN",
+    "claimed_role_mismatch": "UNKNOWN",
+    "new_beneficiary": "UNKNOWN",
+    "unusual_amount": "UNKNOWN",
+    "workflow_violation": "UNKNOWN",
+    "unusual_time": "UNKNOWN",
+    "historical_risk_indicator": "UNKNOWN"
+  },
+  "context_score": null,
+  "reason_codes": [
+    "NO_CONTEXT"
+  ],
+  "timestamp": "2026-09-20T00:00:00Z"
+}

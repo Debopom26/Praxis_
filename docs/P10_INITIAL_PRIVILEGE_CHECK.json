@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-09-21T14:36:37.533698+00:00",
+  "checks": {
+    "distinct_existing_credentials_preserved": true,
+    "postgres_healthy_and_migration_exit_zero": true,
+    "migrations_0001_0002_schema": [
+      "alembic_version",
+      "audit_events",
+      "configurations",
+      "evidence_events",
+      "memberships",
+      "model_versions",
+      "organizations",
+      "retained_payloads",
+      "risk_events",
+      "sessions",
+      "speaker_profiles",
+      "users"
+    ],
+    "postgres_version": "17.11 (Debian 17.11-1.pgdg13+2)",
+    "pre_verification_user_count": 0
+  },
+  "scope": "Real PostgreSQL and deployed HTTPS/WSS; synthetic fixtures only; local CA trust",
+  "result": "FAILED",
+  "failure_type": "RuntimeError",
+  "failure_locations": [
+    {
+      "file": "verify_deployment.py",
+      "line": 633
+    },
+    {
+      "file": "verify_deployment.py",
+      "line": 217
+    },
+    {
+      "file": "verify_deployment.py",
+      "line": 70
+    },
+    {
+      "file": "verify_deployment.py",
+      "line": 62
+    }
+  ]
+}

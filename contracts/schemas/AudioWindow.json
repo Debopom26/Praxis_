@@ -1,0 +1,180 @@
+{
+  "$defs": {
+    "AudioQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "clipping_ratio": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Clipping Ratio",
+          "type": "number"
+        },
+        "silence_ratio": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Silence Ratio",
+          "type": "number"
+        },
+        "snr_proxy_db": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Snr Proxy Db"
+        },
+        "duration_ms": {
+          "minimum": 0,
+          "title": "Duration Ms",
+          "type": "number"
+        },
+        "completeness": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Completeness",
+          "type": "number"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "clipping_ratio",
+        "silence_ratio",
+        "snr_proxy_db",
+        "duration_ms",
+        "completeness"
+      ],
+      "title": "AudioQuality",
+      "type": "object"
+    },
+    "SpeechSpan": {
+      "additionalProperties": false,
+      "properties": {
+        "start_ms": {
+          "minimum": 0,
+          "title": "Start Ms",
+          "type": "number"
+        },
+        "end_ms": {
+          "minimum": 0,
+          "title": "End Ms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "start_ms",
+        "end_ms"
+      ],
+      "title": "SpeechSpan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "const": "audio_window",
+      "default": "audio_window",
+      "title": "Type",
+      "type": "string"
+    },
+    "call_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "window_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Window Id",
+      "type": "string"
+    },
+    "sequence_id": {
+      "minimum": 0,
+      "title": "Sequence Id",
+      "type": "integer"
+    },
+    "start_ms": {
+      "minimum": 0,
+      "title": "Start Ms",
+      "type": "number"
+    },
+    "end_ms": {
+      "minimum": 0,
+      "title": "End Ms",
+      "type": "number"
+    },
+    "audio_reference": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:@-]+$",
+      "title": "Audio Reference",
+      "type": "string"
+    },
+    "original_sample_rate": {
+      "maximum": 48000,
+      "minimum": 8000,
+      "title": "Original Sample Rate",
+      "type": "integer"
+    },
+    "original_channels": {
+      "maximum": 2,
+      "minimum": 1,
+      "title": "Original Channels",
+      "type": "integer"
+    },
+    "analysis_sample_rate": {
+      "maximum": 48000,
+      "minimum": 8000,
+      "title": "Analysis Sample Rate",
+      "type": "integer"
+    },
+    "speech_spans": {
+      "items": {
+        "$ref": "#/$defs/SpeechSpan"
+      },
+      "minItems": 1,
+      "title": "Speech Spans",
+      "type": "array"
+    },
+    "vad_model_version": {
+      "title": "Vad Model Version",
+      "type": "string"
+    },
+    "quality": {
+      "$ref": "#/$defs/AudioQuality"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    }
+  },
+  "required": [
+    "call_id",
+    "window_id",
+    "sequence_id",
+    "start_ms",
+    "end_ms",
+    "audio_reference",
+    "original_sample_rate",
+    "original_channels",
+    "analysis_sample_rate",
+    "speech_spans",
+    "vad_model_version",
+    "quality",
+    "timestamp"
+  ],
+  "title": "AudioWindow",
+  "type": "object"
+}

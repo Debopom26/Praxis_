@@ -1,0 +1,91 @@
+/* Praxis design tokens - adopted V1 baseline (docs/design.md Sec.3).
+ *
+ * The SRS locks UX *requirements* (SRS Sec.16), not this palette. Token names are kept
+ * identical to the existing prototype so the two remain readable side by side.
+ *
+ * Two vocabularies share this file and must never be confused (docs/design.md Sec.2.1):
+ *   - RISK / ACTION  : what the organisation does        (ALLOW ... HOLD)
+ *   - MODULE STATUS  : whether evidence exists at all    (AVAILABLE ... ERROR)
+ * They are different axes. A module can be UNAVAILABLE while risk is ALLOW.
+ */
+:root {
+  /* --- Surfaces and structure ---------------------------------------------------- */
+  --navy-1: #1c1008;
+  --navy-2: #20140b;
+  --navy-3: #261910;
+  --bg: #fcf9f7;
+  --bg-alt: #faf6f4;
+  --white: #ffffff;
+  --border: #f0e9e4;
+  --border-soft: #f6f1ed;
+
+  /* --- Text ---------------------------------------------------------------------- */
+  --ink-1: #20140b;
+  --ink-2: #59483c;
+  --ink-3: #88776b;
+  --ink-4: #b4a59a;
+
+  /* --- Brand and accent ----------------------------------------------------------- */
+  /* Orange is brand identity, never a risk colour (docs/design.md Sec.3.3). */
+  --orange: #ff8a00;
+  --orange-dark: #e67a00;
+  --green: #36c98f;
+
+  /* --- Risk ramp (docs/design.md Sec.3.4) ----------------------------------------- */
+  --risk-low: #36c98f;
+  --risk-med: #f5a623;
+  --risk-high: #ff6a3d;
+  --risk-crit: #e5484d;
+
+  /* Badge text/bg pairs are pre-computed so tinted text still meets WCAG AA. */
+  --risk-low-text: #1d9a6c;
+  --risk-med-text: #b4740b;
+  --risk-high-text: #d8501f;
+  --risk-crit-text: #c4272c;
+
+  --risk-low-bg: rgba(54, 201, 143, 0.12);
+  --risk-med-bg: rgba(245, 166, 35, 0.14);
+  --risk-high-bg: rgba(255, 106, 61, 0.14);
+  --risk-crit-bg: rgba(229, 72, 77, 0.14);
+
+  /* --- Module status (docs/design.md Sec.3.5) ------------------------------------- */
+  /* Deliberately neutral. AVAILABLE is grey, NOT green: green means low risk, and a
+   * green "available" pill beside a high risk figure would read as "safe". */
+  --status-neutral-text: #76665b;
+  --status-neutral-bg: rgba(136, 119, 107, 0.12);
+  --status-unavailable-bg: rgba(136, 119, 107, 0.1);
+
+  /* --- System health (infrastructure only, never call risk) ----------------------- */
+  --health-ok-text: #1d9a6c;
+  --health-ok-bg: rgba(54, 201, 143, 0.12);
+  --health-warn-text: #b4740b;
+  --health-warn-bg: rgba(245, 166, 35, 0.14);
+  --health-bad-text: #c4272c;
+  --health-bad-bg: rgba(229, 72, 77, 0.14);
+  --health-idle-text: #76665b;
+  --health-idle-bg: rgba(136, 119, 107, 0.12);
+
+  /* --- Geometry ------------------------------------------------------------------- */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+
+  --shadow-sm: 0 1px 2px rgba(38, 25, 16, 0.06), 0 1px 1px rgba(38, 25, 16, 0.04);
+  --shadow-md: 0 8px 24px rgba(38, 25, 16, 0.08);
+  --shadow-lg: 0 20px 60px rgba(28, 16, 8, 0.16);
+
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.5);
+
+  /* --- Type ----------------------------------------------------------------------- */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-press: 160ms;
+  --duration-release: 100ms;
+  --duration-drawer: 250ms;
+
+  /* --- Layout --------------------------------------------------------------------- */
+  --sidebar-w: 240px;
+  --header-h: 72px;
+}

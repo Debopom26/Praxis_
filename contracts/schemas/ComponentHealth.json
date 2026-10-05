@@ -1,0 +1,46 @@
+{
+  "$defs": {
+    "ModuleStatus": {
+      "enum": [
+        "AVAILABLE",
+        "LOW_QUALITY",
+        "UNAVAILABLE",
+        "ERROR"
+      ],
+      "title": "ModuleStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "$ref": "#/$defs/ModuleStatus"
+    },
+    "version": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Version"
+    },
+    "reason_codes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reason Codes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "status"
+  ],
+  "title": "ComponentHealth",
+  "type": "object"
+}

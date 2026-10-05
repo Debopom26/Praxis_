@@ -1,0 +1,11 @@
+# Original ZIP preserves every supplied generated/cache artifact.
+**/.gradle/
+**/.kotlin/
+**/build/
+.local/
+local.properties
+sdk/local.properties
+.idea/
+*.iml
+
+app/src/main/assets/praxis-config.json

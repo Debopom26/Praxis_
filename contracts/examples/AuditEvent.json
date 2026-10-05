@@ -1,0 +1,23 @@
+{
+  "tenant_id": "test-tenant",
+  "session_id": "test-session",
+  "event_id": "test-event",
+  "event_type": "test",
+  "call_id": null,
+  "window_id": null,
+  "timestamp": "2026-09-20T00:00:00Z",
+  "model_versions": {},
+  "calibration_versions": {},
+  "risk_model_version": null,
+  "policy_version": null,
+  "profile_version": null,
+  "threshold_version": null,
+  "context_config_version": null,
+  "retention_config_version": null,
+  "evidence_summary": [],
+  "final_risk": null,
+  "action": null,
+  "status": "AVAILABLE",
+  "quality": {},
+  "reason_codes": []
+}

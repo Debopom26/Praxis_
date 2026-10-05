@@ -1,0 +1,52 @@
+{
+  "scope": "Execution only on synthetic fixtures; no accuracy, thresholds, enrollment or calibration validation",
+  "results": [
+    {
+      "model": "ecapa",
+      "fixture": "SYNTHETIC_TEST_ONLY",
+      "accuracy_validated": false,
+      "version": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "dimensions": 192,
+      "norm": 360.1336364746094,
+      "elapsed_seconds": 5.549
+    },
+    {
+      "model": "minilm",
+      "fixture": "SYNTHETIC_TEST_ONLY",
+      "accuracy_validated": false,
+      "version": "e8f8c211226b894fcb81acc59f3b34ba3efd5f42",
+      "dimensions": 384,
+      "classifier_state": "UNVALIDATED",
+      "elapsed_seconds": 21.312
+    },
+    {
+      "model": "qwen",
+      "fixture": "SYNTHETIC_TEST_ONLY",
+      "accuracy_validated": false,
+      "version": "da87bfb608c14b7cf20ba1ce41287e8de496c0cd:c1899de289a04d12100db370d81485cdf75e47ca",
+      "status": "AVAILABLE",
+      "tokens": 83,
+      "features": {
+        "mean_token_logprob": -5.146646022796631,
+        "perplexity": 171.85412780078408,
+        "mean_entropy": 4.069255828857422,
+        "logprob_variance": 10.465103149414062,
+        "low_probability_ratio": null,
+        "repeated_trigram_ratio": 0.0,
+        "high_probability_ratio": 0.0,
+        "rolling_drift": null,
+        "binoculars_raw_ratio": 1.1812844276428223
+      },
+      "elapsed_seconds": 20.385
+    },
+    {
+      "model": "whisper",
+      "fixture": "SYNTHETIC_TEST_ONLY",
+      "accuracy_validated": false,
+      "version": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "status": "LOW_QUALITY",
+      "segments": 0,
+      "elapsed_seconds": 18.489
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "risk",
+  "call_id": "test-call",
+  "window_id": "test-0",
+  "risk_raw_0_100": 60.0,
+  "risk_display_0_100": 60.0,
+  "evidence_summary": [
+    {
+      "module": "context",
+      "status": "AVAILABLE",
+      "reason_codes": [
+        "TEST_FIXTURE"
+      ],
+      "model_version": null
+    }
+  ],
+  "quality": {},
+  "missingness": {},
+  "risk_model_version": "TEST_FIXTURE_NOT_DEPLOYABLE",
+  "artifact_state": "VALIDATED",
+  "timestamp": "2026-09-20T00:00:00Z"
+}
