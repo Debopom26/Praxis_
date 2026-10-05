@@ -120,7 +120,7 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
         radial[index] = particle / (PARTICLES_PER_COLUMN - 1);
         depth[index] = (radial[index] - 0.5) * 7;
         jitter[index] = Math.random() * Math.PI * 2;
-        sizes[index] = 1.1 + Math.pow(Math.random(), 4) * 3.5;
+        sizes[index] = 1.7 + Math.pow(Math.random(), 4) * 2.8;
       }
     }
 
@@ -133,8 +133,8 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
       uPixelRatio: { value: 1 },
       uColor: { value: new THREE.Color(0.72, 0.75, 0.78) },
       uBrightColor: { value: new THREE.Color(0.94, 0.95, 0.96) },
-      uAccent: { value: new THREE.Color("#efb968") },
-      uSignal: { value: new THREE.Color("#777491") },
+      uAccent: { value: new THREE.Color("#c4c9cf") },
+      uSignal: { value: new THREE.Color("#868e98") },
     };
     const material = new THREE.ShaderMaterial({
       transparent: true,
@@ -256,7 +256,7 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
         const laneFade = 0.4 + Math.sin(lane * Math.PI) * 0.6;
         const crest = Math.pow(Math.max(0, wave), 3);
         const highlight = crest * (0.2 + sample.transient * 0.35 + sample.density * 0.65);
-        stream.alphas[index] = horizontalFade * laneFade * (0.19 + highlight * 1.4);
+        stream.alphas[index] = horizontalFade * laneFade * (0.45 + highlight * 1.1);
       }
     }
 
