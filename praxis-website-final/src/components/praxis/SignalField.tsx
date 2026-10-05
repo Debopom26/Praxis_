@@ -245,17 +245,16 @@ function ParticleStream({ reducedMotion }: { reducedMotion: boolean }) {
         const positionIndex = index * 3;
         const lane = stream.radial[index] ?? 0;
         const z = stream.depth[index] ?? 0;
-        const phase = progress * Math.PI * 38 + lane * 1.8;
+        const phase = progress * Math.PI * 10 + lane * 2.4;
         const peakVariation = 0.82 + 0.18 * Math.sin(progress * Math.PI * 5 + sample.center);
-        const speechEnvelope = 0.24 + 0.76 * Math.pow(Math.abs(Math.sin(progress * Math.PI * 4.5 + sample.center * 0.4)), 1.5);
-        const envelope = sample.amplitude * height * 0.32 * peakVariation * speechEnvelope;
-        const wave = Math.sin(phase) * 0.7 + Math.sin(phase * 2.07 + sample.center) * 0.22 + Math.sin(phase * 3.13) * 0.08;
+        const envelope = sample.amplitude * height * 0.32 * peakVariation;
+        const wave = Math.sin(phase) * 0.74 + Math.sin(phase * 2.3 + sample.center) * 0.22;
         const grain = Math.sin(stream.jitter[index] ?? 0);
         stream.positions[positionIndex] = x + grain * 0.024;
         stream.positions[positionIndex + 1] = sample.center * 0.35 + wave * envelope + grain * 0.09;
         stream.positions[positionIndex + 2] = z + grain * 0.045;
         const laneFade = 0.4 + Math.sin(lane * Math.PI) * 0.6;
-        const crest = Math.pow(Math.abs(wave), 3);
+        const crest = Math.pow(Math.max(0, wave), 3);
         const highlight = crest * (0.2 + sample.transient * 0.35 + sample.density * 0.65);
         stream.alphas[index] = horizontalFade * laneFade * (0.45 + highlight * 1.1);
       }
