@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from uuid import uuid4
 
 import httpx
-from verify_deployment import admin, cleanup
+from verify_deployment import cleanup, remote
 from websockets.sync.client import connect
 
 
@@ -14,13 +14,30 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("origin")
     parser.add_argument("--dashboard")
+    parser.add_argument("--username", default="trial")
     args = parser.parse_args()
     tenant = "p10-verify-tunnel-" + uuid4().hex[:12]
-    username = "tunnel-smoke"
+    username = args.username
     password = secrets.token_urlsafe(24)
     try:
-        admin(tenant, username, password)
         with httpx.Client(base_url=args.origin, trust_env=False, timeout=30) as client:
+            registered = client.post("/api/v1/auth/register", json={
+                "tenant_id": tenant, "organization_name": "Disposable tunnel verification",
+                "username": username, "password": password})
+            assert registered.status_code == 201
+            remote("""
+from sqlalchemy import select
+from praxis.config import Settings
+from praxis.db.models import Membership, Organization, User
+from praxis.db.repository import Repository
+r=Repository.from_url(Settings().database_url.get_secret_value())
+with r.sessions() as db:
+    assert db.get(Organization,x['tenant']) is not None
+    user=db.scalar(select(User).join(Membership,Membership.user_id==User.id).where(
+        Membership.tenant_id==x['tenant'],User.username==x['username']))
+    assert user is not None
+""", {"tenant": tenant, "username": username})
+            print("PASS: new account exists in real PostgreSQL")
             assert client.get("/api/v1/health").status_code == 200
             login = client.post("/api/v1/auth/login", json={
                 "tenant_id": tenant, "username": username, "password": password})
@@ -44,7 +61,7 @@ def main():
                 result = client.post(args.dashboard + "/api/v1/auth/login", json={
                     "tenant_id": tenant, "username": username, "password": password})
                 assert result.status_code == 200
-        print("PASS: public HTTPS login/session, authenticated WSS ping/pong, dashboard login proxy")
+        print("PASS: public HTTPS signup/login/session, authenticated WSS ping/pong, dashboard login proxy")
     finally:
         cleanup([tenant])
         print("Disposable verification records removed")

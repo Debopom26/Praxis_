@@ -10,7 +10,7 @@ from pathlib import Path
 import httpx
 import uvicorn
 import websockets
-from fastapi import FastAPI, Request, WebSocket
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import JSONResponse, Response
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -144,7 +144,7 @@ async def socket(websocket: WebSocket, path: str):
     except (OSError, websockets.exceptions.WebSocketException, RuntimeError):
         pass
     finally:
-        with contextlib.suppress(RuntimeError):
+        with contextlib.suppress(RuntimeError, WebSocketDisconnect):
             await websocket.close()
 
 

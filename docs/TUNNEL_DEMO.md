@@ -31,6 +31,9 @@ With explicit user approval, the free temporary tunnel is running. Real public
 HTTPS login/session creation, authenticated WSS ping/pong, and hosted dashboard
 login proxy passed; disposable verification records were removed. No phone-call
 test or model-scoring run is claimed by this transport smoke.
-Cold startup remains unit-tested, not demonstrated by stopping the live backend.
+Real login-triggered backend restart passed after confirming no recent call
+activity. The persistent model worker's process and existing .env hash were
+unchanged. The backend image was updated from existing tested source to include
+the previously undeployed signup endpoint; backend regression suite: 93 passed.
 The runtime origin is stored in Cloudflare settings, never hardcoded in source;
 keep_vars preserves that setting on dashboard redeployment.
