@@ -15,7 +15,8 @@ from fastapi.responses import JSONResponse, Response
 
 ROOT = Path(__file__).resolve().parents[1]
 LIMIT = 32 * 1024 * 1024
-WAKE_PATHS = {"/api/v1/auth/login", "/api/v1/auth/register"}
+WAKE_PATHS = {"/api/v1/auth/login", "/api/v1/auth/register",
+              "/api/v1/auth/refresh", "/api/v1/auth/remember"}
 HOP_HEADERS = {"host", "connection", "upgrade", "transfer-encoding", "content-length",
                "keep-alive", "proxy-authenticate", "proxy-authorization", "te", "trailer"}
 

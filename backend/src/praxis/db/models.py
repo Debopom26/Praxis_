@@ -43,6 +43,18 @@ class Membership(Base):
     role: Mapped[str] = mapped_column(String(16))
 
 
+class RememberedLogin(Base):
+    __tablename__ = "remembered_logins"
+    __table_args__ = (ForeignKeyConstraint(
+        ["tenant_id", "user_id"], ["memberships.tenant_id", "memberships.user_id"],
+        ondelete="CASCADE"),)
+    digest: Mapped[str] = mapped_column(String(64), primary_key=True)
+    tenant_id: Mapped[str] = mapped_column(String(128), index=True)
+    user_id: Mapped[str] = mapped_column(String(128), index=True)
+    password_version: Mapped[str] = mapped_column(String(64))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
 class SessionRecord(Base):
     __tablename__ = "sessions"
     __table_args__ = (UniqueConstraint("tenant_id", "id"), UniqueConstraint("tenant_id", "call_id"))

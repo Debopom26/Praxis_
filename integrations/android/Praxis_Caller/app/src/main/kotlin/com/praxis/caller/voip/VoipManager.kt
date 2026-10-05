@@ -197,16 +197,16 @@ class VoipManager(private val app: CallerApplication) {
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
                 if (epoch == generation) {
                     Log.w("PraxisVoip", "Call connection failed: ${response?.code ?: t.javaClass.simpleName}")
+                    if (response?.code == 401 || response?.code == 403)
+                        app.applicationScope.launch { app.auth.invalidateAccess() }
                     socket = null; finish()
-                    mutable.value = VoipState(error = if (app.auth.token().isBlank())
-                        "Internet calling disconnected. Sign in again."
-                    else "Internet calling reconnecting.")
+                    mutable.value = VoipState(error = com.praxis.caller.auth.PraxisAuthManager.OFFLINE_MESSAGE)
                     scheduleReconnect(epoch)
                 }
             }
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
                 if (epoch == generation) {
-                    socket = null; finish(); mutable.value = VoipState(error = "Internet calling reconnecting.")
+                    socket = null; finish(); mutable.value = VoipState(error = com.praxis.caller.auth.PraxisAuthManager.OFFLINE_MESSAGE)
                     scheduleReconnect(epoch)
                 }
             }

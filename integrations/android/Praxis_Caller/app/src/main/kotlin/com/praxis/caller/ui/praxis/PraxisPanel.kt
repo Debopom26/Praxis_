@@ -90,7 +90,9 @@ fun PraxisPanel(callId: String?, active: Boolean) {
         } else if (!connected) {
             Text("Not connected to Praxis")
             Button(onClick = {
-                if (app.settings == null || app.auth.token().isBlank()) loginDialog = true
+                if (app.auth.state.value.status == com.praxis.caller.auth.AuthStatus.SIGNED_IN && app.auth.token().isBlank())
+                    feedback = com.praxis.caller.auth.PraxisAuthManager.OFFLINE_MESSAGE
+                else if (app.settings == null || app.auth.token().isBlank()) loginDialog = true
                 else callId?.let(app::connectPraxis)
             }, enabled = active && callId != null, modifier = Modifier.testTag("connect-praxis")) { Text("Connect to Praxis") }
         }

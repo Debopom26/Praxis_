@@ -17,6 +17,7 @@ def main():
     parser.add_argument("--dashboard")
     parser.add_argument("--username")
     parser.add_argument("--voip", action="store_true")
+    parser.add_argument("--remember", action="store_true")
     args = parser.parse_args()
     tenant = "p10-verify-tunnel-" + uuid4().hex[:12]
     username = args.username or "trial-" + uuid4().hex[:8]
@@ -51,9 +52,24 @@ with r.sessions() as db:
             print("PASS: new account exists in real PostgreSQL")
             assert client.get("/api/v1/health").status_code == 200
             login = client.post("/api/v1/auth/login", json={
-                "tenant_id": tenant, "username": username, "password": password})
+                "tenant_id": tenant, "username": username, "password": password,
+                "remember": args.remember})
             assert login.status_code == 200
             headers = {"Authorization": "Bearer " + login.json()["access_token"]}
+            if args.remember:
+                body = {"tenant_id": tenant, "refresh_token": login.json()["refresh_token"]}
+                assert client.post('/api/v1/auth/refresh', json={**body, 'tenant_id': 'wrong-tenant'}).status_code == 401
+                renewed = client.post('/api/v1/auth/refresh', json=body)
+                assert renewed.status_code == 200
+                headers = {"Authorization": "Bearer " + renewed.json()["access_token"]}
+                upgraded = client.post('/api/v1/auth/remember', headers=headers)
+                assert upgraded.status_code == 200
+                assert client.post('/api/v1/auth/logout', json=body).status_code == 200
+                assert client.post('/api/v1/auth/refresh', json=body).status_code == 401
+                other = {'tenant_id': tenant, 'refresh_token': upgraded.json()['refresh_token']}
+                assert client.post('/api/v1/auth/refresh', json=other).status_code == 200
+                assert client.post('/api/v1/auth/logout', json=other).status_code == 200
+                print('PASS: real PostgreSQL remembered login, tenant binding, access renewal, device-scoped logout')
             created = client.post("/api/v1/sessions", headers=headers, json={
                 "tenant_id": tenant, "call_id": "tunnel-smoke", "host_app_id": "tunnel-verification",
                 "created_at": datetime.now(timezone.utc).isoformat()})

@@ -28,12 +28,23 @@ class NativeConnectionTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val prefs = context.getSharedPreferences("praxis-connection", Context.MODE_PRIVATE)
         prefs.edit().clear().commit()
-        val settings = PraxisSettings.passwordSettings("https://praxis.example", "tenant-a")
+        val settings = PraxisSettings.passwordSettings(PraxisSettings.PUBLIC_SERVER, "tenant-a")
         PraxisSettings.saveConnection(context, settings)
         assertEquals(settings, PraxisSettings.load(context))
         val raw = prefs.getString("configuration", "")!!
         assertFalse(raw.contains("password"))
         assertFalse(raw.contains("token"))
+        prefs.edit().clear().commit()
+    }
+    @Test fun migratesOldAddressWithoutLosingItsCredentialBinding() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val prefs = context.getSharedPreferences("praxis-connection", Context.MODE_PRIVATE)
+        prefs.edit().clear().commit()
+        PraxisSettings.saveConnection(context, PraxisSettings.passwordSettings("https://old.trycloudflare.com", "team"))
+        val migrated = PraxisSettings.load(context)!!
+        assertEquals(PraxisSettings.PUBLIC_SERVER, migrated.baseUrl)
+        assertEquals("https://old.trycloudflare.com/", migrated.legacyBaseUrl)
+        assertEquals("team", migrated.tenantId)
         prefs.edit().clear().commit()
     }
 }

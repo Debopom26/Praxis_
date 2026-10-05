@@ -16,12 +16,15 @@ import com.praxis.caller.CallerApplication
 import com.praxis.caller.ui.praxis.ConnectionDialog
 import com.praxis.caller.voip.VoipAudioService
 import com.praxis.caller.voip.VoipPhase
+import kotlinx.coroutines.launch
 
 @Composable
 fun VoipPanel() {
     val context = LocalContext.current
     val app = context.applicationContext as CallerApplication
     val state by app.voip.state.collectAsStateWithLifecycle()
+    val authState by app.auth.state.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
     val analysis by app.praxis.state.collectAsStateWithLifecycle()
     var recipient by remember { mutableStateOf("") }
     var login by remember { mutableStateOf(false) }
@@ -48,8 +51,12 @@ fun VoipPanel() {
         Text("Praxis internet call", style = MaterialTheme.typography.titleMedium)
         Text("Calls connect only to signed-in Praxis users in your organization.")
         if (state.phase == VoipPhase.OFFLINE) {
-            Text("Internet calling offline")
-            Button(onClick = { if (app.auth.token().isBlank()) login = true else app.voip.connect() }) { Text("Connect internet calling") }
+            val remembered = authState.status == com.praxis.caller.auth.AuthStatus.SIGNED_IN
+            Text(if (remembered) authState.message ?: com.praxis.caller.auth.PraxisAuthManager.OFFLINE_MESSAGE else "Sign in to Praxis")
+            Button(onClick = {
+                if (remembered) scope.launch { if (app.auth.ensureFresh()) app.voip.connect() }
+                else login = true
+            }) { Text(if (remembered) "Reconnect" else "Sign in") }
         } else {
             if (state.username.isNotBlank()) Text("Your Praxis name: ${state.username}")
             when (state.phase) {

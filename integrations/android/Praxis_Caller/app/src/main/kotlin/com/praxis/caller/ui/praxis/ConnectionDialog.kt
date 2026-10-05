@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 /** Only connection settings are persisted; passwords never enter saved state or preferences. */
 @Composable
 fun ConnectionDialog(app: CallerApplication, onDismiss: () -> Unit, onConnected: () -> Unit) {
-    var server by remember { mutableStateOf(app.settings?.baseUrl ?: app.getString(com.praxis.caller.R.string.praxis_default_server)) }
+    val server = PraxisSettings.PUBLIC_SERVER
     var tenant by remember { mutableStateOf(app.settings?.tenantId.orEmpty()) }
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -28,9 +28,7 @@ fun ConnectionDialog(app: CallerApplication, onDismiss: () -> Unit, onConnected:
         title = { Text("Sign in to Praxis") },
         text = { Column(Modifier.width(280.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Use the HTTPS address printed when Praxis starts, plus your organization account.")
-            OutlinedTextField(server, { server = it.take(2048) }, enabled = !busy,
-                label = { Text("HTTPS server address") }, singleLine = true)
+            Text("Sign in with your organization account. The Praxis server address updates automatically.")
             OutlinedTextField(tenant, { tenant = it.take(128) }, enabled = !busy,
                 label = { Text("Organization ID") }, singleLine = true)
             OutlinedTextField(username, { username = it.take(128) }, enabled = !busy,

@@ -6,11 +6,12 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 data class PraxisSettings(val baseUrl: String, val tenantId: String, val hostAppId: String,
     val auth: AuthSettings? = null, val acousticInputApproved: Boolean = false,
-    val passwordLogin: Boolean = false) {
+    val passwordLogin: Boolean = false, val legacyBaseUrl: String? = null) {
     init {
         require(secureUrl(baseUrl, true) && tenantId.isNotBlank() && hostAppId.isNotBlank())
     }
     companion object {
+        const val PUBLIC_SERVER = "https://praxisdashboard.debopomrc2602.workers.dev/"
         fun secureUrl(value: String, rootOnly: Boolean = false): Boolean {
             val url = value.toHttpUrlOrNull() ?: return false
             return url.isHttps && url.username.isEmpty() && url.password.isEmpty() && url.fragment == null &&
@@ -32,7 +33,9 @@ data class PraxisSettings(val baseUrl: String, val tenantId: String, val hostApp
                 .getString("configuration", null)
             if (saved != null) {
                 val value = JSONObject(saved)
-                return passwordSettings(value.getString("baseUrl"), value.getString("tenantId"))
+                val previous = value.getString("baseUrl")
+                return passwordSettings(PUBLIC_SERVER, value.getString("tenantId"))
+                    .copy(legacyBaseUrl = previous.takeIf { it != PUBLIC_SERVER })
             }
             val json = context.assets.open("praxis-config.json").bufferedReader().use { JSONObject(it.readText()) }
             val base = json.getString("baseUrl"); val tenant = json.getString("tenantId"); val app = json.getString("hostAppId")

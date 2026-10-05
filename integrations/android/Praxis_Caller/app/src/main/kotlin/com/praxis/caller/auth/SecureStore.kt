@@ -11,7 +11,14 @@ import javax.crypto.spec.GCMParameterSpec
 import java.util.Base64
 
 /** Private ciphertext only; key remains in Android Keystore. Backups are disabled in the manifest. */
-class SecureStore(context: Context) {
+interface CredentialStore {
+    fun put(name: String, value: String)
+    fun get(name: String): String?
+    fun clearSecrets()
+    fun remove(name: String)
+}
+
+class SecureStore(context: Context) : CredentialStore {
     private val prefs = context.getSharedPreferences("praxis-private", Context.MODE_PRIVATE)
     @Synchronized private fun key(): SecretKey {
         val store = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
@@ -21,14 +28,14 @@ class SecureStore(context: Context) {
                 .setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE).build())
         }.generateKey()
     }
-    @Synchronized fun put(name: String, value: String) {
+    @Synchronized override fun put(name: String, value: String) {
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
         cipher.init(Cipher.ENCRYPT_MODE, key()); cipher.updateAAD(name.toByteArray())
         val encrypted = cipher.doFinal(value.toByteArray(Charsets.UTF_8))
         val encoded = Base64.getEncoder().encodeToString(cipher.iv + encrypted)
         check(prefs.edit().putString(name, encoded).commit()) { "SECURE_STORAGE_FAILED" }
     }
-    @Synchronized fun get(name: String): String? {
+    @Synchronized override fun get(name: String): String? {
         val encoded = prefs.getString(name, null) ?: return null
         return try {
             val data = Base64.getDecoder().decode(encoded)
@@ -39,10 +46,10 @@ class SecureStore(context: Context) {
             String(cipher.doFinal(data.copyOfRange(12, data.size)), Charsets.UTF_8)
         } catch (_: Exception) { remove(name); null }
     }
-    @Synchronized fun clearSecrets() {
+    @Synchronized override fun clearSecrets() {
         val keys = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
         keys.deleteEntry("praxis-credentials-v1")
         prefs.edit().clear().commit()
     }
-    @Synchronized fun remove(name: String) { prefs.edit().remove(name).commit() }
+    @Synchronized override fun remove(name: String) { prefs.edit().remove(name).commit() }
 }

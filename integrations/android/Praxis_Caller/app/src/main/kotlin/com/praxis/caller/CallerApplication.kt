@@ -27,6 +27,14 @@ class CallerApplication : Application() {
         super.onCreate()
         applicationScope.launch { auth.restore() }
         applicationScope.launch {
+            while (isActive) {
+                if (auth.state.value.status == AuthStatus.SIGNED_IN) {
+                    if (auth.ensureFresh()) voip.connect()
+                }
+                delay(10_000)
+            }
+        }
+        applicationScope.launch {
             calls.calls.collect { current ->
                 val id = praxis.state.value.callId
                 if (id != null && !voip.ownsAnalysis(id) && current.none { it.id == id && !it.ended }) praxis.disconnect()

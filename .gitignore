@@ -60,6 +60,7 @@ local.properties
 /reproduction/w2v2_runtime/adapters/_w2v2_runtime_model.py
 /integrations/dashboard-dist/
 *.apk
+*.apk.idsig
 *.log
 /model_paths.json
 /MEMORY.md

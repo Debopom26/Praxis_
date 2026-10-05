@@ -1,4 +1,6 @@
 from datetime import datetime, timezone
+from hashlib import sha256
+from secrets import token_urlsafe
 from typing import TYPE_CHECKING, cast
 from uuid import UUID, uuid4
 
@@ -37,6 +39,7 @@ from .models import (
     EvidenceRecord,
     Membership,
     Organization,
+    RememberedLogin,
     RetainedPayload,
     RiskRecord,
     SessionRecord,
@@ -110,6 +113,34 @@ class Repository:
             if not user or not valid:
                 raise AccessDenied()
             return self.principal(user.id, tenant_id)
+
+    def remember_login(self, principal: Principal) -> str:
+        self.principal(principal.user_id, principal.tenant_id)
+        secret = token_urlsafe(48)
+        with self.sessions.begin() as db:
+            user = db.get(User, principal.user_id)
+            if user is None or not user.active:
+                raise AccessDenied()
+            db.add(RememberedLogin(digest=sha256(secret.encode()).hexdigest(),
+                tenant_id=principal.tenant_id, user_id=principal.user_id,
+                password_version=sha256(user.password_hash.encode()).hexdigest(), created_at=utcnow()))
+        return secret
+
+    def refresh_login(self, secret: str, tenant_id: str) -> Principal:
+        with self.sessions() as db:
+            grant = db.get(RememberedLogin, sha256(secret.encode()).hexdigest())
+            if grant is None or grant.tenant_id != tenant_id:
+                raise AccessDenied()
+            user = db.get(User, grant.user_id)
+            if user is None or not user.active or grant.password_version != sha256(user.password_hash.encode()).hexdigest():
+                raise AccessDenied()
+            return self.principal(grant.user_id, grant.tenant_id)
+
+    def forget_login(self, secret: str, tenant_id: str) -> None:
+        with self.sessions.begin() as db:
+            db.execute(delete(RememberedLogin).where(
+                RememberedLogin.digest == sha256(secret.encode()).hexdigest(),
+                RememberedLogin.tenant_id == tenant_id))
 
     def register_organization(self, tenant_id: str, organization_name: str,
                               username: str, password: str) -> None:

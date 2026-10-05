@@ -22,6 +22,8 @@ def test_only_login_starts_and_never_forwards_credentials_while_starting(monkeyp
         assert result.status_code == 503
         assert result.json()["code"] == "PRAXIS_STARTING"
         assert len(starts) == 1
+        assert client.post("/api/v1/auth/refresh", json={"refresh_token": "never-forward"}).json()["code"] == "PRAXIS_STARTING"
+        assert len(starts) == 2
 
 
 def test_ready_backend_keeps_auth_failure_and_headers(monkeypatch):

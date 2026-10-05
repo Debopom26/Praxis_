@@ -52,6 +52,12 @@ class Login(Contract):
     username: str = Field(min_length=1, max_length=128)
     password: str = Field(min_length=1, max_length=1024, repr=False)
     tenant_id: str = Field(min_length=1, max_length=128)
+    remember: bool = False
+
+
+class RefreshLogin(Contract):
+    refresh_token: str = Field(min_length=32, max_length=256, repr=False)
+    tenant_id: str = Field(min_length=1, max_length=128)
 
 
 class RegisterOrganization(Contract):
@@ -188,7 +194,7 @@ def create_app(
             p = repo.login(value.username, value.password, value.tenant_id)
         except AccessDenied:
             raise HTTPException(status_code=401, detail="INVALID_CREDENTIALS") from None
-        return {
+        result = {
             "access_token": tokens.issue(p.user_id, p.tenant_id),
             "token_type": "bearer",  # nosec B105
             "expires_in": settings.token_ttl_minutes * 60,
@@ -197,6 +203,34 @@ def create_app(
             "role": p.role,
             "username": value.username,
         }
+        if value.remember:
+            result["refresh_token"] = repo.remember_login(p)
+        return result
+
+    @app.post("/api/v1/auth/remember")
+    def remember(authorization: str | None = Header(default=None)):
+        p = authenticate(authorization)
+        if not limiter.allow("remember:" + p.user_id, 10, 3600):
+            raise HTTPException(status_code=429, detail="RATE_LIMITED")
+        return {"refresh_token": repo.remember_login(p)}
+
+    @app.post("/api/v1/auth/refresh")
+    def refresh(value: RefreshLogin, request: Request):
+        ip = request.client.host if request.client else "unknown"
+        if not limiter.allow("refresh:" + ip, 120, 60):
+            raise HTTPException(status_code=429, detail="RATE_LIMITED")
+        try:
+            p = repo.refresh_login(value.refresh_token, value.tenant_id)
+        except AccessDenied:
+            raise HTTPException(status_code=401, detail="INVALID_REFRESH_TOKEN") from None
+        return {"access_token": tokens.issue(p.user_id, p.tenant_id),
+                "token_type": "bearer",  # nosec B105
+                "expires_in": settings.token_ttl_minutes * 60}
+
+    @app.post("/api/v1/auth/logout")
+    def logout(value: RefreshLogin):
+        repo.forget_login(value.refresh_token, value.tenant_id)
+        return {"status": "SIGNED_OUT"}
 
     @app.post("/api/v1/auth/register", status_code=201)
     def register(value: RegisterOrganization, request: Request):
