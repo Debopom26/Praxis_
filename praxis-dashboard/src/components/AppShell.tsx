@@ -75,7 +75,7 @@ export function AppShell({
   children: ReactNode;
 }) {
   const path = useRoutePath();
-  const { session, signOut } = useAuth();
+  const { session, guest, signOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const { darkMode, toggleColorMode } = useColorMode();
   const current = activeSection(path);
@@ -124,7 +124,7 @@ export function AppShell({
     setMenuOpen(false);
   }, [path]);
 
-  const initials = (session?.username ?? '?').slice(0, 2).toUpperCase();
+  const initials = (guest ? 'Guest' : session?.username ?? '?').slice(0, 2).toUpperCase();
 
 
 
@@ -162,7 +162,7 @@ export function AppShell({
           <div className="sidebar-tenant">
             Workspace
             <br />
-            <strong>{session?.tenantId ?? '\u2014'}</strong>
+            <strong>{guest ? 'Guest preview' : session?.tenantId ?? '\u2014'}</strong>
           </div>
           <div className="theme-control">
             <span className="theme-control-label">Appearance</span>
@@ -177,15 +177,15 @@ export function AppShell({
           <div className="sidebar-profile">
             <div className="avatar">{initials}</div>
             <div className="grow">
-              <div className="who truncate">{session?.username ?? 'unknown'}</div>
-              <div className="role">{session?.role ?? '\u2014'}</div>
+              <div className="who truncate">{guest ? 'Guest' : session?.username ?? 'unknown'}</div>
+              <div className="role">{guest ? 'Read-only preview' : session?.role ?? '\u2014'}</div>
             </div>
             <button
               type="button"
               className="icon-btn"
               onClick={signOut}
-              title="Sign out"
-              aria-label="Sign out"
+              title={guest ? 'Exit guest preview' : 'Sign out'}
+              aria-label={guest ? 'Exit guest preview' : 'Sign out'}
             >
               <IconLogout />
             </button>
@@ -219,7 +219,7 @@ export function AppShell({
             </div>
           </div>
           <div className="header-right">
-            <span className="workspace-chip"><span className="workspace-orbit" aria-hidden="true" /> {session?.username ?? 'Workspace'}</span>
+            <span className="workspace-chip"><span className="workspace-orbit" aria-hidden="true" /> {guest ? 'Guest' : session?.username ?? 'Workspace'}</span>
             {streamStatus ? <ConnectionPill status={streamStatus} /> : null}
           </div>
         </header>

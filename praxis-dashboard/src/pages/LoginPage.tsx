@@ -4,7 +4,7 @@
  * The credentials and organization are verified by the live Praxis backend.
  */
 
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 
 import { IconAlertTriangle, IconLock } from '../components/Icons';
@@ -16,7 +16,7 @@ import { praxisRegister } from '../api/praxis';
 const LoginWaterBackground = lazy(() => import('../components/LoginWaterBackground'));
 
 export function LoginPage() {
-  const { signIn, busy, error } = useAuth();
+  const { signIn, exploreAsGuest, busy, error } = useAuth();
   const [username, setUsername] = useState('');
   const [tenantId, setTenantId] = useState('');
   const [password, setPassword] = useState('');
@@ -26,6 +26,8 @@ export function LoginPage() {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [serverStarting, setServerStarting] = useState(false);
+  const mounted = useRef(true);
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
   useEffect(() => {
     const showStarting = () => setServerStarting(true);
     window.addEventListener('praxis-starting', showStarting);
@@ -47,6 +49,7 @@ export function LoginPage() {
     setSubmitting(true);
     try {
       await praxisRegister(tenantId.trim(), organizationName.trim(), username.trim(), password);
+      if (!mounted.current) return;
       setCreating(false);
       setConfirmPassword('');
       await signIn(username.trim(), password, tenantId.trim());
@@ -143,6 +146,9 @@ export function LoginPage() {
             <IconLock />
             {(busy || submitting) && serverStarting ? 'Starting Praxis…' : submitting ? 'Creating account…' : busy ? 'Signing in…' : creating ? 'Create organization' : 'Sign in'}
           </button>
+
+          <button type="button" className="btn" onClick={exploreAsGuest}>Explore as guest</button>
+          <p className="muted">Explore the dashboard without an account, even when the server is offline.</p>
 
         </div>
         <p className="login-foot">

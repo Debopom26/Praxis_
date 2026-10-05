@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "check:ui": "node dashboard-check.mjs",
+    "check:guest": "node guest-check.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },

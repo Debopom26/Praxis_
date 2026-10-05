@@ -1,9 +1,8 @@
 /**
  * Route dispatch.
  *
- * Every route below is reachable only with a verified token. The console holds no local
- * notion of who may see what: the backend answers that on each request, and a session
- * belonging to another tenant resolves as not found.
+ * Real data routes require a verified token. Guest routes render a separate static
+ * preview without mounting authenticated pages or contacting the backend.
  */
 
 import { useEffect } from 'react';
@@ -13,6 +12,7 @@ import { AccountsPage } from './pages/AccountsPage';
 import { HealthPage } from './pages/HealthPage';
 import { LivePage } from './pages/LivePage';
 import { LoginPage } from './pages/LoginPage';
+import { GuestPage } from './pages/GuestPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { ProvenancePage } from './pages/ProvenancePage';
 import { SessionsPage } from './pages/SessionsPage';
@@ -21,12 +21,14 @@ import { AuthProvider, useAuth } from './state/auth';
 
 function Routed() {
   const path = useRoutePath();
-  const { session } = useAuth();
+  const { session, guest } = useAuth();
 
   useEffect(() => {
-    if (!session && path !== '/login') navigate('/login');
-    if (session && path === '/login') navigate('/overview');
-  }, [session, path]);
+    if (!session && !guest && path !== '/login') navigate('/login');
+    if ((session || guest) && path === '/login') navigate('/overview');
+  }, [session, guest, path]);
+
+  if (guest) return <div className="route-view" key={path}><GuestPage /></div>;
 
   if (!session) return <div className="route-view route-view-login"><LoginPage /></div>;
 
