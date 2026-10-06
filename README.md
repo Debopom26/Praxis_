@@ -96,3 +96,5 @@ EVIDENCE FUSION
 RISK ENGINE
        ↓
 REAL-TIME WARNING
+
+[![Architecture diagram of debopom26/praxis_](https://gitdiagram.com/debopom26/praxis_/diagram.png)](https://gitdiagram.com/debopom26/praxis_?utm_source=readme&utm_medium=picture)
