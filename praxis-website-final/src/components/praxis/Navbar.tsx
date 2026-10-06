@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Github, Menu, X } from "lucide-react";
+import { Github, Menu, X, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/praxis-logo-static.png";
+
+const PRAXIS_APP_URL = "https://praxisdashboard.debopomrc2602.workers.dev/";
 
 const NAV = [
   { label: "Home", to: "/" },
@@ -70,6 +72,15 @@ export function Navbar() {
 
         <div className="ml-auto flex items-center gap-2">
           <a
+            href={PRAXIS_APP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="group inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-2 font-mono text-[11px] tracking-[0.1em] text-primary-foreground uppercase transition-transform hover:-translate-y-px"
+          >
+            Try Praxis
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+          <a
             href="https://github.com/Debopom26/Praxis_"
             target="_blank"
             rel="noreferrer"
@@ -103,6 +114,15 @@ export function Navbar() {
                 {item.label}
               </Link>
             ))}
+            <a
+              href={PRAXIS_APP_URL}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setOpen(false)}
+              className="mt-1 inline-flex items-center justify-between rounded-md bg-primary px-3 py-2.5 font-mono text-[11px] tracking-[0.1em] text-primary-foreground uppercase"
+            >
+              Try Praxis <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
           </nav>
         </div>
       ) : null}
