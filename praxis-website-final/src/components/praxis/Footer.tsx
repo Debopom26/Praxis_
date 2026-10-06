@@ -1,5 +1,8 @@
 import logo from "@/assets/praxis-logo-static.png";
 import { Link } from "@tanstack/react-router";
+import { ArrowUpRight } from "lucide-react";
+
+const PRAXIS_APP_URL = "https://praxisdashboard.debopomrc2602.workers.dev/";
 
 export function Footer() {
   return (
@@ -16,6 +19,14 @@ export function Footer() {
         </div>
         <div className="grid gap-2 text-sm">
           <div className="label-xs">Product</div>
+          <a
+            href={PRAXIS_APP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
+          >
+            Try Praxis <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
           <Link to="/how-it-works" className="text-muted-foreground hover:text-foreground">
             How It Works
           </Link>
@@ -46,7 +57,7 @@ export function Footer() {
       </div>
       <div className="mx-auto mt-10 flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 border-t border-border pt-5 font-mono text-[11px] tracking-[0.1em] text-muted-foreground uppercase">
         <span className="inline-flex items-center gap-2">&copy; 2026 <img src={logo} alt="" className="h-6 w-6 object-contain" /> Praxis_</span>
-        <span>Public website Â· not the authenticated product</span>
+        <span>Public website · not the authenticated product</span>
       </div>
     </footer>
   );
