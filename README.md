@@ -134,71 +134,44 @@ node_live_call -.->|"provides audio"| node_capture
 node_capture -.->|"streams audio"| node_praxis_manager
 node_praxis_manager -->|"uses"| node_sdk
 node_sdk -.->|"calls service"| node_api
-
 node_api -->|"routes sessions"| node_orchestration
-
 node_live_call -.->|"audio input"| node_audio_pipeline
 node_audio_pipeline -.->|"analyzes audio"| node_supplied_engine
-
 node_supplied_engine -->|"fuses signals"| node_evidence_fusion
 node_supplied_engine -->|"scores fusion"| node_risk
-
 node_evidence_fusion -.->|"informs policy"| node_policy
 node_risk -.->|"produces assessment"| node_warning
-
 node_api -->|"reads sessions"| node_repository
 node_repository -->|"reads and writes"| node_database
 node_repository -->|"applies controls"| node_privacy
 node_repository -->|"checks access"| node_security
 node_api -->|"authenticates"| node_security
 node_api -->|"uses contracts"| node_contracts
-
 node_operator -->|"uses"| node_dashboard_app
 node_dashboard_app -.->|"loads data"| node_dashboard_api
 node_session_directory -->|"requests sessions"| node_dashboard_api
 node_dashboard_api -.->|"requests data"| node_api
 
-
 click node_caller "https://github.com/debopom26/praxis_/blob/main/integrations/android/Praxis_Caller/app/src/main/kotlin/com/praxis/caller/MainActivity.kt"
-
 click node_telecom "https://github.com/debopom26/praxis_/blob/main/integrations/android/Praxis_Caller/app/src/main/kotlin/com/praxis/caller/telecom/CallManager.kt"
-
 click node_capture "https://github.com/debopom26/praxis_/blob/main/integrations/android/Praxis_Caller/app/src/main/kotlin/com/praxis/caller/audio/CaptureService.kt"
-
 click node_praxis_manager "https://github.com/debopom26/praxis_/blob/main/integrations/android/Praxis_Caller/app/src/main/kotlin/com/praxis/caller/praxis/PraxisManager.kt"
-
 click node_sdk "https://github.com/debopom26/praxis_/blob/main/android-sdk/praxis/src/main/kotlin/io/praxis/sdk/PraxisClient.kt"
-
 click node_api "https://github.com/debopom26/praxis_/blob/main/backend/src/praxis/main.py"
-
 click node_orchestration "https://github.com/debopom26/praxis_/blob/main/backend/src/praxis/orchestration.py"
-
 click node_audio_pipeline "https://github.com/debopom26/praxis_/blob/main/backend/src/praxis/audio/pipeline.py"
-
 click node_supplied_engine "https://github.com/debopom26/praxis_/blob/main/backend/src/praxis/supplied/engine.py"
-
 click node_evidence_fusion "https://github.com/debopom26/praxis_/blob/main/backend/src/praxis/evidence.py"
-
 click node_risk "https://github.com/debopom26/praxis_/blob/main/backend/src/praxis/risk.py"
-
 click node_policy "https://github.com/debopom26/praxis_/blob/main/backend/src/praxis/policy.py"
-
 click node_contracts "https://github.com/debopom26/praxis_/tree/main/backend/src/praxis/contracts"
-
 click node_repository "https://github.com/debopom26/praxis_/blob/main/backend/src/praxis/db/repository.py"
-
 click node_database "https://github.com/debopom26/praxis_/blob/main/backend/src/praxis/db/models.py"
-
 click node_privacy "https://github.com/debopom26/praxis_/blob/main/backend/src/praxis/privacy.py"
-
 click node_security "https://github.com/debopom26/praxis_/blob/main/backend/src/praxis/security.py"
-
 click node_dashboard_app "https://github.com/debopom26/praxis_/blob/main/praxis-dashboard/src/App.tsx"
-
 click node_dashboard_api "https://github.com/debopom26/praxis_/blob/main/praxis-dashboard/src/api/praxis.ts"
-
 click node_session_directory "https://github.com/debopom26/praxis_/blob/main/praxis-dashboard/src/hooks/useSessionDirectory.ts"
-
 
 classDef toneNeutral fill:#f8fafc,stroke:#334155,stroke-width:1.5px,color:#0f172a
 classDef toneBlue fill:#dbeafe,stroke:#2563eb,stroke-width:1.5px,color:#172554
@@ -207,7 +180,6 @@ classDef toneMint fill:#dcfce7,stroke:#16a34a,stroke-width:1.5px,color:#14532d
 classDef toneRose fill:#ffe4e6,stroke:#e11d48,stroke-width:1.5px,color:#881337
 classDef toneIndigo fill:#e0e7ff,stroke:#4f46e5,stroke-width:1.5px,color:#312e81
 classDef toneTeal fill:#ccfbf1,stroke:#0f766e,stroke-width:1.5px,color:#134e4a
-
 class node_caller,node_telecom,node_capture,node_praxis_manager,node_sdk toneBlue
 class node_api,node_orchestration toneAmber
 class node_audio_pipeline,node_supplied_engine,node_evidence_fusion,node_risk,node_policy toneMint
