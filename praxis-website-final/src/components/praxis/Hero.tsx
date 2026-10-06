@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { EvidenceFlow } from "./EvidenceFlow";
 import { Eyebrow } from "./primitives";
 import { SignalField } from "./SignalField";
+
+const PRAXIS_APP_URL = "https://praxisdashboard.debopomrc2602.workers.dev/";
 
 const CAPABILITIES = [
   "REAL-TIME",
@@ -43,6 +45,15 @@ export function Hero() {
           </motion.p>
 
           <div className="mt-7 flex flex-wrap items-center gap-2.5">
+            <a
+              href={PRAXIS_APP_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 font-mono text-[11px] tracking-[0.12em] text-primary-foreground uppercase transition-transform hover:-translate-y-px"
+            >
+              Try Praxis
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
             <Link
               to="/how-it-works"
               className="inline-flex items-center gap-2 rounded-md border border-border-strong px-4 py-2.5 font-mono text-[11px] tracking-[0.12em] uppercase hover:bg-accent"
