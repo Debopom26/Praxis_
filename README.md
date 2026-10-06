@@ -79,6 +79,9 @@ It needs to determine:
 This is the problem PRAXIS attempts to solve.
 
 ---
+
+https://github.com/user-attachments/assets/f0ce1f3b-13a4-4fc9-9f0a-44b1e86ed6d9
+
 [![Architecture diagram of debopom26/praxis_](https://gitdiagram.com/debopom26/praxis_/diagram.png)](https://gitdiagram.com/debopom26/praxis_?utm_source=readme&utm_medium=picture)
 
 # 🎯 Core Objective
