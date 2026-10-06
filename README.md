@@ -207,256 +207,262 @@ REAL-TIME WARNING
 
 ---
 
-# 🚀 How to Use PRAXIS
+# 🚀 How to Try PRAXIS — Complete End-to-End Flow
 
-There are four practical ways to work with this repository:
+You do **not** need Azure, Microsoft, Cloudflare, Docker, or any infrastructure credentials to try the hosted Praxis demo.
 
-| What you want to do | Start here |
-|---|---|
-| **Use the deployed Praxis dashboard** | [Open the live dashboard](https://praxisdashboard.debopomrc2602.workers.dev) |
-| **Run the full stack locally on Windows** | [`scripts/start.ps1`](scripts/start.ps1) |
-| **Use/test the Android caller app** | [`integrations/android/Praxis_Caller`](integrations/android/Praxis_Caller) |
-| **Integrate Praxis into another Android app** | [`android-sdk`](android-sdk) |
+The normal user flow is:
+
+```text
+PRAXIS WEBSITE
+      ↓
+Click "Try Praxis"
+      ↓
+CREATE A PRAXIS ACCOUNT / SIGN IN
+      ↓
+SERVER STARTS AUTOMATICALLY IF NEEDED
+      ↓
+OPEN THE DASHBOARD
+      ↓
+DOWNLOAD PRAXIS CALLER FROM GITHUB RELEASES
+      ↓
+INSTALL + GRANT PERMISSIONS + SET AS DEFAULT PHONE APP
+      ↓
+SIGN IN TO THE APP WITH THE SAME PRAXIS ACCOUNT
+      ↓
+PLACE A PRAXIS VoIP CALL TO ANOTHER LOGGED-IN PRAXIS USER
+      ↓
+LIVE CALL → PRAXIS ANALYSIS → RISK / EVIDENCE
+```
+
+## 1️⃣ Open the Praxis Dashboard from the Website
+
+Start from the **Praxis website** and click **Try Praxis**.
+
+That opens the hosted Praxis dashboard:
+
+**https://praxisdashboard.debopomrc2602.workers.dev/**
+
+You should not need to manually start a VM or sign in to any cloud provider.
+
+---
+
+## 2️⃣ Create Your Own Praxis Login
+
+If this is your first time using Praxis, choose the option to **create a new workspace/account** on the dashboard.
+
+Create your own:
+
+- **Organization / Workspace ID**
+- **Organization name**
+- **Username / Login ID**
+- **Password**
+
+Remember these details. You will use the **same Praxis credentials in the Android app** later.
+
+After creating the account, sign in to the dashboard using your Praxis credentials.
+
+### ⚡ The server starts automatically
+
+The hosted Praxis analysis server does not stay online permanently.
+
+If it is currently switched off, simply creating an account or attempting to log in causes Praxis to request the server startup automatically.
+
+You may briefly see:
+
+> **Starting Praxis…**
+
+The client will keep checking while the backend and AI services boot. Once the server is ready, the login continues normally.
+
+**You do not need Azure/Microsoft access and you do not need to manually start anything.**
+
+---
+
+## ⏱️ Important: Hosted Server Daily Limit
 
 > [!IMPORTANT]
-> End users do **not** need Azure or Microsoft access to use Praxis. Cloud infrastructure is controlled server-side. Users authenticate with Praxis credentials only.
+> The public hosted demo currently has a **30-minute total server-runtime allowance per day** because of the current cloud/token allocation limits.
 
-## 🌐 1. Use the Live Dashboard
+This is server runtime, not just call time. The allowance is shared by the hosted Praxis server while it is running.
 
-**Dashboard:** https://praxisdashboard.debopomrc2602.workers.dev
+Please use the demo time intentionally. When the daily allocation has been exhausted, the hosted server will not start again until the daily allowance resets.
 
-1. Open the dashboard in a modern browser.
-2. Sign in using a valid Praxis account.
-3. If the analysis server is sleeping, the dashboard is designed to request startup automatically. Keep the page open while it shows **Starting Praxis…**.
-4. The client retries while the backend and model services become ready.
-5. Once authenticated, use the dashboard to inspect available sessions, analysis results, evidence and risk information exposed to your account.
-
-A normal user should never need to sign in to Azure, Microsoft Entra, Cloudflare, or the VM itself.
-
-### Cold start behaviour
-
-Praxis uses an on-demand backend so compute does not need to remain running continuously.
-
-```text
-Open Praxis / attempt login
-          ↓
-Backend already online? ── Yes ──→ Continue normally
-          │
-          No
-          ↓
-Dashboard requests server startup
-          ↓
-Cloudflare controller starts the backend infrastructure
-          ↓
-"Starting Praxis…"
-          ↓
-Client retries until the API is ready
-          ↓
-Praxis verifies the supplied login credentials
-```
-
-The infrastructure controller enforces its own runtime/idle policy. Manual infrastructure controls are separate from ordinary Praxis login.
+If the server is offline but daily runtime is still available, the next Praxis login/start request can bring it online automatically.
 
 ---
 
-# 💻 Developer Quick Start
+## 3️⃣ Download the Android App
 
-## 2. Web Dashboard
+Go to the repository's **Releases** page:
 
-The dashboard is React + TypeScript + Vite.
+**https://github.com/Debopom26/Praxis_/releases/latest**
 
-```bash
-cd praxis-dashboard
-npm install
-npm run dev
+Download the Android APK from the latest release. The current demo release provides:
+
+```text
+Praxis-Caller-VoIP.apk
 ```
 
-For validation/production builds:
+Install the APK on your Android phone. Android may ask you to allow installation from the browser/file manager used to open the APK.
 
-```bash
-npm run typecheck
-npm run build
-```
-
-The generated dashboard is only the client. API requests still require a reachable Praxis backend.
+> This is a development/demo APK and is not currently distributed through the Play Store.
 
 ---
 
-## 3. Run the Full Stack Locally on Windows
+## 4️⃣ Give Praxis Caller the Required Permissions
 
-The verified local deployment uses **Docker Desktop with Linux containers** and a **Python 3.11 virtual environment**. Detailed deployment and security notes are in [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
+Open **Praxis Caller** after installing it.
 
-From a prepared developer checkout, start PostgreSQL, migrations, the backend, the local model worker and HTTPS edge with:
+For the full demo experience, grant the permissions requested by the app, including the relevant:
 
-```powershell
-.\scripts\start.ps1
-```
+- Phone / call-management access
+- Microphone access
+- Notification access
+- Contacts access
+- Call-history / call-log access
 
-The startup script:
+Android versions and phone manufacturers may show the permission prompts slightly differently.
 
-- checks Docker availability,
-- creates `.env` through `scripts/init-env.ps1` if it does not already exist,
-- starts/reuses the local model worker when enabled,
-- starts the Docker Compose services,
-- exposes the local dashboard/backend through HTTPS.
+### Set Praxis Caller as the default phone app
 
-After startup:
+When prompted, choose **Set as default phone app** and select Praxis Caller.
 
-```text
-https://localhost/
-```
-
-Health endpoint:
-
-```text
-https://localhost/api/v1/health
-```
-
-> [!WARNING]
-> Never commit `.env`, JWT secrets, model-worker tokens, passwords, cloud credentials or exported access tokens. `init-env.ps1` intentionally refuses to overwrite an existing environment file.
-
-### Create a local organization administrator
-
-For an authorized local deployment:
-
-```powershell
-docker compose --env-file .env -f deployment/compose.yaml exec backend python scripts/create_admin.py
-```
-
-The command asks interactively for the organization ID/name, username and password. Do not place passwords directly in command-line arguments.
-
-### Local regression checks
-
-```powershell
-.\scripts\test.ps1
-```
-
-For the full verified deployment procedure, TLS trust instructions, model setup and security notes, use [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) rather than bypassing certificate validation.
+This allows the application to provide its normal dialer/call-management experience in addition to the Praxis VoIP mode.
 
 ---
 
-# 📱 Android
+# 📞 The Android App Has Two Calling Modes
 
-## 4. Praxis Caller
+## Mode 1 — Normal Call
 
-The Android caller application lives at:
+The normal calling mode behaves like a regular phone dialer and uses your phone's **SIM/eSIM and cellular calling system**.
 
-```text
-integrations/android/Praxis_Caller/
-```
+Use it for normal phone calls, contacts, recents and standard call controls.
 
-It is designed as a cellular dialer with an optional Praxis analysis layer. Normal calls use Android Telecom and the device SIM/eSIM.
+**The current live Praxis analysis demo is not performed over the normal cellular-call mode.** Android/OEM restrictions prevent Praxis from reliably obtaining the remote cellular-call audio required for this demonstration.
 
-### Install a test build
+## Mode 2 — Praxis VoIP / Internet Call ✅
 
-The Android project documentation uses the debug APK at:
+This is the mode used to demonstrate **Praxis live voice analysis**.
 
-```text
-integrations/android/Praxis_Caller/artifacts/Praxis-Caller-debug.apk
-```
-
-Install it manually on an Android device, or with ADB:
-
-```bash
-adb install -r integrations/android/Praxis_Caller/artifacts/Praxis-Caller-debug.apk
-```
-
-On the phone:
-
-1. Open **Praxis Caller**.
-2. Choose **Set as default phone app** and accept the Android role prompt.
-3. Grant the required Phone/Notification permissions and optionally Contacts/Call History when those features are used.
-4. Place calls using the dialer, contacts or recents.
-5. During an active call, connect the Praxis analysis layer only when the configured backend/authentication and required audio permissions are available.
-
-Actual microphone capture during cellular calls is subject to Android/OEM restrictions. Read the app-specific [`README`](integrations/android/Praxis_Caller/README.md) before treating a device behaviour as validated.
-
-### Build Praxis Caller
-
-From `integrations/android/Praxis_Caller` with its documented Android/JDK toolchain:
-
-```bash
-./gradlew clean assembleDebug test lintDebug
-```
-
-The detailed build requirements and verification commands are maintained in [`integrations/android/Praxis_Caller/README.md`](integrations/android/Praxis_Caller/README.md).
+A Praxis VoIP call is an app-to-app Internet call between Praxis users. Because Praxis owns the VoIP audio path, the incoming voice can be sent through the analysis pipeline while the conversation is happening.
 
 ---
 
-# 🧩 Android SDK Integration
+## 5️⃣ Sign In to the Android App
 
-The reusable Kotlin SDK lives in [`android-sdk/`](android-sdk/). The SDK handles the Praxis session/stream contract; it does not place phone calls or choose fraud decisions on behalf of the host app.
+Open the **VoIP / Internet** section of Praxis Caller and sign in using the **same Praxis account you created on the dashboard**.
 
-A host application configures `PraxisClient`, starts a session, supplies authorized PCM audio, handles events, and ends the session.
+Use the same:
 
-```kotlin
-val client = PraxisClient(PraxisConfig(
-    baseUrl = "https://your-authorized-praxis-host/",
-    tenantId = organizationId,
-    hostAppId = authorizedHostAppId,
-    tokenProvider = { secureTokenStore.currentAccessToken() }
-))
+- Organization / Workspace ID
+- Username / Login ID
+- Password
 
-client.onRiskUpdate { event ->
-    // Present validated risk when available
-}
+The latest hosted demo build already knows which Praxis backend to use, so users should not need to enter a tunnel URL or manually configure a server address.
 
-val sessionId = client.startSession(callId, suppliedContext)
-
-client.streamAudio(
-    sessionId,
-    authorizedRemotePcm,
-    monotonicCallTimestampMs,
-    AudioFormat(sampleRate = 16000, channels = 1)
-)
-
-client.endSession(sessionId)
-client.close()
-```
-
-For the canonical build steps, contracts and audio requirements, see [`android-sdk/README.md`](android-sdk/README.md).
+For a two-phone demo, use **two different Praxis usernames**. Do not try to run both phones using the same account at the same time.
 
 ---
 
-# 📁 Repository Guide
+## 6️⃣ Place a Praxis VoIP Call
+
+Both users should:
+
+1. Install the latest Praxis Caller APK.
+2. Grant the required permissions.
+3. Be signed in to Praxis.
+4. Keep Praxis Caller available/open for the demo.
+5. Have an active Internet connection.
+
+On the caller's phone:
+
+1. Open **VoIP / Internet Call**.
+2. Enter the **Praxis username of another valid Praxis user who is currently logged in**.
+3. Start the Internet/VoIP call.
+
+On the receiving phone:
+
+1. The incoming Praxis call appears in the app.
+2. Accept the call.
+3. Begin speaking normally.
 
 ```text
-Praxis_/
-├── backend/                         FastAPI service, orchestration, risk and persistence
-├── praxis-dashboard/                React + TypeScript operations dashboard
-├── android-sdk/                     Reusable Kotlin Praxis SDK
-├── integrations/android/
-│   └── Praxis_Caller/               Android dialer / Praxis integration
-├── deployment/                      Docker, PostgreSQL and Caddy deployment
-├── scripts/                         Startup, migration, verification and utility scripts
-├── docs/                            Deployment/security/verification documentation
-├── contracts/                       Shared API/event schemas
-└── artifacts/                       Approved runtime/model or build artifacts where present
+PHONE A                                 PHONE B
+Praxis user A                           Praxis user B
+     │                                       │
+     │────── Praxis VoIP / Internet call ───▶│
+     │                                       │
+     │◀────────── live conversation ─────────│
+     │                                       │
+ incoming remote voice                  incoming remote voice
+     │                                       │
+     ▼                                       ▼
+ Praxis analysis                         Praxis analysis
+     │                                       │
+     ▼                                       ▼
+ risk / evidence                         risk / evidence
 ```
 
-## Useful documentation
-
-- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) — local deployment, TLS, health and operational verification
-- [`android-sdk/README.md`](android-sdk/README.md) — Kotlin SDK integration
-- [`integrations/android/Praxis_Caller/README.md`](integrations/android/Praxis_Caller/README.md) — Android caller installation, build and limitations
-- [`deployment/compose.yaml`](deployment/compose.yaml) — container topology
-- [`backend/src/praxis/main.py`](backend/src/praxis/main.py) — backend API entry point
-- [`praxis-dashboard/src/App.tsx`](praxis-dashboard/src/App.tsx) — dashboard application entry
+Praxis analyses the **incoming/remote voice** for each side of the call and produces the available evidence and risk information from the live pipeline.
 
 ---
 
-# ✅ Recommended Demo Flow
+## 7️⃣ Watch the Session on the Dashboard
 
-For a project demonstration:
+Keep the web dashboard available during the demo.
 
-1. Open the live dashboard and sign in with a dedicated Praxis demo account.
-2. Allow the dashboard to bring the backend online if it is sleeping.
-3. Confirm the health/readiness state before beginning the live analysis portion.
-4. Use the Android Caller or an authorized audio/session client to create the session.
-5. Show the live session and the resulting evidence/risk information in the dashboard.
-6. End the session cleanly after the demonstration.
+As Praxis sessions are created and analysed, the dashboard can be used to inspect the session information, evidence, analysis state and resulting risk information available to the signed-in account.
 
-Keep cloud administrator credentials, `.env` files and infrastructure-control secrets off presentation devices and out of the repository.
+This gives the full end-to-end demonstration:
+
+```text
+TWO PRAXIS USERS
+      ↓
+ANDROID PRAXIS CALLER
+      ↓
+VoIP / INTERNET CALL
+      ↓
+LIVE AUDIO STREAM
+      ↓
+MULTI-SIGNAL AI PIPELINE
+      ↓
+EVIDENCE FUSION + RISK ENGINE
+      ↓
+ANDROID RESULT + WEB DASHBOARD
+```
+
+---
+
+# ✅ Quick Demo Checklist
+
+- [ ] Open the Praxis website and click **Try Praxis**
+- [ ] Create your Praxis workspace/account
+- [ ] Wait for the server to start automatically if it is offline
+- [ ] Sign in successfully to the dashboard
+- [ ] Download **Praxis-Caller-VoIP.apk** from GitHub Releases
+- [ ] Install the APK on both Android phones
+- [ ] Grant all required permissions
+- [ ] Set Praxis Caller as the default phone app
+- [ ] Sign in on each phone with a valid Praxis account
+- [ ] Use two different Praxis usernames
+- [ ] Select **VoIP / Internet Call** for the Praxis-protected call
+- [ ] Enter the other logged-in Praxis user's username
+- [ ] Accept the call on the second phone
+- [ ] Speak and observe the live Praxis analysis
+- [ ] Inspect the resulting session/evidence/risk information in the dashboard
+- [ ] Remember the hosted server currently has a **30-minute daily runtime allocation**
+
+---
+
+# 🧩 For Developers
+
+The repository also contains the complete backend, dashboard, Android SDK, deployment and verification material. Developers who want to run or integrate the system rather than simply try the hosted demo can start with:
+
+- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
+- [`android-sdk/README.md`](android-sdk/README.md)
+- [`integrations/android/Praxis_Caller/README.md`](integrations/android/Praxis_Caller/README.md)
+- [`docs/VOIP_DEMO.md`](docs/VOIP_DEMO.md)
 
 ---
 
