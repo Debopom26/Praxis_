@@ -25,7 +25,9 @@ export function DemoVideo() {
     };
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
         inView = entry.isIntersecting && entry.intersectionRatio >= 0.55;
         syncPlayback();
       },
