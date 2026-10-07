@@ -26,7 +26,7 @@ export function ValidationMatrix() {
 
       <div className="panel mt-6 p-5">
         <p className="label-xs">Overall validation accuracy</p>
-        <p className="mt-2 text-3xl font-semibold">82.49%</p>
+        <p className="mt-2 text-3xl font-semibold">87.49%</p>
       </div>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
