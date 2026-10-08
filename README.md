@@ -471,3 +471,21 @@ The repository also contains the complete backend, dashboard, Android SDK, deplo
 <p align="center">
   <b>PRAXIS_ — detect the risk while the conversation is still happening.</b>
 </p>
+---
+
+## 🚀 Future Scope
+
+PRAXIS aims to evolve into a smarter and more reliable AI-powered voice security platform.
+
+- 🌍 **Multilingual Scam Detection** – Identify potential scams across different languages.
+- 🧠 **Adaptive AI Models** – Improve detection capabilities against evolving scam techniques.
+- 📱 **Cross-Platform Integration** – Extend protection across mobile and communication platforms.
+- 🔔 **Intelligent Alerts** – Provide contextual warnings during suspicious conversations.
+- 🔐 **Privacy-First Architecture** – Strengthen secure audio processing and data protection.
+- 📊 **Advanced Risk Analytics** – Enhance scam detection through behavioural analysis and evidence-based scoring.
+
+---
+
+### 🛡️ Our Vision
+
+**To make every digital conversation safer through intelligent, real-time AI protection.**
