@@ -80,7 +80,7 @@ This is the problem PRAXIS attempts to solve.
 
 ---
 
-                                 WATCH ⬇️
+                                                         WATCH ⬇️
 
                                  
 https://github.com/user-attachments/assets/f0ce1f3b-13a4-4fc9-9f0a-44b1e86ed6d9
