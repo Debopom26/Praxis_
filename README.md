@@ -266,6 +266,14 @@ After creating the account, sign in to the dashboard using your Praxis credentia
 
 ### ⚡ The server starts automatically
 
+## For the judges
+
+Please use the following details for logging in to the dashboard:
+
+Organization ID - 001
+Name - Debopom
+Password - Praxis_13122602
+
 The hosted Praxis analysis server does not stay online permanently.
 
 If it is currently switched off, simply creating an account or attempting to log in causes Praxis to request the server startup automatically.
