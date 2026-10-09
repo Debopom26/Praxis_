@@ -270,9 +270,9 @@ After creating the account, sign in to the dashboard using your Praxis credentia
 
 Please use the following details for logging in to the dashboard:
 
-Organization ID - 001
-Name - Debopom
-Password - Praxis_13122602
+- **Organization ID - 001**
+- **Name - Debopom**
+- **Password - Praxis_13122602**
 
 The hosted Praxis analysis server does not stay online permanently.
 
